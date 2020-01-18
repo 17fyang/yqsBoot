@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu.yqs.dao.GoodMapper">
+  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Good">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ownerId" jdbcType="INTEGER" property="ownerid" />
+    <result column="publishTime" jdbcType="TIMESTAMP" property="publishtime" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="image_1" jdbcType="VARCHAR" property="image1" />
+    <result column="image_2" jdbcType="VARCHAR" property="image2" />
+    <result column="image_3" jdbcType="VARCHAR" property="image3" />
+    <result column="image_4" jdbcType="VARCHAR" property="image4" />
+    <result column="image_5" jdbcType="VARCHAR" property="image5" />
+    <result column="image_6" jdbcType="VARCHAR" property="image6" />
+    <result column="image_7" jdbcType="VARCHAR" property="image7" />
+    <result column="image_8" jdbcType="VARCHAR" property="image8" />
+    <result column="image_9" jdbcType="VARCHAR" property="image9" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, ownerId, publishTime, describe, image_1, image_2, image_3, image_4, image_5, 
+    image_6, image_7, image_8, image_9
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yqs_good
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByOwnerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yqs_good
+    where ownerId = #{ownerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from yqs_good
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stu.yqs.domain.Good">
+    insert into yqs_good (id, name, ownerId, 
+      publishTime, describe, image_1, 
+      image_2, image_3, image_4, 
+      image_5, image_6, image_7, 
+      image_8, image_9)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ownerid,jdbcType=INTEGER}, 
+      #{publishtime,jdbcType=TIMESTAMP}, #{describe,jdbcType=VARCHAR}, #{image1,jdbcType=VARCHAR}, 
+      #{image2,jdbcType=VARCHAR}, #{image3,jdbcType=VARCHAR}, #{image4,jdbcType=VARCHAR}, 
+      #{image5,jdbcType=VARCHAR}, #{image6,jdbcType=VARCHAR}, #{image7,jdbcType=VARCHAR}, 
+      #{image8,jdbcType=VARCHAR}, #{image9,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Good">
+    insert into yqs_good
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="ownerid != null">
+        ownerId,
+      </if>
+      <if test="publishtime != null">
+        publishTime,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="image1 != null">
+        image_1,
+      </if>
+      <if test="image2 != null">
+        image_2,
+      </if>
+      <if test="image3 != null">
+        image_3,
+      </if>
+      <if test="image4 != null">
+        image_4,
+      </if>
+      <if test="image5 != null">
+        image_5,
+      </if>
+      <if test="image6 != null">
+        image_6,
+      </if>
+      <if test="image7 != null">
+        image_7,
+      </if>
+      <if test="image8 != null">
+        image_8,
+      </if>
+      <if test="image9 != null">
+        image_9,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerid != null">
+        #{ownerid,jdbcType=INTEGER},
+      </if>
+      <if test="publishtime != null">
+        #{publishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="image1 != null">
+        #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="image4 != null">
+        #{image4,jdbcType=VARCHAR},
+      </if>
+      <if test="image5 != null">
+        #{image5,jdbcType=VARCHAR},
+      </if>
+      <if test="image6 != null">
+        #{image6,jdbcType=VARCHAR},
+      </if>
+      <if test="image7 != null">
+        #{image7,jdbcType=VARCHAR},
+      </if>
+      <if test="image8 != null">
+        #{image8,jdbcType=VARCHAR},
+      </if>
+      <if test="image9 != null">
+        #{image9,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Good">
+    update yqs_good
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerid != null">
+        ownerId = #{ownerid,jdbcType=INTEGER},
+      </if>
+      <if test="publishtime != null">
+        publishTime = #{publishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="image1 != null">
+        image_1 = #{image1,jdbcType=VARCHAR},
+      </if>
+      <if test="image2 != null">
+        image_2 = #{image2,jdbcType=VARCHAR},
+      </if>
+      <if test="image3 != null">
+        image_3 = #{image3,jdbcType=VARCHAR},
+      </if>
+      <if test="image4 != null">
+        image_4 = #{image4,jdbcType=VARCHAR},
+      </if>
+      <if test="image5 != null">
+        image_5 = #{image5,jdbcType=VARCHAR},
+      </if>
+      <if test="image6 != null">
+        image_6 = #{image6,jdbcType=VARCHAR},
+      </if>
+      <if test="image7 != null">
+        image_7 = #{image7,jdbcType=VARCHAR},
+      </if>
+      <if test="image8 != null">
+        image_8 = #{image8,jdbcType=VARCHAR},
+      </if>
+      <if test="image9 != null">
+        image_9 = #{image9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Good">
+    update yqs_good
+    set name = #{name,jdbcType=VARCHAR},
+      ownerId = #{ownerid,jdbcType=INTEGER},
+      publishTime = #{publishtime,jdbcType=TIMESTAMP},
+      describe = #{describe,jdbcType=VARCHAR},
+      image_1 = #{image1,jdbcType=VARCHAR},
+      image_2 = #{image2,jdbcType=VARCHAR},
+      image_3 = #{image3,jdbcType=VARCHAR},
+      image_4 = #{image4,jdbcType=VARCHAR},
+      image_5 = #{image5,jdbcType=VARCHAR},
+      image_6 = #{image6,jdbcType=VARCHAR},
+      image_7 = #{image7,jdbcType=VARCHAR},
+      image_8 = #{image8,jdbcType=VARCHAR},
+      image_9 = #{image9,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>
