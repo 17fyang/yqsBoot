@@ -6,29 +6,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.controller.UserController;
+import com.stu.yqs.exception.LogicException;
 import com.stu.yqs.service.UserService;
 @Controller
 public class UserControllerImpl implements UserController{
 	@Autowired
 	private UserService  userService;
-	
-	public @ResponseBody String GetInfo()throws Exception {
+	@Override
+	public @ResponseBody String GetInfo()throws LogicException {
 		JSONObject json=userService.getInfo();
 		return json.toJSONString();
 	}
-	
-	public @ResponseBody String Login(String number,String password)throws Exception {
-		JSONObject json=userService.login(number,password);
+	@Override
+	public @ResponseBody String Login(String phoneNumber,String password)throws LogicException {
+		JSONObject json=userService.login(phoneNumber,password);
 		return json.toJSONString();
 	}
-	
-	public @ResponseBody String Register(String number,String password,String academy,String verification)throws Exception {
-		JSONObject json=userService.register(number,password,academy,verification);
+	@Override
+	public @ResponseBody String Register(String phoneNumber,String password,String academy,String verification)throws LogicException {
+		JSONObject json=userService.register(phoneNumber,password,academy,verification);
 		return json.toJSONString();
 	}
-	
-	public @ResponseBody String verificationCode(String number)throws Exception {
-		JSONObject json=userService.verificationCode(number);
+	@Override
+	public @ResponseBody String verificationCode(String phoneNumber)throws LogicException {
+		JSONObject json=userService.verificationCode(phoneNumber);
+		return json.toJSONString();
+	}
+
+	@Override
+	public String modifyPassword(String phoneNumber, String newPassword, String verification) throws LogicException {
+		JSONObject json=userService.modifyPassword(phoneNumber,newPassword,verification);
+		return json.toJSONString();
+	}
+	@Override
+	public String logout() throws LogicException {
+		JSONObject json=userService.logout();
 		return json.toJSONString();
 	}
 }

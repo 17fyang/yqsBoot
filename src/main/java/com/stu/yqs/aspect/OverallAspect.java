@@ -36,6 +36,7 @@ public class OverallAspect {
 			return json.toString();
 		}catch (Throwable e) {
 			if(e instanceof NullPointerException) {
+				e.printStackTrace();
 				json.put("errcode", 501);
 				json.put("message", "空参数异常");
 				json.put("data",new JSONObject());
