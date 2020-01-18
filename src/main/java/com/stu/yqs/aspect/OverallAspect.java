@@ -50,7 +50,9 @@ public class OverallAspect {
 		}
 		json.put("errcode", 200);
 		json.put("message", "处理成功!");
-		json.put("data",JSON.parseObject(result.toString()));
+//		JSONObject test=(JSONObject)(result);
+//		System.out.println(test.toJSONString());
+		json.put("data",JSONObject.parse(result.toString()));
 		return json.toJSONString();
 	}
 }

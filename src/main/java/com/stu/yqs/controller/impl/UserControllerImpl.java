@@ -20,6 +20,7 @@ public class UserControllerImpl implements UserController{
 	@Override
 	public @ResponseBody String Login(String phoneNumber,String password)throws LogicException {
 		JSONObject json=userService.login(phoneNumber,password);
+		System.out.println(json.toString()+"-----------------------");
 		return json.toJSONString();
 	}
 	@Override

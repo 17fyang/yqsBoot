@@ -2,6 +2,8 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class User {
     private Integer id;
 
@@ -17,6 +19,7 @@ public class User {
 
     private String idtype;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date registerdate;
 
     public Integer getId() {

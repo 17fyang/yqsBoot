@@ -58,6 +58,9 @@ public class UserService {
 		HttpSession session=request.getSession();
 		session.setAttribute("id", user.getId());
 		session.setMaxInactiveInterval(60*60*24*365*4);
+		System.out.println(user.getRegisterdate()+"**************");
+		System.out.println(json.getString("registerdate")+"**************");
+		System.out.println(json.toJSONString()+"************");
 		return json;
 	}
 	//用户注册，需要先获取验证码

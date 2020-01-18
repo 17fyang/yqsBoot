@@ -12,7 +12,6 @@ import org.springframework.cglib.beans.BeanCopier.Generator;
 
 public class generatorAchieve {
 	public static void main(String[] args) throws Exception {
-		System.out.println("jdaisodj");
 		//MBG 执行过程中的警告信息
         List<String> warnings = new ArrayList<String>();
         //当生成的代码重复时，覆盖原代码
