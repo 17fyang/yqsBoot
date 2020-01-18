@@ -19,7 +19,7 @@ public class UserMapperTest extends YqsBootApplicationTests{
 		User user=new User();
 		user.setAcademy(Academy.stringByValue(2));
 		user.setPassword("123456");
-		user.setPhonenumber(11712345679L);
+		user.setPhoneNumber(11712345679L);
 		
 		int id=userMapper.insertSelective(user);
 		System.out.println("注册账号："+id);

@@ -40,7 +40,7 @@ public class UserService {
 		if(id==null || id.equals("null"))	throw new LogicException(501,"用户未登录");
 		int id_int=Integer.parseInt(id);
 		User user=userMapper.selectByPrimaryKey(id_int);
-		if(user==null)	throw new LogicException(501,"未找到该用户");
+		if(user==null)	throw new LogicException(502,"此id不存在");
 		
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
 		json.remove("password");

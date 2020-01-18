@@ -43,13 +43,13 @@ public class OverallAspect {
 			}else {
 				e.printStackTrace();
 				json.put("errcode", 500);
-				json.put("message", "未知错误!");
+				json.put("message", "未知错误");
 				json.put("data",new JSONObject());
 			}
 			return json.toString();
 		}
 		json.put("errcode", 200);
-		json.put("message", "处理成功!");
+		json.put("message", "处理成功");
 //		JSONObject test=(JSONObject)(result);
 //		System.out.println(test.toJSONString());
 		json.put("data",JSONObject.parse(result.toString()));

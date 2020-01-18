@@ -1,7 +1,4 @@
 package com.stu.yqs.ControllerTest;
-
-import org.junit.Ignore;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
