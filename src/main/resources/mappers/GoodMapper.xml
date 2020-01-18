@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Good">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="ownerId" jdbcType="INTEGER" property="ownerid" />
-    <result column="publishTime" jdbcType="TIMESTAMP" property="publishtime" />
+    <result column="ownerId" jdbcType="INTEGER" property="ownerId " />
+    <result column="publishTime" jdbcType="TIMESTAMP" property="publishTime" />
     <result column="describe" jdbcType="VARCHAR" property="describe" />
     <result column="image_1" jdbcType="VARCHAR" property="image1" />
     <result column="image_2" jdbcType="VARCHAR" property="image2" />
@@ -43,8 +43,8 @@
       image_2, image_3, image_4, 
       image_5, image_6, image_7, 
       image_8, image_9)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ownerid,jdbcType=INTEGER}, 
-      #{publishtime,jdbcType=TIMESTAMP}, #{describe,jdbcType=VARCHAR}, #{image1,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ownerId ,jdbcType=INTEGER}, 
+      #{publishTime,jdbcType=TIMESTAMP}, #{describe,jdbcType=VARCHAR}, #{image1,jdbcType=VARCHAR}, 
       #{image2,jdbcType=VARCHAR}, #{image3,jdbcType=VARCHAR}, #{image4,jdbcType=VARCHAR}, 
       #{image5,jdbcType=VARCHAR}, #{image6,jdbcType=VARCHAR}, #{image7,jdbcType=VARCHAR}, 
       #{image8,jdbcType=VARCHAR}, #{image9,jdbcType=VARCHAR})
@@ -58,10 +58,10 @@
       <if test="name != null">
         name,
       </if>
-      <if test="ownerid != null">
+      <if test="ownerId  != null">
         ownerId,
       </if>
-      <if test="publishtime != null">
+      <if test="publishTime != null">
         publishTime,
       </if>
       <if test="describe != null">
@@ -102,11 +102,11 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="ownerid != null">
-        #{ownerid,jdbcType=INTEGER},
+      <if test="ownerId  != null">
+        #{ownerId ,jdbcType=INTEGER},
       </if>
-      <if test="publishtime != null">
-        #{publishtime,jdbcType=TIMESTAMP},
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
       </if>
       <if test="describe != null">
         #{describe,jdbcType=VARCHAR},
@@ -146,11 +146,11 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="ownerid != null">
-        ownerId = #{ownerid,jdbcType=INTEGER},
+      <if test="ownerId  != null">
+        ownerId = #{ownerId ,jdbcType=INTEGER},
       </if>
-      <if test="publishtime != null">
-        publishTime = #{publishtime,jdbcType=TIMESTAMP},
+      <if test="publishTime != null">
+        publishTime = #{publishTime,jdbcType=TIMESTAMP},
       </if>
       <if test="describe != null">
         describe = #{describe,jdbcType=VARCHAR},
@@ -188,8 +188,8 @@
   <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Good">
     update yqs_good
     set name = #{name,jdbcType=VARCHAR},
-      ownerId = #{ownerid,jdbcType=INTEGER},
-      publishTime = #{publishtime,jdbcType=TIMESTAMP},
+      ownerId = #{ownerId ,jdbcType=INTEGER},
+      publishTime = #{publishTime,jdbcType=TIMESTAMP},
       describe = #{describe,jdbcType=VARCHAR},
       image_1 = #{image1,jdbcType=VARCHAR},
       image_2 = #{image2,jdbcType=VARCHAR},
@@ -202,6 +202,4 @@
       image_9 = #{image9,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
 </mapper>

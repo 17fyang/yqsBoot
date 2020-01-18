@@ -58,7 +58,7 @@ public class UserService {
 		HttpSession session=request.getSession();
 		session.setAttribute("id", user.getId());
 		session.setMaxInactiveInterval(60*60*24*365*4);
-		System.out.println(user.getRegisterdate()+"**************");
+		System.out.println(user.getRegisterDate()+"**************");
 		System.out.println(json.getString("registerdate")+"**************");
 		System.out.println(json.toJSONString()+"************");
 		return json;
@@ -69,9 +69,9 @@ public class UserService {
 		verificationIsEqual(request.getSession(),phoneNumber+"_"+verification);
 		
 		User user = new User();
-		user.setPhonenumber(phoneNumber_long);
+		user.setPhoneNumber(phoneNumber_long);
 		user.setPassword(password);
-		user.setIdtype(IdType.stringByValue("注册用户"));
+		user.setIdType(IdType.stringByValue("注册用户"));
 		user.setAcademy(Academy.stringByValue(academy));
 		User selectUser=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(selectUser!=null)	throw new LogicException(502,"该账号已存在");

@@ -7,9 +7,9 @@ public class Good {
 
     private String name;
 
-    private Integer ownerid;
+    private Integer ownerId ;
 
-    private Date publishtime;
+    private Date publishTime;
 
     private String describe;
 
@@ -47,20 +47,20 @@ public class Good {
         this.name = name;
     }
 
-    public Integer getOwnerid() {
-        return ownerid;
+    public Integer getOwnerId () {
+        return ownerId ;
     }
 
-    public void setOwnerid(Integer ownerid) {
-        this.ownerid = ownerid;
+    public void setOwnerId (Integer ownerId ) {
+        this.ownerId  = ownerId ;
     }
 
-    public Date getPublishtime() {
-        return publishtime;
+    public Date getPublishTime() {
+        return publishTime;
     }
 
-    public void setPublishtime(Date publishtime) {
-        this.publishtime = publishtime;
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
     public String getDescribe() {

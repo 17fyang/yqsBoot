@@ -18,13 +18,13 @@
 
 		<!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
 		<javaModelGenerator
-			targetPackage="com.stu.yqs.domain2" targetProject="src\main\java" />
-		<sqlMapGenerator targetPackage="com.stu.yqs.mappers2"
+			targetPackage="com.stu.yqs.domain" targetProject="src\main\java" />
+		<sqlMapGenerator targetPackage="com.stu.yqs.mappers"
 			targetProject="src\main\java" />
 
 		<!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
 		<javaClientGenerator
-			targetPackage="com.stu.yqs.dao2" targetProject="src\main\java"
+			targetPackage="com.stu.yqs.dao" targetProject="src\main\java"
 			type="XMLMAPPER" />
 		<table tableName="yqs_user" domainObjectName="User"
 		enableCountByExample="false"
@@ -32,8 +32,10 @@
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-		<property name="useActualColumnNames" value=" true" />
-		<columnOverride column="idtype" property="IDDDDDD" />
+		<columnOverride column="idtype" property="idType" />
+		<columnOverride column="emailnumber" property="emailNumber" />
+		<columnOverride column="phonenumber" property="phoneNumber" />
+		<columnOverride column="registerdate" property="registerDate" />
 		</table>
 		<table tableName="yqs_good"  domainObjectName="Good"
 		enableCountByExample="false"
@@ -41,8 +43,8 @@
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-			<property name=" useActualColumnNames"  value=" true" />
-			
+		<columnOverride column="ownerid" property="ownerId "/>
+		<columnOverride column="publishtime" property="publishTime" />
 		</table>
 	</context>
 

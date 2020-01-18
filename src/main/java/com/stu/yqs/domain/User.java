@@ -4,10 +4,11 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+
 public class User {
     private Integer id;
 
-    private String emailnumber;
+    private String emailNumber;
 
     private String password;
 
@@ -15,12 +16,12 @@ public class User {
 
     private String academy;
 
-    private Long phonenumber;
+    private Long phoneNumber;
 
-    private String idtype;
+    private String idType;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date registerdate;
+    private Date registerDate;
 
     public Integer getId() {
         return id;
@@ -30,12 +31,12 @@ public class User {
         this.id = id;
     }
 
-    public String getEmailnumber() {
-        return emailnumber;
+    public String getEmailNumber() {
+        return emailNumber;
     }
 
-    public void setEmailnumber(String emailnumber) {
-        this.emailnumber = emailnumber;
+    public void setEmailNumber(String emailNumber) {
+        this.emailNumber = emailNumber;
     }
 
     public String getPassword() {
@@ -62,27 +63,27 @@ public class User {
         this.academy = academy;
     }
 
-    public Long getPhonenumber() {
-        return phonenumber;
+    public Long getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(Long phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getIdtype() {
-        return idtype;
+    public String getIdType() {
+        return idType;
     }
 
-    public void setIdtype(String idtype) {
-        this.idtype = idtype;
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
-    public Date getRegisterdate() {
-        return registerdate;
+    public Date getRegisterDate() {
+        return registerDate;
     }
 
-    public void setRegisterdate(Date registerdate) {
-        this.registerdate = registerdate;
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 }
