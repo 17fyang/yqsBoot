@@ -1,12 +1,20 @@
 package com.stu.yqs.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.CommonRequest;
@@ -18,6 +26,7 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.utils.ImageUtils;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Academy;
@@ -30,25 +39,25 @@ import com.stu.yqs.domain.EnumPackage.IdType;
  */
 @Service
 public class UserService {
+	@Value("${staticFileUrl}")
+    private String staticFileUrl;
+	
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
 	private UserMapper userMapper;
+	
 	//获取已登录用户个人信息
 	public JSONObject getInfo()  throws LogicException{
-		String id=String.valueOf( request.getSession().getAttribute("id"));
-		if(id==null || id.equals("null"))	throw new LogicException(501,"用户未登录");
-		int id_int=Integer.parseInt(id);
-		User user=userMapper.selectByPrimaryKey(id_int);
+		int id=isLogin();
+		User user=userMapper.selectByPrimaryKey(id);
 		if(user==null)	throw new LogicException(502,"此id不存在");
-		
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
 		json.remove("password");
 		return json;
 	}
 	//用户登录
 	public JSONObject login(String phoneNumber,String password)  throws LogicException{
-		System.out.println(request.getParameter("phoneNumber"));
 		long phoneNumber_long=phoneNumberFormatCheck(phoneNumber);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");
@@ -58,16 +67,13 @@ public class UserService {
 		HttpSession session=request.getSession();
 		session.setAttribute("id", user.getId());
 		session.setMaxInactiveInterval(60*60*24*365*4);
-		System.out.println(user.getRegisterDate()+"**************");
-		System.out.println(json.getString("registerdate")+"**************");
-		System.out.println(json.toJSONString()+"************");
 		return json;
 	}
 	//用户注册，需要先获取验证码
 	public JSONObject register(String phoneNumber,String password,String academy,String verification) throws LogicException{
 		long phoneNumber_long=phoneNumberFormatCheck(phoneNumber);
 		verificationIsEqual(request.getSession(),phoneNumber+"_"+verification);
-		
+
 		User user = new User();
 		user.setPhoneNumber(phoneNumber_long);
 		user.setPassword(password);
@@ -89,41 +95,41 @@ public class UserService {
 		String verification=String.valueOf(random);
 		JSONObject json =new JSONObject();
 		json.put("code", verification);
-		
+
 		//测试代码
 		int test=1;
 		if(test==1) {
 			HttpSession session=request.getSession();
-	        session.setAttribute("verificationCode", phoneNumber+"_123456");
-	        session.setAttribute("verificationTime", new Date());
-	        return new JSONObject();
+			session.setAttribute("verificationCode", phoneNumber+"_123456");
+			session.setAttribute("verificationTime", new Date());
+			return new JSONObject();
 		}
-		
+
 		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI91MlauzR6ZnZ", "GSdt21HHx7bqOyUB6QXWn596OBjnY1");
-        IAcsClient client = new DefaultAcsClient(profile);
-        CommonRequest send = new CommonRequest();
-        send.setMethod(MethodType.POST);
-        send.setDomain("dysmsapi.aliyuncs.com");
-        send.setVersion("2017-05-25");
-        send.setAction("SendSms");
-        send.putQueryParameter("RegionId", "cn-hangzhou");
-        send.putQueryParameter("PhoneNumbers", phoneNumber);
-        send.putQueryParameter("SignName", "益启善");
-        send.putQueryParameter("TemplateCode", "SMS_182672041");
-        send.putQueryParameter("TemplateParam", json.toString());
-        try {
-            CommonResponse response = client.getCommonResponse(send);
-            json=(JSONObject) JSONObject.parse(response.getData());
-            if(!json.getString("Message").equals("OK"))	throw new LogicException(502,json.getString("Message"));
-        } catch (ServerException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
+		IAcsClient client = new DefaultAcsClient(profile);
+		CommonRequest send = new CommonRequest();
+		send.setMethod(MethodType.POST);
+		send.setDomain("dysmsapi.aliyuncs.com");
+		send.setVersion("2017-05-25");
+		send.setAction("SendSms");
+		send.putQueryParameter("RegionId", "cn-hangzhou");
+		send.putQueryParameter("PhoneNumbers", phoneNumber);
+		send.putQueryParameter("SignName", "益启善");
+		send.putQueryParameter("TemplateCode", "SMS_182672041");
+		send.putQueryParameter("TemplateParam", json.toString());
+		try {
+			CommonResponse response = client.getCommonResponse(send);
+			json=(JSONObject) JSONObject.parse(response.getData());
+			if(!json.getString("Message").equals("OK"))	throw new LogicException(502,json.getString("Message"));
+		} catch (ServerException e) {
+			e.printStackTrace();
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 		//记录验证码
-        HttpSession session=request.getSession();
-        session.setAttribute("verificationCode", verification);
-        session.setAttribute("verificationTime", new Date());
+		HttpSession session=request.getSession();
+		session.setAttribute("verificationCode", verification);
+		session.setAttribute("verificationTime", new Date());
 		return json;
 	}
 	//修改密码，需要先获取验证码
@@ -141,6 +147,36 @@ public class UserService {
 		request.getSession().removeAttribute("id");
 		return new JSONObject();
 	}
+	//修改用户头像
+	public JSONObject modifyHeadImage(MultipartFile file) throws LogicException{
+		int id=isLogin();
+		if(file==null || file.isEmpty())	throw new LogicException(503,"上传文件为空");
+		ImageUtils imageUtils=new ImageUtils();
+		imageUtils.newFileUrl(staticFileUrl, "headImage", file);
+		String localUrl=imageUtils.getLocalFile();
+		String httpUrl=imageUtils.getHttpFile();
+		
+		boolean compressSuccess=ImageUtils.compressFile(file, localUrl);
+		if(!compressSuccess)	throw new LogicException(504,"图片格式异常");
+		//数据库处理
+		User user=userMapper.selectByPrimaryKey(id);
+		user.setHeadImage(httpUrl);
+		userMapper.updateByPrimaryKeySelective(user);
+		JSONObject json=new JSONObject();
+		json.put("headImage", localUrl);
+		return json;
+	}
+	
+	//修改用户信息
+	public JSONObject modifyInfo(String name, String emailNumber, String academy) throws LogicException {
+		int id=isLogin();
+		User user=userMapper.selectByPrimaryKey(id);
+		if(name!=null)	user.setName(name);
+		if(emailNumber!=null)	user.setEmailNumber(emailNumber);
+		if(academy!=null)	user.setAcademy(academy);
+		userMapper.updateByPrimaryKeySelective(user);
+		return (JSONObject)JSONObject.toJSON(user);
+	}
 	
 	//判断验证码是否相符
 	private boolean verificationIsEqual(HttpSession session,String verification) throws LogicException {
@@ -152,10 +188,17 @@ public class UserService {
 		return true;
 	}
 	//判断手机号格式是否正确
-		private long phoneNumberFormatCheck(String phoneNumber) throws LogicException {
-			String formatCheck = "1{1}\\d{10}";
-			if(!phoneNumber.matches(formatCheck)) throw new  LogicException(501,"手机号格式错误");
-			long  phoneNumber_long=Long.parseLong(phoneNumber);
-			return phoneNumber_long;
-		}
+	private long phoneNumberFormatCheck(String phoneNumber) throws LogicException {
+		String formatCheck = "1{1}\\d{10}";
+		if(!phoneNumber.matches(formatCheck)) throw new  LogicException(501,"手机号格式错误");
+		long  phoneNumber_long=Long.parseLong(phoneNumber);
+		return phoneNumber_long;
+	}
+	//判断用户是否登录
+	private int isLogin() throws LogicException {
+		String id=String.valueOf( request.getSession().getAttribute("id"));
+		if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");
+		return Integer.parseInt(id);
+	}
+
 }

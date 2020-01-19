@@ -1,12 +1,16 @@
 package com.stu.yqs.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stu.yqs.exception.LogicException;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/yqs")
 public interface UserController {
 	@RequestMapping("/getInfo")
@@ -23,6 +27,12 @@ public interface UserController {
 	
 	@RequestMapping("/modifyPassword")
 	public @ResponseBody String modifyPassword(String phoneNumber,String newPassword,String verification)throws LogicException;
+	
+	@RequestMapping("/modifyHeadImage")
+	public @ResponseBody String modifyHeadImage(MultipartFile file)throws LogicException;
+	
+	@RequestMapping("/modifyInfo")
+	public @ResponseBody String modifyInfo(String name,String emailNumber,String academy)throws LogicException;
 	
 	@RequestMapping("/logout")
 	public @ResponseBody String logout()throws LogicException;

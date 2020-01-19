@@ -8,6 +8,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class User {
     private Integer id;
 
+    private String headImage;
+    
     private String emailNumber;
 
     private String password;
@@ -75,7 +77,15 @@ public class User {
         return idType;
     }
 
-    public void setIdType(String idType) {
+    public String getHeadImage() {
+		return headImage;
+	}
+
+	public void setHeadImage(String headImage) {
+		this.headImage = headImage;
+	}
+
+	public void setIdType(String idType) {
         this.idType = idType;
     }
 

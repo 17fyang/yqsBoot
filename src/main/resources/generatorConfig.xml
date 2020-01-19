@@ -26,6 +26,7 @@
 		<javaClientGenerator
 			targetPackage="com.stu.yqs.dao" targetProject="src\main\java"
 			type="XMLMAPPER" />
+			<!--  
 		<table tableName="yqs_user" domainObjectName="User"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
@@ -36,7 +37,9 @@
 		<columnOverride column="emailnumber" property="emailNumber" />
 		<columnOverride column="phonenumber" property="phoneNumber" />
 		<columnOverride column="registerdate" property="registerDate" />
+		<columnOverride column="headimage" property="headImage" />
 		</table>
+		-->
 		<table tableName="yqs_good"  domainObjectName="Good"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
@@ -46,6 +49,7 @@
 		<columnOverride column="ownerid" property="ownerId "/>
 		<columnOverride column="publishtime" property="publishTime" />
 		</table>
+		
 	</context>
 
 

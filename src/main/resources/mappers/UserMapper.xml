@@ -3,16 +3,17 @@
 <mapper namespace="com.stu.yqs.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.stu.yqs.domain.User">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="emailNumber" jdbcType="VARCHAR" property="emailNumber" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="academy" jdbcType="CHAR" property="academy" />
     <result column="phoneNumber" jdbcType="BIGINT" property="phoneNumber" />
+    <result column="headImage" jdbcType="VARCHAR" property="headImage" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="academy" jdbcType="CHAR" property="academy" />
     <result column="idType" jdbcType="CHAR" property="idType" />
+    <result column="emailNumber" jdbcType="VARCHAR" property="emailNumber" />
     <result column="registerDate" jdbcType="TIMESTAMP" property="registerDate" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, emailNumber, password, name, academy, phoneNumber, idType, registerDate
+    id, phoneNumber, headImage, name, password, academy, idType, emailNumber, registerDate
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -31,12 +32,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stu.yqs.domain.User">
-    insert into yqs_user (id, emailNumber, password, 
-      name, academy, phoneNumber, 
-      idType, registerDate)
-    values (#{id,jdbcType=INTEGER}, #{emailNumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{academy,jdbcType=CHAR}, #{phoneNumber,jdbcType=BIGINT}, 
-      #{idType,jdbcType=CHAR}, #{registerDate,jdbcType=TIMESTAMP})
+    insert into yqs_user (id, phoneNumber, headImage, 
+      name, password, academy, 
+      idType, emailNumber, registerDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{phoneNumber,jdbcType=BIGINT}, #{headImage,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{academy,jdbcType=CHAR}, 
+      #{idType,jdbcType=CHAR}, #{emailNumber,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.stu.yqs.domain.User">
     insert into yqs_user
@@ -44,23 +47,26 @@
       <if test="id != null">
         id,
       </if>
-      <if test="emailNumber != null">
-        emailNumber,
+      <if test="phoneNumber != null">
+        phoneNumber,
       </if>
-      <if test="password != null">
-        password,
+      <if test="headImage != null">
+        headImage,
       </if>
       <if test="name != null">
         name,
       </if>
+      <if test="password != null">
+        password,
+      </if>
       <if test="academy != null">
         academy,
       </if>
-      <if test="phoneNumber != null">
-        phoneNumber,
-      </if>
       <if test="idType != null">
         idType,
+      </if>
+      <if test="emailNumber != null">
+        emailNumber,
       </if>
       <if test="registerDate != null">
         registerDate,
@@ -70,23 +76,26 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="emailNumber != null">
-        #{emailNumber,jdbcType=VARCHAR},
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=BIGINT},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="headImage != null">
+        #{headImage,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="academy != null">
         #{academy,jdbcType=CHAR},
       </if>
-      <if test="phoneNumber != null">
-        #{phoneNumber,jdbcType=BIGINT},
-      </if>
       <if test="idType != null">
         #{idType,jdbcType=CHAR},
+      </if>
+      <if test="emailNumber != null">
+        #{emailNumber,jdbcType=VARCHAR},
       </if>
       <if test="registerDate != null">
         #{registerDate,jdbcType=TIMESTAMP},
@@ -96,23 +105,26 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.User">
     update yqs_user
     <set>
-      <if test="emailNumber != null">
-        emailNumber = #{emailNumber,jdbcType=VARCHAR},
+      <if test="phoneNumber != null">
+        phoneNumber = #{phoneNumber,jdbcType=BIGINT},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="headImage != null">
+        headImage = #{headImage,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="academy != null">
         academy = #{academy,jdbcType=CHAR},
       </if>
-      <if test="phoneNumber != null">
-        phoneNumber = #{phoneNumber,jdbcType=BIGINT},
-      </if>
       <if test="idType != null">
         idType = #{idType,jdbcType=CHAR},
+      </if>
+      <if test="emailNumber != null">
+        emailNumber = #{emailNumber,jdbcType=VARCHAR},
       </if>
       <if test="registerDate != null">
         registerDate = #{registerDate,jdbcType=TIMESTAMP},
@@ -122,12 +134,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.User">
     update yqs_user
-    set emailNumber = #{emailNumber,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+    set phoneNumber = #{phoneNumber,jdbcType=BIGINT},
+      headImage = #{headImage,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       academy = #{academy,jdbcType=CHAR},
-      phoneNumber = #{phoneNumber,jdbcType=BIGINT},
       idType = #{idType,jdbcType=CHAR},
+      emailNumber = #{emailNumber,jdbcType=VARCHAR},
       registerDate = #{registerDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

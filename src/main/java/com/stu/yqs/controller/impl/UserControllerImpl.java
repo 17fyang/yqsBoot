@@ -3,6 +3,7 @@ package com.stu.yqs.controller.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.controller.UserController;
@@ -20,7 +21,6 @@ public class UserControllerImpl implements UserController{
 	@Override
 	public @ResponseBody String Login(String phoneNumber,String password)throws LogicException {
 		JSONObject json=userService.login(phoneNumber,password);
-		System.out.println(json.toString()+"-----------------------");
 		return json.toJSONString();
 	}
 	@Override
@@ -42,6 +42,16 @@ public class UserControllerImpl implements UserController{
 	@Override
 	public String logout() throws LogicException {
 		JSONObject json=userService.logout();
+		return json.toJSONString();
+	}
+	@Override
+	public String modifyHeadImage(MultipartFile file) throws LogicException {
+		JSONObject json=userService.modifyHeadImage(file);
+		return json.toJSONString();
+	}
+	@Override
+	public String modifyInfo(String name, String emailNumber, String academy) throws LogicException {
+		JSONObject json=userService.modifyInfo(name,emailNumber,academy);
 		return json.toJSONString();
 	}
 }
