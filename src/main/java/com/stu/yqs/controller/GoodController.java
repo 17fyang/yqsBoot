@@ -12,7 +12,7 @@ import com.stu.yqs.exception.LogicException;
 @RequestMapping("/yqs")
 public interface GoodController {
 	@RequestMapping("/newTransaction")
-	 public String newTransaction(MultipartFile file[],String name,String decribe)throws LogicException;
+	 public String newTransaction(MultipartFile file[],String name,String describe)throws LogicException;
 	
 	@RequestMapping("/deleteTransaction")
 	 public String deleteTransaction(int transactionId)throws LogicException;

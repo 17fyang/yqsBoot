@@ -1,7 +1,6 @@
 package com.stu.yqs.utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -10,11 +9,16 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.stu.yqs.exception.LogicException;
+
 import net.coobird.thumbnailator.Thumbnails;
 @Component
-public class ImageUtils {
+public class ImageUtil {
 	@Value("${serverUrl}")
     private String serverUrl;
+	@Value("${staticFileUrl}")
+    private String staticFileUrl;
 	
 	private static double compressQuality=0.2;
 	private static List<String> fileTypeList=new ArrayList<String>();
@@ -26,6 +30,14 @@ public class ImageUtils {
 		fileTypeList.add("JPEG");
 		fileTypeList.add("PNG");
 	}
+	//返回图片大小是否符合要求
+	public static boolean checkFileSize(MultipartFile file) throws LogicException {
+		if(file.getSize()/1024/1024>5)	throw new LogicException(505,"文件大小过大，最大为5M");
+		return true;
+	}
+	
+	
+	//压缩图片并将图片存到对应的路径中
 	public static boolean compressFile(MultipartFile file, String absolutePath)  {
 		try {
 			String originalFilename = file.getOriginalFilename();
@@ -59,7 +71,7 @@ public class ImageUtils {
 	private String localFile=null;
 	private String httpFile=null;
 	//生成文件名的方法
-	public void newFileUrl(String staticFileUrl,String sonFolder,MultipartFile file) {
+	public void newFileUrl(String sonFolder,MultipartFile file) {
 		String fileName=file.getOriginalFilename();
 		String suffixName=fileName.substring(fileName.lastIndexOf("."));
 		Calendar cal=Calendar.getInstance();

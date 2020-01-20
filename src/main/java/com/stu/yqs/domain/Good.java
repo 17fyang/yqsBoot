@@ -62,4 +62,19 @@ public class Good {
     public void setImage(String image) {
         this.image = image;
     }
+    
+    public String[] getImages() {
+        return image.split("_split_");
+    }
+    
+    public void setImages(String[] images) {
+    	if(images==null || images.length==0)		this.image=null;
+    	StringBuilder sb=new StringBuilder();
+    	sb.append(images[0]);
+    	for(int i=1;i<images.length;i++) {
+    		sb.append("_split_");
+    		sb.append(images[i]);
+    	}
+        this.image =sb.toString();
+    }
 }

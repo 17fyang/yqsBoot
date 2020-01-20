@@ -26,7 +26,8 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.stu.yqs.exception.LogicException;
-import com.stu.yqs.utils.ImageUtils;
+import com.stu.yqs.utils.IdentityUtil;
+import com.stu.yqs.utils.ImageUtil;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Academy;
@@ -39,17 +40,17 @@ import com.stu.yqs.domain.EnumPackage.IdType;
  */
 @Service
 public class UserService {
-	@Value("${staticFileUrl}")
-    private String staticFileUrl;
-	
+
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private IdentityUtil identityUtil;
 	@Autowired
 	private UserMapper userMapper;
 	
 	//获取已登录用户个人信息
 	public JSONObject getInfo()  throws LogicException{
-		int id=isLogin();
+		int id=identityUtil.isLogin();
 		User user=userMapper.selectByPrimaryKey(id);
 		if(user==null)	throw new LogicException(502,"此id不存在");
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
@@ -58,7 +59,7 @@ public class UserService {
 	}
 	//用户登录
 	public JSONObject login(String phoneNumber,String password)  throws LogicException{
-		long phoneNumber_long=phoneNumberFormatCheck(phoneNumber);
+		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");
 		else if(!user.getPassword().equals(password))	throw new LogicException(501,"输入密码错误");
@@ -71,9 +72,8 @@ public class UserService {
 	}
 	//用户注册，需要先获取验证码
 	public JSONObject register(String phoneNumber,String password,String academy,String verification) throws LogicException{
-		long phoneNumber_long=phoneNumberFormatCheck(phoneNumber);
-		verificationIsEqual(request.getSession(),phoneNumber+"_"+verification);
-
+		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
+		identityUtil.verificationIsEqual(phoneNumber,verification);
 		User user = new User();
 		user.setPhoneNumber(phoneNumber_long);
 		user.setPassword(password);
@@ -88,8 +88,7 @@ public class UserService {
 	}
 	//获取验证码
 	public JSONObject verificationCode(String phoneNumber) throws LogicException {
-		System.out.println(request.getParameter("phoneNumber"));
-		phoneNumberFormatCheck(phoneNumber);
+		identityUtil.phoneNumberFormatCheck(phoneNumber);
 		//生成验证码
 		int random=(int)(Math.random()*900000)+100000;
 		String verification=String.valueOf(random);
@@ -134,8 +133,8 @@ public class UserService {
 	}
 	//修改密码，需要先获取验证码
 	public JSONObject modifyPassword(String phoneNumber, String newPassword, String verification) throws LogicException {
-		verificationIsEqual(request.getSession(),phoneNumber+"_"+verification);
-		long phoneNumber_long=phoneNumberFormatCheck(phoneNumber);
+		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
+		identityUtil.verificationIsEqual(phoneNumber,verification);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");
 		user.setPassword(newPassword);
@@ -149,14 +148,15 @@ public class UserService {
 	}
 	//修改用户头像
 	public JSONObject modifyHeadImage(MultipartFile file) throws LogicException{
-		int id=isLogin();
+		int id=identityUtil.isLogin();
 		if(file==null || file.isEmpty())	throw new LogicException(503,"上传文件为空");
-		ImageUtils imageUtils=new ImageUtils();
-		imageUtils.newFileUrl(staticFileUrl, "headImage", file);
+		
+		ImageUtil imageUtils=new ImageUtil();
+		imageUtils.newFileUrl("headImage", file);
 		String localUrl=imageUtils.getLocalFile();
 		String httpUrl=imageUtils.getHttpFile();
 		
-		boolean compressSuccess=ImageUtils.compressFile(file, localUrl);
+		boolean compressSuccess=ImageUtil.compressFile(file, localUrl);
 		if(!compressSuccess)	throw new LogicException(504,"图片格式异常");
 		//数据库处理
 		User user=userMapper.selectByPrimaryKey(id);
@@ -169,7 +169,7 @@ public class UserService {
 	
 	//修改用户信息
 	public JSONObject modifyInfo(String name, String emailNumber, String academy) throws LogicException {
-		int id=isLogin();
+		int id=identityUtil.isLogin();
 		User user=userMapper.selectByPrimaryKey(id);
 		if(name!=null)	user.setName(name);
 		if(emailNumber!=null)	user.setEmailNumber(emailNumber);
@@ -177,28 +177,4 @@ public class UserService {
 		userMapper.updateByPrimaryKeySelective(user);
 		return (JSONObject)JSONObject.toJSON(user);
 	}
-	
-	//判断验证码是否相符
-	private boolean verificationIsEqual(HttpSession session,String verification) throws LogicException {
-		String verificationCode=String.valueOf(session.getAttribute("verificationCode"));
-		Date date=(Date)session.getAttribute("verificationTime");
-		long intervalTime=60000*5;//验证码有效期为五分钟
-		if(new Date().getTime()-date.getTime()>intervalTime)	throw new LogicException(503,"验证码已过期");
-		if(!verification.equals(verificationCode)) throw new LogicException(503,"验证码错误");
-		return true;
-	}
-	//判断手机号格式是否正确
-	private long phoneNumberFormatCheck(String phoneNumber) throws LogicException {
-		String formatCheck = "1{1}\\d{10}";
-		if(!phoneNumber.matches(formatCheck)) throw new  LogicException(501,"手机号格式错误");
-		long  phoneNumber_long=Long.parseLong(phoneNumber);
-		return phoneNumber_long;
-	}
-	//判断用户是否登录
-	private int isLogin() throws LogicException {
-		String id=String.valueOf( request.getSession().getAttribute("id"));
-		if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");
-		return Integer.parseInt(id);
-	}
-
 }
