@@ -7,13 +7,17 @@ public class Good {
 
     private String name;
 
-    private Integer ownerId ;
+    private Integer ownerId;
+
+    private String academy;
 
     private Date publishTime;
 
-    private String describe;
+    private String goodDescribe;
 
     private String image;
+
+    private String state;
 
     public Integer getId() {
         return id;
@@ -31,12 +35,20 @@ public class Good {
         this.name = name;
     }
 
-    public Integer getOwnerId () {
-        return ownerId ;
+    public Integer getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwnerId (Integer ownerId ) {
-        this.ownerId  = ownerId ;
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getAcademy() {
+        return academy;
+    }
+
+    public void setAcademy(String academy) {
+        this.academy = academy;
     }
 
     public Date getPublishTime() {
@@ -47,12 +59,12 @@ public class Good {
         this.publishTime = publishTime;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getGoodDescribe() {
+        return goodDescribe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setGoodDescribe(String goodDescribe) {
+        this.goodDescribe = goodDescribe;
     }
 
     public String getImage() {
@@ -62,7 +74,14 @@ public class Good {
     public void setImage(String image) {
         this.image = image;
     }
-    
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
     public String[] getImages() {
         return image.split("_split_");
     }

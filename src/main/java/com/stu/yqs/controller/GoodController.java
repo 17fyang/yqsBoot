@@ -3,6 +3,7 @@ package com.stu.yqs.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.stu.yqs.exception.LogicException;
@@ -12,14 +13,12 @@ import com.stu.yqs.exception.LogicException;
 @RequestMapping("/yqs")
 public interface GoodController {
 	@RequestMapping("/newTransaction")
-	 public String newTransaction(MultipartFile file[],String name,String describe)throws LogicException;
+	 public @ResponseBody String newTransaction(MultipartFile file[],String name,String describe)throws LogicException;
 	
 	@RequestMapping("/deleteTransaction")
-	 public String deleteTransaction(int transactionId)throws LogicException;
+	 public @ResponseBody String deleteTransaction(Integer transactionId)throws LogicException;
 	
 	@RequestMapping("/getTransaction")
-	 public String getTransaction(int startId,int range,String academy)throws LogicException;
+	 public @ResponseBody String getTransaction(Integer startId,Integer range,String academy,String keyword)throws LogicException;
 	
-	@RequestMapping("/searchTransaction")
-	 public String searchTransaction(int startId,int range,String keyword)throws LogicException;
 }

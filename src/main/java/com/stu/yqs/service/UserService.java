@@ -40,7 +40,6 @@ import com.stu.yqs.domain.EnumPackage.IdType;
  */
 @Service
 public class UserService {
-
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
@@ -155,7 +154,6 @@ public class UserService {
 		imageUtils.newFileUrl("headImage", file);
 		String localUrl=imageUtils.getLocalFile();
 		String httpUrl=imageUtils.getHttpFile();
-		
 		boolean compressSuccess=ImageUtil.compressFile(file, localUrl);
 		if(!compressSuccess)	throw new LogicException(504,"图片格式异常");
 		//数据库处理
@@ -163,7 +161,7 @@ public class UserService {
 		user.setHeadImage(httpUrl);
 		userMapper.updateByPrimaryKeySelective(user);
 		JSONObject json=new JSONObject();
-		json.put("headImage", localUrl);
+		json.put("headImage", httpUrl);
 		return json;
 	}
 	

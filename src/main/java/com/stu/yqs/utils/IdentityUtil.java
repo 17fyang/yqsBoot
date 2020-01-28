@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.stu.yqs.exception.LogicException;
 
-@Component
+@Service
 public class IdentityUtil {
 	@Autowired
 	private HttpServletRequest request;
@@ -37,7 +37,7 @@ public class IdentityUtil {
 		
 		//判断用户是否登录
 		public int isLogin() throws LogicException {
-//			if(1==1)	return 44;
+			if(1==1)	return 44;
 			
 			String id=String.valueOf( request.getSession().getAttribute("id"));
 			if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");

@@ -6,19 +6,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.stu.yqs.exception.LogicException;
 
 import net.coobird.thumbnailator.Thumbnails;
-@Component
 public class ImageUtil {
-	@Value("${serverUrl}")
-    private String serverUrl;
-	@Value("${staticFileUrl}")
-    private String staticFileUrl;
+	private static String staticFileUrl=PropertiesRead.getStaticFileUrl();
+	private static String serverUrl=PropertiesRead.getServerUrl();
 	
 	private static double compressQuality=0.2;
 	private static List<String> fileTypeList=new ArrayList<String>();
@@ -87,5 +82,11 @@ public class ImageUtil {
 	public String getHttpFile() {
 		return httpFile;
 	}
+
+
+	public String getServerUrl() {
+		return serverUrl;
+	}
+
 	
 }

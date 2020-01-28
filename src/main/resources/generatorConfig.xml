@@ -46,8 +46,9 @@
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-		<columnOverride column="ownerid" property="ownerId "/>
+		<columnOverride column="ownerid" property="ownerId"/>
 		<columnOverride column="publishtime" property="publishTime" />
+		<columnOverride column="gooddescribe" property="goodDescribe" />
 		</table>
 		
 	</context>

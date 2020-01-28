@@ -12,20 +12,16 @@ public class GoodControllerImpl implements GoodController {
 	@Autowired
 	private GoodService goodService;
 	@Override
-	public String newTransaction(MultipartFile[] file, String name, String decribe) throws LogicException {
-		return goodService.newTransaction(file,name,decribe).toJSONString();
+	public String newTransaction(MultipartFile[] file, String name, String describe) throws LogicException {
+		return goodService.newTransaction(file,name,describe).toJSONString();
 	}
 	@Override
-	public String deleteTransaction(int transactionId) throws LogicException {
+	public String deleteTransaction(Integer transactionId) throws LogicException {
 		return goodService.deleteTransaction(transactionId).toJSONString();
 	}
 	@Override
-	public String getTransaction(int startId, int range, String academy) throws LogicException {
-		return goodService.getTransaction(startId,range,academy).toJSONString();
-	}
-	@Override
-	public String searchTransaction(int startId, int range, String keyword) throws LogicException {
-		return goodService.searchTransaction(startId,range,keyword).toJSONString();
+	public String getTransaction(Integer startId, Integer range, String academy, String keyword) throws LogicException {
+		return goodService.getTransaction(startId,range,academy,keyword).toJSONString();
 	}
 
 }
