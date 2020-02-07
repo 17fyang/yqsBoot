@@ -10,10 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.GoodMapper;
+import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.GoodSearch;
-import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.domain.User;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
 
@@ -22,9 +24,11 @@ public class GoodService {
 	@Autowired
 	private GoodMapper goodMapper;
 	@Autowired
+	private UserMapper userMapper;
+	@Autowired
 	private IdentityUtil identityUtil;
 	//发布一个交易
-	public JSONObject newTransaction(MultipartFile[] file, String name, String describe) throws LogicException {
+	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
 		int id=identityUtil.isLogin();
 		if(name==null) throw new LogicException(501,"请填写物品名");
 		if(describe==null) throw new LogicException(501,"请填写物品描述");
@@ -48,11 +52,18 @@ public class GoodService {
 			url=urlList.toArray(new String[urlList.size()]);
 		}
 		
+		User user=userMapper.selectByPrimaryKey(id);
 		Good good=new Good();
 		good.setOwnerId(id);
+		good.setAcademy(user.getAcademy());
 		good.setName(name);
 		good.setGoodDescribe(describe);
 		good.setImages(url);
+		good.setTag(tag);
+		good.setPrice(price);
+		good.setOriginalPrice(originalPrice);
+		good.setFreeShipping(freeShipping);
+		good.setPostage(postage);
 		goodMapper.insertSelective(good);
 		JSONObject json=(JSONObject)JSONObject.toJSON(good);
 		json.remove("image");
@@ -63,7 +74,7 @@ public class GoodService {
 		int id=identityUtil.isLogin();
 		Good good=goodMapper.selectByPrimaryKey(transactionId);
 		if(good==null)		throw new LogicException(501,"未找到该id");
-		if(good.getOwnerId()!=id)	throw new LogicException(502,"只能操作对自已发起的交易");
+		if(good.getOwnerId()!=id)	throw new LogicException(503,"只能操作自已发起的交易");
 		good.setState("4");
 		goodMapper.updateByPrimaryKeySelective(good);
 		return  new JSONObject();

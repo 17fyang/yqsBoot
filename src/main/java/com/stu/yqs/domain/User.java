@@ -25,7 +25,23 @@ public class User {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date registerDate;
 
-    public Integer getId() {
+    public User() {}
+    
+    public User(Integer id, String headImage, String emailNumber, String password, String name, String academy,
+			Long phoneNumber, String idType, Date registerDate) {
+		super();
+		this.id = id;
+		this.headImage = headImage;
+		this.emailNumber = emailNumber;
+		this.password = password;
+		this.name = name;
+		this.academy = academy;
+		this.phoneNumber = phoneNumber;
+		this.idType = idType;
+		this.registerDate = registerDate;
+	}
+
+	public Integer getId() {
         return id;
     }
 

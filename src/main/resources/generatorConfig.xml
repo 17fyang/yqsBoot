@@ -18,13 +18,13 @@
 
 		<!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
 		<javaModelGenerator
-			targetPackage="com.stu.yqs.domain" targetProject="src\main\java" />
-		<sqlMapGenerator targetPackage="com.stu.yqs.mappers"
+			targetPackage="com.stu.yqs.generator" targetProject="src\main\java" />
+		<sqlMapGenerator targetPackage="com.stu.yqs.generator"
 			targetProject="src\main\java" />
 
 		<!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
 		<javaClientGenerator
-			targetPackage="com.stu.yqs.dao" targetProject="src\main\java"
+			targetPackage="com.stu.yqs.generator" targetProject="src\main\java"
 			type="XMLMAPPER" />
 			<!--  
 		<table tableName="yqs_user" domainObjectName="User"
@@ -48,6 +48,9 @@
 		selectByExampleQueryId="false">
 		<columnOverride column="ownerid" property="ownerId"/>
 		<columnOverride column="publishtime" property="publishTime" />
+		<columnOverride column="originalprice" property="originalPrice" />
+		<columnOverride column="isnew" property="isNew" />
+		<columnOverride column="freeshipping" property="freeShipping" />
 		<columnOverride column="gooddescribe" property="goodDescribe" />
 		</table>
 		

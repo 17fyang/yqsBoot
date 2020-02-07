@@ -90,6 +90,13 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.58.sec06</version>
 		</dependency>
+
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		</dependency>
 		
 		<!--  阿里短信服务  -->
 		<dependency>

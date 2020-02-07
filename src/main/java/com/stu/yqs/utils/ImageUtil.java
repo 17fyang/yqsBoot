@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.aspect.LogicException;
 
 import net.coobird.thumbnailator.Thumbnails;
 public class ImageUtil {

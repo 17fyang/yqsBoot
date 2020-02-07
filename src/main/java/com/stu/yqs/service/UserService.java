@@ -25,9 +25,10 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.stu.yqs.exception.LogicException;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
+import com.stu.yqs.utils.ParameterUtil;
+import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Academy;
@@ -61,7 +62,7 @@ public class UserService {
 		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");
-		else if(!user.getPassword().equals(password))	throw new LogicException(501,"输入密码错误");
+		else if(!user.getPassword().equals(password))	throw new LogicException(503,"输入密码错误");
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
 		json.remove("password");
 		HttpSession session=request.getSession();
@@ -171,7 +172,7 @@ public class UserService {
 		User user=userMapper.selectByPrimaryKey(id);
 		if(name!=null)	user.setName(name);
 		if(emailNumber!=null)	user.setEmailNumber(emailNumber);
-		if(academy!=null)	user.setAcademy(academy);
+		if(academy!=null)	user.setAcademy(ParameterUtil.getAcademy(academy));
 		userMapper.updateByPrimaryKeySelective(user);
 		return (JSONObject)JSONObject.toJSON(user);
 	}

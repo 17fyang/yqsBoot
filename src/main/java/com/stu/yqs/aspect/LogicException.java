@@ -1,4 +1,4 @@
-package com.stu.yqs.exception;
+package com.stu.yqs.aspect;
 
 /*
  * date：2020.1.13

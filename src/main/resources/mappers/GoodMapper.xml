@@ -4,15 +4,22 @@
   <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Good">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="goodDescribe" jdbcType="VARCHAR" property="goodDescribe" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="originalPrice" jdbcType="DOUBLE" property="originalPrice" />
+    <result column="postage" jdbcType="DOUBLE" property="postage" />
+    <result column="isNew" jdbcType="CHAR" property="isNew" />
+    <result column="freeShipping" jdbcType="CHAR" property="freeShipping" />
     <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
     <result column="academy" jdbcType="CHAR" property="academy" />
     <result column="publishTime" jdbcType="TIMESTAMP" property="publishTime" />
-    <result column="goodDescribe" jdbcType="VARCHAR" property="goodDescribe" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="state" jdbcType="CHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, ownerId, academy, publishTime, goodDescribe, image, state
+    id, name, goodDescribe, tag, price, originalPrice, postage, isNew, freeShipping, 
+    ownerId, academy, publishTime, image, state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,6 +35,7 @@
     <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
     	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
     </if>
+    and state = '1'
     </where>
     order by id desc
    	<choose>
@@ -39,15 +47,19 @@
     delete from yqs_good
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.stu.yqs.domain.Good">
-    insert into yqs_good (id, name, ownerId, 
-      academy, publishTime, goodDescribe, 
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.stu.yqs.domain.Good">
+    insert into yqs_good (id, name, goodDescribe, 
+      tag, price, originalPrice, 
+      postage, isNew, freeShipping, 
+      ownerId, academy, publishTime, 
       image, state)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ownerId,jdbcType=INTEGER}, 
-      #{academy,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{goodDescribe,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodDescribe,jdbcType=VARCHAR}, 
+      #{tag,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{originalPrice,jdbcType=DOUBLE}, 
+      #{postage,jdbcType=DOUBLE}, #{isNew,jdbcType=CHAR}, #{freeShipping,jdbcType=CHAR}, 
+      #{ownerId,jdbcType=INTEGER}, #{academy,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
       #{image,jdbcType=VARCHAR}, #{state,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Good">
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.stu.yqs.domain.Good">
     insert into yqs_good
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -55,6 +67,27 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="goodDescribe != null">
+        goodDescribe,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="originalPrice != null">
+        originalPrice,
+      </if>
+      <if test="postage != null">
+        postage,
+      </if>
+      <if test="isNew != null">
+        isNew,
+      </if>
+      <if test="freeShipping != null">
+        freeShipping,
       </if>
       <if test="ownerId != null">
         ownerId,
@@ -64,9 +97,6 @@
       </if>
       <if test="publishTime != null">
         publishTime,
-      </if>
-      <if test="goodDescribe != null">
-        goodDescribe,
       </if>
       <if test="image != null">
         image,
@@ -82,6 +112,27 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="goodDescribe != null">
+        #{goodDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="originalPrice != null">
+        #{originalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="postage != null">
+        #{postage,jdbcType=DOUBLE},
+      </if>
+      <if test="isNew != null">
+        #{isNew,jdbcType=CHAR},
+      </if>
+      <if test="freeShipping != null">
+        #{freeShipping,jdbcType=CHAR},
+      </if>
       <if test="ownerId != null">
         #{ownerId,jdbcType=INTEGER},
       </if>
@@ -90,9 +141,6 @@
       </if>
       <if test="publishTime != null">
         #{publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodDescribe != null">
-        #{goodDescribe,jdbcType=VARCHAR},
       </if>
       <if test="image != null">
         #{image,jdbcType=VARCHAR},
@@ -108,6 +156,27 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="goodDescribe != null">
+        goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="originalPrice != null">
+        originalPrice = #{originalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="postage != null">
+        postage = #{postage,jdbcType=DOUBLE},
+      </if>
+      <if test="isNew != null">
+        isNew = #{isNew,jdbcType=CHAR},
+      </if>
+      <if test="freeShipping != null">
+        freeShipping = #{freeShipping,jdbcType=CHAR},
+      </if>
       <if test="ownerId != null">
         ownerId = #{ownerId,jdbcType=INTEGER},
       </if>
@@ -116,9 +185,6 @@
       </if>
       <if test="publishTime != null">
         publishTime = #{publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="goodDescribe != null">
-        goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
       </if>
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
@@ -132,13 +198,18 @@
   <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Good">
     update yqs_good
     set name = #{name,jdbcType=VARCHAR},
+      goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      originalPrice = #{originalPrice,jdbcType=DOUBLE},
+      postage = #{postage,jdbcType=DOUBLE},
+      isNew = #{isNew,jdbcType=CHAR},
+      freeShipping = #{freeShipping,jdbcType=CHAR},
       ownerId = #{ownerId,jdbcType=INTEGER},
       academy = #{academy,jdbcType=CHAR},
       publishTime = #{publishTime,jdbcType=TIMESTAMP},
-      goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
       state = #{state,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
 </mapper>

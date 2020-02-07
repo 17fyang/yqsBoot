@@ -3,7 +3,7 @@ package com.stu.yqs.domain.EnumPackage;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.aspect.LogicException;
 
 public enum Academy {
 	至诚书院("志诚书院",0),

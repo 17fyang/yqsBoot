@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.aspect.LogicException;
 
 @Controller
 @CrossOrigin

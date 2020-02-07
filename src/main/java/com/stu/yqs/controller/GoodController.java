@@ -6,14 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.stu.yqs.exception.LogicException;
+import com.stu.yqs.aspect.LogicException;
 
 @Controller
 @CrossOrigin
 @RequestMapping("/yqs")
 public interface GoodController {
 	@RequestMapping("/newTransaction")
-	 public @ResponseBody String newTransaction(MultipartFile file[],String name,String describe)throws LogicException;
+	 public @ResponseBody String newTransaction(MultipartFile file[],
+			 String name,String describe,String tag,Double price,Double originalPrice,
+			 Double postage,String isNew,String freeShipping)throws LogicException;
 	
 	@RequestMapping("/deleteTransaction")
 	 public @ResponseBody String deleteTransaction(Integer transactionId)throws LogicException;
