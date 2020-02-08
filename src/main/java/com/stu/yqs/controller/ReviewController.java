@@ -18,5 +18,5 @@ public interface ReviewController {
 	@RequestMapping("/thumb")
 	 public @ResponseBody String thumb(Integer goodId)throws LogicException;
 	@RequestMapping("/deleteThumb")
-	 public @ResponseBody String deleteThumb(Integer id)throws LogicException;
+	 public @ResponseBody String deleteThumb(Integer goodId)throws LogicException;
 }

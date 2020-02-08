@@ -21,8 +21,8 @@ public class ReviewControllerImpl implements ReviewController {
 	public String thumb(@NecessaryPara Integer goodId) throws LogicException {
 		return reviewService.thumb(goodId).toJSONString();
 	}
-	public String deleteThumb(@NecessaryPara Integer id) throws LogicException {
-		return reviewService.deleteThumb(id).toJSONString();
+	public String deleteThumb(@NecessaryPara Integer goodId) throws LogicException {
+		return reviewService.deleteThumb(goodId).toJSONString();
 	}
 
 }

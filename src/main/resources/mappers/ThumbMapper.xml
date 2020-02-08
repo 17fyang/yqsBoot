@@ -16,6 +16,13 @@
     from thumb
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAppoint" parameterType="com.stu.yqs.domain.search.ThumbSearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from thumb
+    where goodId = #{goodId,jdbcType=INTEGER} 
+    and thumberId=#{thumberId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from thumb
     where id = #{id,jdbcType=INTEGER}

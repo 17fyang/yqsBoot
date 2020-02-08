@@ -13,6 +13,7 @@ import com.stu.yqs.dao.ThumbMapper;
 import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.Review;
 import com.stu.yqs.domain.Thumb;
+import com.stu.yqs.domain.search.ThumbSearch;
 import com.stu.yqs.utils.IdentityUtil;
 @Service
 public class ReviewService {
@@ -61,7 +62,7 @@ public class ReviewService {
 		Good good=goodMapper.selectByPrimaryKey(goodId);
 		if(good==null)	throw new LogicException(503,"该帖子不存在");
 		if(!good.getState().equals("1"))		throw new LogicException(503,"该帖子不允许点赞");
-		
+		if(thumbMapper.selectAppoint(new ThumbSearch(id,goodId))!=null)	throw new LogicException(503,"不能重复点赞");
 		Good newGood=new Good();
 		newGood.setId(good.getId());
 		newGood.setThumbNumber(good.getThumbNumber()+1);
@@ -75,12 +76,11 @@ public class ReviewService {
 		return json;
 	}
 
-	public JSONObject deleteThumb(Integer id) throws LogicException {
+	public JSONObject deleteThumb(Integer goodId) throws LogicException {
 		int thumberId=identityUtil.isLogin();
-		Thumb thumb=thumbMapper.selectByPrimaryKey(id);
-		if(thumb==null)	throw new LogicException(503,"该点赞不存在");
-		if(thumberId!=thumb.getThumberId())	throw new LogicException(503,"只能操作自己的点赞");
-		thumbMapper.deleteByPrimaryKey(id);
+		Thumb thumb=thumbMapper.selectAppoint(new ThumbSearch(thumberId,goodId));
+		if(thumb==null)	throw new LogicException(503,"还未点赞");
+		thumbMapper.deleteByPrimaryKey(goodId);
 		return new JSONObject();
 	}
 	
