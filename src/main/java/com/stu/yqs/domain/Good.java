@@ -31,6 +31,12 @@ public class Good {
     private Date publishTime;
 
     private String image;
+    
+    private Integer thumbNumber;
+
+    private Integer browseNumber;
+
+    private Integer reviewNumber ;
 
     private String state;
 
@@ -177,6 +183,30 @@ public class Good {
         this.image=sb.toString();
     }
 
+    public Integer getThumbNumber() {
+        return thumbNumber;
+    }
+
+    public void setThumbNumber(Integer thumbNumber) {
+        this.thumbNumber = thumbNumber;
+    }
+
+    public Integer getBrowseNumber() {
+        return browseNumber;
+    }
+
+    public void setBrowseNumber(Integer browseNumber) {
+        this.browseNumber = browseNumber;
+    }
+
+    public Integer getReviewNumber () {
+        return reviewNumber ;
+    }
+
+    public void setReviewNumber (Integer reviewNumber ) {
+        this.reviewNumber  = reviewNumber ;
+    }
+    
     public String getState() {
         return state;
     }

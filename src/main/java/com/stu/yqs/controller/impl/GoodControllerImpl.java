@@ -27,6 +27,8 @@ public class GoodControllerImpl implements GoodController {
 	public String getTransaction(Integer startId, @NecessaryPara Integer range, String academy, String keyword) throws LogicException {
 		return goodService.getTransaction(startId,range,academy,keyword).toJSONString();
 	}
-	
-
+	@Override
+	public String getTransactionDetail(@NecessaryPara Integer id,Integer startId,Integer range) throws LogicException {
+		return goodService.getTransactionDetail(id,startId,range).toJSONString();
+	}
 }

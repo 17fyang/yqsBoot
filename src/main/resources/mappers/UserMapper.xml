@@ -15,9 +15,18 @@
   <sql id="Base_Column_List">
     id, phoneNumber, headImage, name, password, academy, idType, emailNumber, registerDate
   </sql>
+  <sql id="Part_Column_List">
+    id,  name, password, academy
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
+    from yqs_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectPartByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Part_Column_List" />
     from yqs_user
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -31,7 +40,7 @@
     delete from yqs_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.stu.yqs.domain.User">
+  <insert id="insert" parameterType="com.stu.yqs.domain.User"  useGeneratedKeys="true" keyProperty="id">
     insert into yqs_user (id, phoneNumber, headImage, 
       name, password, academy, 
       idType, emailNumber, registerDate
@@ -41,7 +50,7 @@
       #{idType,jdbcType=CHAR}, #{emailNumber,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.User">
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.User"  useGeneratedKeys="true" keyProperty="id">
     insert into yqs_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

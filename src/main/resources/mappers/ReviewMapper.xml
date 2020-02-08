@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu.yqs.dao.ReviewMapper">
+  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Review">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goodId" jdbcType="INTEGER" property="goodId" />
+    <result column="reviewerId" jdbcType="INTEGER" property="reviewerId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="reviewTime" jdbcType="TIMESTAMP" property="reviewTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goodId, reviewerId, content, reviewTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from review
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="searchReview" parameterType="com.stu.yqs.domain.search.ReviewSearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from review
+    <where>
+    <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
+    <if test="goodId!=null">and goodId =#{goodId,jdbcType=INTEGER}</if>
+    </where>
+    order by id desc
+   	<choose>
+   		<when test="range!=null">limit #{range,jdbcType=INTEGER}</when>
+   		<otherwise>limit 20</otherwise>
+   	</choose>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from review
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stu.yqs.domain.Review"  useGeneratedKeys="true" keyProperty="id">
+    insert into review (id, goodId, reviewerId, 
+      content, reviewTime)
+    values (#{id,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, #{reviewerId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{reviewTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Review" useGeneratedKeys="true" keyProperty="id">
+    insert into review
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodId != null">
+        goodId,
+      </if>
+      <if test="reviewerId != null">
+        reviewerId,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="reviewTime != null">
+        reviewTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null">
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewerId != null">
+        #{reviewerId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Review">
+    update review
+    <set>
+      <if test="goodId != null">
+        goodId = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="reviewerId != null">
+        reviewerId = #{reviewerId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewTime != null">
+        reviewTime = #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Review">
+    update review
+    set goodId = #{goodId,jdbcType=INTEGER},
+      reviewerId = #{reviewerId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      reviewTime = #{reviewTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

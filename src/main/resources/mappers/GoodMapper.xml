@@ -15,11 +15,14 @@
     <result column="academy" jdbcType="CHAR" property="academy" />
     <result column="publishTime" jdbcType="TIMESTAMP" property="publishTime" />
     <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="thumbNumber" jdbcType="INTEGER" property="thumbNumber" />
+    <result column="browseNumber" jdbcType="INTEGER" property="browseNumber" />
+    <result column="reviewNumber" jdbcType="INTEGER" property="reviewNumber"/>
     <result column="state" jdbcType="CHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, goodDescribe, tag, price, originalPrice, postage, isNew, freeShipping, 
-    ownerId, academy, publishTime, image, state
+    ownerId, academy, publishTime, image, thumbNumber, browseNumber, reviewNumber, state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,8 +30,10 @@
     from yqs_good
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="searchGoods" parameterType="com.stu.yqs.domain.GoodSearch" resultMap="BaseResultMap">
-    select *  from yqs_good
+  <select id="searchGoods" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yqs_good
     <where>
     <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
     <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
@@ -47,19 +52,22 @@
     delete from yqs_good
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.stu.yqs.domain.Good">
+  
+  <insert id="insert" parameterType="com.stu.yqs.domain.Good" useGeneratedKeys="true" keyProperty="id">
     insert into yqs_good (id, name, goodDescribe, 
       tag, price, originalPrice, 
       postage, isNew, freeShipping, 
       ownerId, academy, publishTime, 
-      image, state)
+      image, thumbNumber, browseNumber, 
+      reviewNumber, state)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodDescribe,jdbcType=VARCHAR}, 
       #{tag,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{originalPrice,jdbcType=DOUBLE}, 
       #{postage,jdbcType=DOUBLE}, #{isNew,jdbcType=CHAR}, #{freeShipping,jdbcType=CHAR}, 
       #{ownerId,jdbcType=INTEGER}, #{academy,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
-      #{image,jdbcType=VARCHAR}, #{state,jdbcType=CHAR})
+      #{image,jdbcType=VARCHAR}, #{thumbNumber,jdbcType=INTEGER}, #{browseNumber,jdbcType=INTEGER}, 
+      #{reviewNumber,jdbcType=INTEGER}, #{state,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.stu.yqs.domain.Good">
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Good"  useGeneratedKeys="true" keyProperty="id">
     insert into yqs_good
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -100,6 +108,15 @@
       </if>
       <if test="image != null">
         image,
+      </if>
+      <if test="thumbNumber != null">
+        thumbNumber,
+      </if>
+      <if test="browseNumber != null">
+        browseNumber,
+      </if>
+      <if test="reviewNumber != null">
+        reviewNumber,
       </if>
       <if test="state != null">
         state,
@@ -145,6 +162,15 @@
       <if test="image != null">
         #{image,jdbcType=VARCHAR},
       </if>
+      <if test="thumbNumber != null">
+        #{thumbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="browseNumber != null">
+        #{browseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNumber  != null">
+        #{reviewNumber,jdbcType=INTEGER},
+      </if>
       <if test="state != null">
         #{state,jdbcType=CHAR},
       </if>
@@ -189,6 +215,15 @@
       <if test="image != null">
         image = #{image,jdbcType=VARCHAR},
       </if>
+      <if test="thumbNumber != null">
+        thumbNumber = #{thumbNumber,jdbcType=INTEGER},
+      </if>
+      <if test="browseNumber != null">
+        browseNumber = #{browseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNumber  != null">
+        reviewNumber = #{reviewNumber,jdbcType=INTEGER},
+      </if>
       <if test="state != null">
         state = #{state,jdbcType=CHAR},
       </if>
@@ -209,7 +244,11 @@
       academy = #{academy,jdbcType=CHAR},
       publishTime = #{publishTime,jdbcType=TIMESTAMP},
       image = #{image,jdbcType=VARCHAR},
+      thumbNumber = #{thumbNumber,jdbcType=INTEGER},
+      browseNumber = #{browseNumber,jdbcType=INTEGER},
+      reviewNumber = #{reviewNumber,jdbcType=INTEGER},
       state = #{state,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

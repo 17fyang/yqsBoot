@@ -1,4 +1,4 @@
-package com.stu.yqs.domain;
+package com.stu.yqs.domain.search;
 
 public class GoodSearch {
 	private Integer startId;

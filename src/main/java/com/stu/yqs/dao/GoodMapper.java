@@ -2,9 +2,13 @@ package com.stu.yqs.dao;
 
 import java.util.List;
 
-import com.stu.yqs.domain.Good;
-import com.stu.yqs.domain.GoodSearch;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+import com.stu.yqs.domain.Good;
+import com.stu.yqs.domain.search.GoodSearch;
+@Repository
+@Mapper
 public interface GoodMapper {
     int deleteByPrimaryKey(Integer id);
 

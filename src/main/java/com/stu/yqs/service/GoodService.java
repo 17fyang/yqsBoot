@@ -11,11 +11,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.aspect.LogicException;
+import com.stu.yqs.dao.BrowseMapper;
 import com.stu.yqs.dao.GoodMapper;
+import com.stu.yqs.dao.ReviewMapper;
 import com.stu.yqs.dao.UserMapper;
+import com.stu.yqs.domain.Browse;
 import com.stu.yqs.domain.Good;
-import com.stu.yqs.domain.GoodSearch;
+import com.stu.yqs.domain.Review;
 import com.stu.yqs.domain.User;
+import com.stu.yqs.domain.search.GoodSearch;
+import com.stu.yqs.domain.search.ReviewSearch;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
 
@@ -25,6 +30,10 @@ public class GoodService {
 	private GoodMapper goodMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private BrowseMapper browseMapper;
+	@Autowired
+	private ReviewMapper reviewMapper;
 	@Autowired
 	private IdentityUtil identityUtil;
 	//发布一个交易
@@ -52,7 +61,7 @@ public class GoodService {
 			url=urlList.toArray(new String[urlList.size()]);
 		}
 		
-		User user=userMapper.selectByPrimaryKey(id);
+		User user=userMapper.selectPartByPrimaryKey(id);
 		Good good=new Good();
 		good.setOwnerId(id);
 		good.setAcademy(user.getAcademy());
@@ -98,6 +107,61 @@ public class GoodService {
 		json.put("arr", arr);
 		return json;
 	}
-
 	
+	//查看一个交易的全部详细信息
+	public JSON getTransactionDetail(Integer id, Integer startId, Integer range) throws LogicException {
+		int defaultReview=20;
+		Good good=goodMapper.selectByPrimaryKey(id);
+		if(good==null) throw new LogicException(503,"该帖子不存在");
+		//如果是第一次访问则给该帖子加上一次访问量
+		if(startId==null)	addBrowse(good);
+		ReviewSearch reviewSearch=new ReviewSearch();
+		reviewSearch.setRange(range);
+		reviewSearch.setStartId(startId);
+		reviewSearch.setGoodId(good.getId());
+		List<Review> reviewList=reviewMapper.searchReview(reviewSearch);
+		JSONArray array=getFullReviewList(reviewList);
+		JSONObject reviewJson=new JSONObject();
+		reviewJson.put("arr", array);
+		reviewJson.put("length", reviewList.size());
+		boolean isEnd=false;
+		if((range==null && reviewList.size()<defaultReview) || (range!=null && reviewList.size()<range))	isEnd=true;
+		reviewJson.put("isEnd", isEnd);
+		if(!isEnd)		reviewJson.put("nextId",reviewList.get(reviewList.size()-1).getId());
+		JSONObject json=(JSONObject)JSONObject.toJSON(good);
+		json.put("review", reviewJson);
+		return json;
+	}
+	//给该交易加上一次访问量
+	private void addBrowse(Good good) {
+		Good newGood=new Good();
+		newGood.setId(good.getId());
+		newGood.setBrowseNumber(good.getBrowseNumber()+1);
+		goodMapper.updateByPrimaryKeySelective(newGood);
+		
+		//如果用户已登录则记录下该用户的访问记录
+		try {
+			int id = identityUtil.isLogin();
+			Browse browse=new Browse();
+			browse.setGoodId(good.getId());
+			browse.setBrowserId(id);
+			browseMapper.insertSelective(browse);
+		} catch (LogicException e) {
+		}
+		
+	}
+	//把评论列表中的用户id名字补上后返回jsonarray
+	private JSONArray getFullReviewList(List<Review> reviewList) {
+		JSONArray array=new JSONArray();
+		for(int i=0;i<reviewList.size();i++) {
+			Review review=reviewList.get(i);
+			User user=userMapper.selectPartByPrimaryKey(review.getReviewerId());
+			JSONObject json=(JSONObject)JSONObject.toJSON(review);
+			json.remove("goodId");
+			json.put("name", user.getName());
+			json.put("academy", user.getAcademy());
+			array.add(json);
+		}
+		return array;
+	}
 }
