@@ -18,6 +18,7 @@ public class CollectService {
 	private CollectMapper collectMapper;
 	
 	public JSONObject addCollect(Integer goodId) throws LogicException {
+		
 		return null;
 	}
 	public JSONArray listAction() throws LogicException {

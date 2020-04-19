@@ -30,6 +30,15 @@
     from yqs_good
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="searchLikeGoods" parameterType="java.lang.String" resultType="java.lang.String">
+    select name
+    from yqs_good
+    where name like concat('%',#{input,jdbcType=CHAR},'%')
+    order by publishTime desc
+    limit 6
+  </select>
+  
   <select id="searchGoods" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

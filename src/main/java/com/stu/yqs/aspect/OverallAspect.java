@@ -23,7 +23,6 @@ import com.alibaba.fastjson.JSONObject;
 @Aspect
 @Component
 public class OverallAspect {
-	
 	@Around("execution(* com.stu.yqs.controller..*(..))")
 	public Object exceptionDeal(ProceedingJoinPoint pjp) {
 		Object result=null;

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu.yqs.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customerId" jdbcType="INTEGER" property="customerId" />
+    <result column="sellerId" jdbcType="INTEGER" property="sellerId" />
+    <result column="goodId" jdbcType="INTEGER" property="goodId" />
+    <result column="establishTime" jdbcType="TIMESTAMP" property="establishTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customerId, sellerId, goodId, establishTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stu.yqs.domain.Order">
+    insert into order (id, customerId, sellerId, 
+      goodId, establishTime)
+    values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, 
+      #{goodId,jdbcType=INTEGER}, #{establishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Order">
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customerId,
+      </if>
+      <if test="sellerId != null">
+        sellerId,
+      </if>
+      <if test="goodId != null">
+        goodId,
+      </if>
+      <if test="establishTime != null">
+        establishTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null">
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="establishTime != null">
+        #{establishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Order">
+    update order
+    <set>
+      <if test="customerId != null">
+        customerId = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null">
+        sellerId = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null">
+        goodId = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="establishTime != null">
+        establishTime = #{establishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Order">
+    update order
+    set customerId = #{customerId,jdbcType=INTEGER},
+      sellerId = #{sellerId,jdbcType=INTEGER},
+      goodId = #{goodId,jdbcType=INTEGER},
+      establishTime = #{establishTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customerId" jdbcType="INTEGER" property="customerId" />
+    <result column="sellerId" jdbcType="INTEGER" property="sellerId" />
+    <result column="goodId" jdbcType="INTEGER" property="goodId" />
+    <result column="establishTime" jdbcType="TIMESTAMP" property="establishTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customerId, sellerId, goodId, establishTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stu.yqs.domain.Order">
+    insert into order (id, customerId, sellerId, 
+      goodId, establishTime)
+    values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, 
+      #{goodId,jdbcType=INTEGER}, #{establishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Order">
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customerId,
+      </if>
+      <if test="sellerId != null">
+        sellerId,
+      </if>
+      <if test="goodId != null">
+        goodId,
+      </if>
+      <if test="establishTime != null">
+        establishTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null">
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="establishTime != null">
+        #{establishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Order">
+    update order
+    <set>
+      <if test="customerId != null">
+        customerId = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null">
+        sellerId = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null">
+        goodId = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="establishTime != null">
+        establishTime = #{establishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Order">
+    update order
+    set customerId = #{customerId,jdbcType=INTEGER},
+      sellerId = #{sellerId,jdbcType=INTEGER},
+      goodId = #{goodId,jdbcType=INTEGER},
+      establishTime = #{establishTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -2,7 +2,7 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
-public class Oder {
+public class Order {
     private Integer id;
 
     private Integer customerId;

@@ -19,6 +19,8 @@ public interface GoodMapper {
     Good selectByPrimaryKey(Integer id);
     
     List<Good> searchGoods(GoodSearch record);
+    
+    List<String> searchLikeGoods(String input);
 
     int updateByPrimaryKeySelective(Good record);
 

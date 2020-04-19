@@ -16,6 +16,24 @@
     from search
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+	<!-- 自定义sql  start -->
+   <select id="selectByUserId" parameterType="java.lang.Integer"  resultType="java.lang.String">
+    select searchContent
+    from search
+    where userId = #{userId,jdbcType=INTEGER}
+    order by searchTime desc
+    limit 6
+  </select>
+ 
+	 <delete id="deleteByUserId" parameterType="java.lang.Integer">
+	    delete from search
+	    where userId = #{userId,jdbcType=INTEGER}
+	  </delete>
+  
+ 	<!-- 自定义sql  end -->
+ 
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from search
     where id = #{id,jdbcType=INTEGER}

@@ -28,27 +28,8 @@
 			type="XMLMAPPER" />
 			
 			 
-		<table tableName="address"  domainObjectName="Address"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="isDefault" property="isDefault" />
-		</table>
 		
-		<table tableName="collect"  domainObjectName="Collect"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="userid" property="userId" />
-		<columnOverride column="goodid" property="goodId" />
-		<columnOverride column="collectTime" property="collectTime" />
-		</table>
-		
-		<table tableName="oder"  domainObjectName="Oder"
+		<table tableName="order"  domainObjectName="Order"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
 		enableDeleteByExample="false"
@@ -60,16 +41,6 @@
 		<columnOverride column="establishtime" property="establishTime" />
 		</table>
 		
-		<table tableName="search"  domainObjectName="Search"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="userid" property="userId" />
-		<columnOverride column="searchcontent" property="searchContent" />
-		<columnOverride column="searchtime" property="searchTime" />
-		</table>
 		
 		<!--  
 		<table tableName="yqs_good"  domainObjectName="Good"
