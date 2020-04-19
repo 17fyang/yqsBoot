@@ -18,29 +18,60 @@
 
 		<!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
 		<javaModelGenerator
-			targetPackage="com.stu.yqs.generator" targetProject="src\main\java" />
-		<sqlMapGenerator targetPackage="com.stu.yqs.generator"
+			targetPackage="com.stu.yqs.domain" targetProject="src\main\java" />
+		<sqlMapGenerator targetPackage="com.stu.yqs.dao"
 			targetProject="src\main\java" />
 
 		<!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
 		<javaClientGenerator
-			targetPackage="com.stu.yqs.generator" targetProject="src\main\java"
+			targetPackage="com.stu.yqs.dao" targetProject="src\main\java"
 			type="XMLMAPPER" />
 			
-			<!--  
-		<table tableName="yqs_user" domainObjectName="User"
+			 
+		<table tableName="address"  domainObjectName="Address"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-		<columnOverride column="idtype" property="idType" />
-		<columnOverride column="emailnumber" property="emailNumber" />
-		<columnOverride column="phonenumber" property="phoneNumber" />
-		<columnOverride column="registerdate" property="registerDate" />
-		<columnOverride column="headimage" property="headImage" />
+		<columnOverride column="isDefault" property="isDefault" />
 		</table>
-		-->
+		
+		<table tableName="collect"  domainObjectName="Collect"
+		enableCountByExample="false"
+		enableUpdateByExample="false"
+		enableDeleteByExample="false"
+		enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<columnOverride column="userid" property="userId" />
+		<columnOverride column="goodid" property="goodId" />
+		<columnOverride column="collectTime" property="collectTime" />
+		</table>
+		
+		<table tableName="oder"  domainObjectName="Oder"
+		enableCountByExample="false"
+		enableUpdateByExample="false"
+		enableDeleteByExample="false"
+		enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<columnOverride column="customerid" property="customerId" />
+		<columnOverride column="sellerid" property="sellerId" />
+		<columnOverride column="goodid" property="goodId" />
+		<columnOverride column="establishtime" property="establishTime" />
+		</table>
+		
+		<table tableName="search"  domainObjectName="Search"
+		enableCountByExample="false"
+		enableUpdateByExample="false"
+		enableDeleteByExample="false"
+		enableSelectByExample="false"
+		selectByExampleQueryId="false">
+		<columnOverride column="userid" property="userId" />
+		<columnOverride column="searchcontent" property="searchContent" />
+		<columnOverride column="searchtime" property="searchTime" />
+		</table>
+		
+		<!--  
 		<table tableName="yqs_good"  domainObjectName="Good"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
@@ -57,40 +88,7 @@
 		<columnOverride column="browsenumber" property="browseNumber" />
 		<columnOverride column="reviewnumber" property="reviewNumber"/>
 		</table>
-		
-		<table tableName="browse"  domainObjectName="Browse"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="goodid" property="goodId" />
-		<columnOverride column="browserid" property="browserId" />
-		<columnOverride column="browsetime" property="browseTime" />
-		</table>
-		
-		<table tableName="review"  domainObjectName="Review"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="goodid" property="goodId" />
-		<columnOverride column="reviewerid" property="reviewerId" />
-		<columnOverride column="reviewtime" property="reviewTime" />
-		</table>
-		
-		<table tableName="thumb"  domainObjectName="Thumb"
-		enableCountByExample="false"
-		enableUpdateByExample="false"
-		enableDeleteByExample="false"
-		enableSelectByExample="false"
-		selectByExampleQueryId="false">
-		<columnOverride column="goodid" property="goodId" />
-		<columnOverride column="thumberid" property="thumberId" />
-		<columnOverride column="thumbtime" property="thumbTime" />
-		</table>
-		
+		-->
 	</context>
 
 
