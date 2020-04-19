@@ -6,10 +6,11 @@
     <result column="customerId" jdbcType="INTEGER" property="customerId" />
     <result column="sellerId" jdbcType="INTEGER" property="sellerId" />
     <result column="goodId" jdbcType="INTEGER" property="goodId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="establishTime" jdbcType="TIMESTAMP" property="establishTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, customerId, sellerId, goodId, establishTime
+    id, customerId, sellerId, goodId, status, establishTime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.stu.yqs.domain.Order">
     insert into order (id, customerId, sellerId, 
-      goodId, establishTime)
+      goodId, status, establishTime
+      )
     values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, 
-      #{goodId,jdbcType=INTEGER}, #{establishTime,jdbcType=TIMESTAMP})
+      #{goodId,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT}, #{establishTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.stu.yqs.domain.Order">
     insert into order
@@ -41,6 +44,9 @@
       </if>
       <if test="goodId != null">
         goodId,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="establishTime != null">
         establishTime,
@@ -59,6 +65,9 @@
       <if test="goodId != null">
         #{goodId,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
       <if test="establishTime != null">
         #{establishTime,jdbcType=TIMESTAMP},
       </if>
@@ -76,6 +85,9 @@
       <if test="goodId != null">
         goodId = #{goodId,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
       <if test="establishTime != null">
         establishTime = #{establishTime,jdbcType=TIMESTAMP},
       </if>
@@ -87,8 +99,8 @@
     set customerId = #{customerId,jdbcType=INTEGER},
       sellerId = #{sellerId,jdbcType=INTEGER},
       goodId = #{goodId,jdbcType=INTEGER},
+      status = #{status,jdbcType=SMALLINT},
       establishTime = #{establishTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
 </mapper>

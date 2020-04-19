@@ -2,6 +2,8 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Collect {
     private Integer id;
 
@@ -9,6 +11,7 @@ public class Collect {
 
     private Integer goodId;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date collectTime;
 
     public Integer getId() {

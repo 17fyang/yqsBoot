@@ -9,8 +9,10 @@ import com.stu.yqs.aspect.LogicException;
 
 @Controller
 @CrossOrigin
-@RequestMapping("/yqs/index")
+@RequestMapping("/yqs")
 public interface IndexController {
-	@RequestMapping("/recommend")
+	@RequestMapping("/index/recommend")
 	 public @ResponseBody String recommend()throws LogicException;
+	@RequestMapping("/feedback/submitAction")
+	 public @ResponseBody String feedback(String content)throws LogicException;
 }

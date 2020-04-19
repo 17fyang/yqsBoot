@@ -4,15 +4,15 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Search {
+public class Feedback {
     private Integer id;
 
     private Integer userId;
 
-    private String searchContent;
+    private String content;
 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date searchTime;
+    private Date establishtime;
 
     public Integer getId() {
         return id;
@@ -30,19 +30,19 @@ public class Search {
         this.userId = userId;
     }
 
-    public String getSearchContent() {
-        return searchContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setSearchContent(String searchContent) {
-        this.searchContent = searchContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Date getSearchTime() {
-        return searchTime;
+    public Date getEstablishtime() {
+        return establishtime;
     }
 
-    public void setSearchTime(Date searchTime) {
-        this.searchTime = searchTime;
+    public void setEstablishtime(Date establishtime) {
+        this.establishtime = establishtime;
     }
 }
