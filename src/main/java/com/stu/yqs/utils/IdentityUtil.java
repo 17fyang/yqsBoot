@@ -21,6 +21,7 @@ public class IdentityUtil {
 			String verificationCode=String.valueOf(session.getAttribute("verificationCode"));
 			Date date=(Date)session.getAttribute("verificationTime");
 			long intervalTime=60000*5;//验证码有效期为五分钟
+			if(date==null)	throw new LogicException(503,"请获取验证码"); 
 			if(new Date().getTime()-date.getTime()>intervalTime)	throw new LogicException(503,"验证码已过期");
 			verification=phoneNumber+"_"+verification;
 			if(!verification.equals(verificationCode)) throw new LogicException(503,"验证码错误");
@@ -37,7 +38,7 @@ public class IdentityUtil {
 		
 		//判断用户是否登录
 		public int isLogin() throws LogicException {
-			if(1==1)	return 44;
+//			if(1==1)	return 44;
 			
 			String id=String.valueOf( request.getSession().getAttribute("id"));
 			if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");

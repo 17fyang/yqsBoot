@@ -10,6 +10,31 @@
   <sql id="Base_Column_List">
     id, userId, goodId, collectTime
   </sql>
+  <!-- 自定义sql start-->
+  <select id="selectCollect" parameterType="com.stu.yqs.domain.search.CollectSearch" resultType="com.stu.yqs.domain.Good">
+    select 
+    yqs_good.id, name, goodDescribe, tag, price, originalPrice, postage, isNew, freeShipping, 
+    ownerId, academy, publishTime, image, thumbNumber, browseNumber, reviewNumber, state
+    from collect join yqs_good
+    <where>
+    collect.userId=#{userId,jdbcType=INTEGER}
+    and yqs_good.id=collect.goodId
+    and state='1'
+    <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
+    </where>
+    order by id desc
+   	<choose>
+   		<when test="range!=null">limit #{range,jdbcType=INTEGER}</when>
+   		<otherwise>limit #{defaultRange,jdbcType=INTEGER}</otherwise>
+   	</choose>
+  </select>
+  
+  <select id="selectByGoodId" parameterType="java.lang.Integer" resultType="com.stu.yqs.domain.Collect">
+    select id from collect
+     where goodId = #{goodId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 自定义sql end-->
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

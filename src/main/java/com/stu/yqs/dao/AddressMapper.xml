@@ -10,16 +10,6 @@
   <sql id="Base_Column_List">
     id, userId, content, isDefault
   </sql>
-  <!-- 自定义sql start -->
-  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from address
-    where userid = #{userId,jdbcType=INTEGER}
-  </select>
-  <!-- 自定义sql end -->
-  
-  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -36,7 +26,7 @@
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
       #{isDefault,jdbcType=SMALLINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address">
     insert into address
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -12,9 +12,9 @@ import com.stu.yqs.aspect.LogicException;
 @RequestMapping("/yqs/address")
 public interface AddressController {
 	@RequestMapping("/addAction")
-	 public @ResponseBody String addAction(String content)throws LogicException;
+	 public @ResponseBody String addAction(String content,Short isDefault)throws LogicException;
 	@RequestMapping("/updateAction")
-	 public @ResponseBody String updateAction(String content)throws LogicException;
+	 public @ResponseBody String updateAction(Integer id,String content,Short isDefault)throws LogicException;
 	@RequestMapping("/getListAction")
 	 public @ResponseBody String getListAction()throws LogicException;
 	@RequestMapping("/deleteAction")

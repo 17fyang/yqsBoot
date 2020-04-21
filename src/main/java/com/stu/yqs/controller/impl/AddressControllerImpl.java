@@ -13,12 +13,12 @@ public class AddressControllerImpl implements AddressController{
 	private AddressService addressService;
 	
 	@Override
-	public String addAction(@NecessaryPara String content) throws LogicException {
-		return addressService.addAction(content).toJSONString();
+	public String addAction(@NecessaryPara String content,Short isDefault) throws LogicException {
+		return addressService.addAction(content,isDefault).toJSONString();
 	}
 	@Override
-	public String updateAction(@NecessaryPara String content) throws LogicException {
-		return addressService.updateAction(content).toJSONString();
+	public String updateAction(@NecessaryPara Integer id,@NecessaryPara String content,Short isDefault) throws LogicException {
+		return addressService.updateAction(id,content,isDefault).toJSONString();
 	}
 	@Override
 	public String getListAction() throws LogicException {

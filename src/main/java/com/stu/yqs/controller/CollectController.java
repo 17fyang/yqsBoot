@@ -11,10 +11,10 @@ import com.stu.yqs.aspect.LogicException;
 @CrossOrigin
 @RequestMapping("/yqs/collect")
 public interface CollectController {
-	@RequestMapping("/addCollect")
+	@RequestMapping("/addAction")
 	 public @ResponseBody String addCollect(Integer goodId)throws LogicException;
 	@RequestMapping("/listAction")
-	 public @ResponseBody String listAction()throws LogicException;
-	@RequestMapping("/deleteCollect")
+	 public @ResponseBody String listAction(Integer startId,Integer range)throws LogicException;
+	@RequestMapping("/deleteAction")
 	 public @ResponseBody String deleteCollect(Integer goodId)throws LogicException;
 }

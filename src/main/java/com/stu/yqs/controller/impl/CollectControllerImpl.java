@@ -17,8 +17,8 @@ public class CollectControllerImpl implements CollectController {
 		return collectService.addCollect(goodId).toJSONString();
 	}
 	@Override
-	public String listAction() throws LogicException {
-		return collectService.listAction().toJSONString();
+	public String listAction(Integer startId,Integer range) throws LogicException {
+		return collectService.listAction(startId,range).toJSONString();
 	}
 	@Override
 	public String deleteCollect(@NecessaryPara Integer goodId) throws LogicException {

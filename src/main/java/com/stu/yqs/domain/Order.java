@@ -2,8 +2,6 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 public class Order {
     private Integer id;
 
@@ -15,7 +13,6 @@ public class Order {
 
     private Short status;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date establishTime;
 
     public Integer getId() {

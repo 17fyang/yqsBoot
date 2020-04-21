@@ -1,11 +1,9 @@
 package com.stu.yqs.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.stu.yqs.domain.Order;
-@Repository
-@Mapper
+
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,6 +12,8 @@ public interface OrderMapper {
     int insertSelective(Order record);
 
     Order selectByPrimaryKey(Integer id);
+    
+    List<Order> selectByUserId(Integer customerId);
 
     int updateByPrimaryKeySelective(Order record);
 

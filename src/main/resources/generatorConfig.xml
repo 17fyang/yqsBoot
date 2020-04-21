@@ -29,16 +29,14 @@
 			
 			 
 		
-		<table tableName="order"  domainObjectName="Order"
+		<table tableName="address"  domainObjectName="Address"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-		<columnOverride column="sellerid" property="sellerId" />
-		<columnOverride column="customerid" property="customerId" />
-		<columnOverride column="goodid" property="goodId" />
-		<columnOverride column="establishtime" property="establishTime" />
+		<columnOverride column="userid" property="userId" />
+		<columnOverride column="isdefault" property="isDefault" />
 		</table>
 		
 		

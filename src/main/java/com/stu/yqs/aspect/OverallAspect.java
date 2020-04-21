@@ -1,7 +1,6 @@
 package com.stu.yqs.aspect;
 
 import java.lang.reflect.Parameter;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 @Aspect
 @Component
 public class OverallAspect {
+	
 	@Around("execution(* com.stu.yqs.controller..*(..))")
 	public Object exceptionDeal(ProceedingJoinPoint pjp) {
 		Object result=null;
@@ -50,6 +50,7 @@ public class OverallAspect {
 		return json.toJSONString();
 	}
 	
+	//空参数校验
 	private void emptyParameterDeal(ProceedingJoinPoint pjp) throws LogicException {
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 	    Parameter[] parameters = signature.getMethod().getParameters();

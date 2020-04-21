@@ -1,11 +1,9 @@
 package com.stu.yqs.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.stu.yqs.domain.Address;
-@Repository
-@Mapper
+
 public interface AddressMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,6 +12,8 @@ public interface AddressMapper {
     int insertSelective(Address record);
 
     Address selectByPrimaryKey(Integer id);
+    
+    List<Address> selectByUserId(Integer userId);
 
     int updateByPrimaryKeySelective(Address record);
 

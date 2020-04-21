@@ -3,6 +3,8 @@ package com.stu.yqs.domain;
 public class Address {
     private Integer id;
 
+    private Integer userId;
+
     private String content;
 
     private Short isDefault;
@@ -13,6 +15,14 @@ public class Address {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getContent() {

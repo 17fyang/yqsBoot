@@ -12,26 +12,35 @@
   <sql id="Base_Column_List">
     id, customerId, sellerId, goodId, status, establishTime
   </sql>
+  <!-- 自定义sql start -->
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yqs_order
+    where customerId = #{customerId,jdbcType=INTEGER}
+  </select>
+  <!-- 自定义sql end -->
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from yqs_order
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from yqs_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stu.yqs.domain.Order">
-    insert into order (id, customerId, sellerId, 
+    insert into yqs_order (id, customerId, sellerId, 
       goodId, status, establishTime
       )
     values (#{id,jdbcType=INTEGER}, #{customerId,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, 
       #{goodId,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT}, #{establishTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Order">
-    insert into order
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Order"  useGeneratedKeys="true" keyProperty="id">
+    insert into yqs_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -74,7 +83,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Order">
-    update order
+    update yqs_order
     <set>
       <if test="customerId != null">
         customerId = #{customerId,jdbcType=INTEGER},
@@ -95,7 +104,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Order">
-    update order
+    update yqs_order
     set customerId = #{customerId,jdbcType=INTEGER},
       sellerId = #{sellerId,jdbcType=INTEGER},
       goodId = #{goodId,jdbcType=INTEGER},
