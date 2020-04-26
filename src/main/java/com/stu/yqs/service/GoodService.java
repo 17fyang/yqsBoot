@@ -19,6 +19,7 @@ import com.stu.yqs.domain.Browse;
 import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.Review;
 import com.stu.yqs.domain.User;
+import com.stu.yqs.domain.EnumPackage.Tag;
 import com.stu.yqs.domain.search.GoodSearch;
 import com.stu.yqs.domain.search.ReviewSearch;
 import com.stu.yqs.utils.IdentityUtil;
@@ -36,6 +37,8 @@ public class GoodService {
 	private ReviewMapper reviewMapper;
 	@Autowired
 	private IdentityUtil identityUtil;
+	@Autowired
+	private ImageUtil imageUtil;
 	//发布一个交易
 	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
 		int id=identityUtil.isLogin();
@@ -49,13 +52,12 @@ public class GoodService {
 //			file[0]=temp;
 //			file[1]=temp;
 			List<String> urlList=new ArrayList<String>();
-			ImageUtil imageUtil=new ImageUtil();
 			for(int i=0;i<file.length;i++) {
-				ImageUtil.checkFileSize(file[i]);
-				imageUtil.newFileUrl( "goodImage", file[i]);
-				String httpUrl=imageUtil.getHttpFile();
-				String localUrl=imageUtil.getLocalFile();
-				ImageUtil.compressFile(file[i], localUrl);
+				imageUtil.checkFileSize(file[i]);
+				String newUrl[]=imageUtil.newFileUrl( "goodImage", file[i]);
+				String localUrl=newUrl[0];
+				String httpUrl=newUrl[1];
+				imageUtil.compressFile(file[i], localUrl);
 				urlList.add(httpUrl);
 			}
 			url=urlList.toArray(new String[urlList.size()]);
@@ -68,7 +70,7 @@ public class GoodService {
 		good.setName(name);
 		good.setGoodDescribe(describe);
 		good.setImages(url);
-		good.setTag(tag);
+		good.setTag(Tag.format(tag));
 		good.setPrice(price);
 		good.setOriginalPrice(originalPrice);
 		good.setFreeShipping(freeShipping);
@@ -89,13 +91,14 @@ public class GoodService {
 		return  new JSONObject();
 	}
 	//获取一些交易，可选择按书院或关键字筛选
-	public JSONObject getTransaction(Integer startId, Integer range, String academy,String keyword) throws LogicException {
+	public JSONObject getTransaction(Integer startId, Integer range, String academy,String keyword, String tag) throws LogicException {
 		if(range<=0)	throw new  LogicException(501,"参数格式异常");
 		GoodSearch search=new GoodSearch();
 		search.setStartId(startId);
 		search.setAcademy(academy);
 		search.setRange(range);
 		search.setKeyword(keyword);
+		search.setTag(Tag.format(tag));
 		List<Good> good=goodMapper.searchGoods(search);
 		JSONObject json=new JSONObject();
 		JSONArray arr=(JSONArray)JSON.toJSON(good);

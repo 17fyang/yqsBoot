@@ -20,7 +20,7 @@ public interface GoodController {
 	@RequestMapping("/deleteTransaction")
 	 public @ResponseBody String deleteTransaction(Integer transactionId)throws LogicException;
 	@RequestMapping("/getTransaction")
-	 public @ResponseBody String getTransaction(Integer startId,Integer range,String academy,String keyword)throws LogicException;
+	 public @ResponseBody String getTransaction(Integer startId,Integer range,String academy,String keyword,String tag)throws LogicException;
 	@RequestMapping("/getTransactionDetail")
 	public @ResponseBody String getTransactionDetail(Integer id,Integer startId,Integer range) throws LogicException;
 }

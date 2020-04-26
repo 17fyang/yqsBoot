@@ -29,12 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
+			
 		</dependency>
 		
 		<!--  spring所需要的依赖start -->
@@ -91,13 +86,7 @@
 			<version>1.2.58.sec06</version>
 		</dependency>
 
-		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.12</version>
-		    <scope>test</scope>
-		</dependency>
-		
+	
 		<!--  阿里短信服务  -->
 		<dependency>
 		  <groupId>com.aliyun</groupId>
@@ -111,6 +100,19 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
+		
+		<!--文件上传测试-->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.2.1</version>
+		</dependency>
+		
 		
 	<!--  框架以外的框架 end  -->
 	</dependencies>

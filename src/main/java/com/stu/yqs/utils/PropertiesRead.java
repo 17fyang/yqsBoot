@@ -5,8 +5,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-
+@Component
 public class PropertiesRead {
 	private static String staticFileUrl;
 	private static String serverUrl;

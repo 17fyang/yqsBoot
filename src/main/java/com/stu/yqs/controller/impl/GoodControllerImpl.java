@@ -24,8 +24,8 @@ public class GoodControllerImpl implements GoodController {
 		return goodService.deleteTransaction(transactionId).toJSONString();
 	}
 	@Override
-	public String getTransaction(Integer startId, @NecessaryPara Integer range, String academy, String keyword) throws LogicException {
-		return goodService.getTransaction(startId,range,academy,keyword).toJSONString();
+	public String getTransaction(Integer startId, @NecessaryPara Integer range, String academy, String keyword,String tag) throws LogicException {
+		return goodService.getTransaction(startId,range,academy,keyword,tag).toJSONString();
 	}
 	@Override
 	public String getTransactionDetail(@NecessaryPara Integer id,Integer startId,Integer range) throws LogicException {

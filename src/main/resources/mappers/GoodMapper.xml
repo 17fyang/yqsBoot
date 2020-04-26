@@ -46,6 +46,7 @@
     <where>
     <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
     <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
+    <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
     <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
     	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
     </if>

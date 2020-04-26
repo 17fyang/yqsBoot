@@ -20,7 +20,6 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
-import com.stu.yqs.utils.ParameterUtil;
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
@@ -38,6 +37,8 @@ public class UserService {
 	private HttpServletRequest request;
 	@Autowired
 	private IdentityUtil identityUtil;
+	@Autowired
+	private ImageUtil imageUtil;
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -70,8 +71,8 @@ public class UserService {
 		User user = new User();
 		user.setPhoneNumber(phoneNumber_long);
 		user.setPassword(password);
-		user.setIdType(IdType.stringByValue("注册用户"));
-		user.setAcademy(Academy.stringByValue(academy));
+		user.setIdType(IdType.format("注册用户"));
+		user.setAcademy(Academy.format(academy));
 		User selectUser=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(selectUser!=null)	throw new LogicException(502,"该账号已存在");
 		userMapper.insertSelective(user);
@@ -144,11 +145,10 @@ public class UserService {
 		int id=identityUtil.isLogin();
 		if(file==null || file.isEmpty())	throw new LogicException(503,"上传文件为空");
 		
-		ImageUtil imageUtils=new ImageUtil();
-		imageUtils.newFileUrl("headImage", file);
-		String localUrl=imageUtils.getLocalFile();
-		String httpUrl=imageUtils.getHttpFile();
-		boolean compressSuccess=ImageUtil.compressFile(file, localUrl);
+		String newUrl[]=imageUtil.newFileUrl("headImage", file);
+		String localUrl=newUrl[0];
+		String httpUrl=newUrl[1];
+		boolean compressSuccess=imageUtil.compressFile(file, localUrl);
 		if(!compressSuccess)	throw new LogicException(504,"图片格式异常");
 		//数据库处理
 		User user=userMapper.selectByPrimaryKey(id);
@@ -165,7 +165,7 @@ public class UserService {
 		User user=userMapper.selectByPrimaryKey(id);
 		if(name!=null)	user.setName(name);
 		if(emailNumber!=null)	user.setEmailNumber(emailNumber);
-		if(academy!=null)	user.setAcademy(ParameterUtil.getAcademy(academy));
+		if(academy!=null)	user.setAcademy(Academy.format(academy));
 		userMapper.updateByPrimaryKeySelective(user);
 		return (JSONObject)JSONObject.toJSON(user);
 	}

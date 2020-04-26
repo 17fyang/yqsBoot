@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.stu.yqs.YqsBootApplicationTests;
 import com.stu.yqs.controller.UserController;
 
-@Component
+
 public class UserControllerTest extends YqsBootApplicationTests{
 	@Autowired
 	private UserController userController;

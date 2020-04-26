@@ -5,6 +5,7 @@ public class GoodSearch {
 	private Integer range;
 	private String academy;
 	private String keyword;
+	private String tag;
 	public Integer getStartId() {
 		return startId;
 	}
@@ -28,6 +29,12 @@ public class GoodSearch {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 	 
 }
