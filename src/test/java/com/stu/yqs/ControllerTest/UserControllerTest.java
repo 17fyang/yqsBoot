@@ -1,6 +1,6 @@
 package com.stu.yqs.ControllerTest;
+import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.stu.yqs.YqsBootApplicationTests;
 import com.stu.yqs.controller.UserController;
@@ -10,7 +10,7 @@ public class UserControllerTest extends YqsBootApplicationTests{
 	@Autowired
 	private UserController userController;
 	
-	
+	@Ignore
 	public void registerTest() throws Exception {
 		String phoneNumber="1234514522";
 		String password="123456";
@@ -21,14 +21,14 @@ public class UserControllerTest extends YqsBootApplicationTests{
 		System.out.println(userController.Register(phoneNumber, password, academy, verification).toString());
 		System.out.println("-----------------------------");
 	}
-	
+	@Ignore
 	public void verificationCode() throws Exception{
 		String phoneNumber="18476301719";
 		System.out.println("verificationCode测试：");
 		System.out.println(userController.verificationCode(phoneNumber));
 		System.out.println("-----------------------------");
 	}
-	
+	@Ignore
 	public void modifyPassword() throws Exception{
 		String phoneNumber="18476301719";
 		String password="1234569";

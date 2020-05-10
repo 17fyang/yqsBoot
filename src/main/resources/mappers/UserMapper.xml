@@ -16,7 +16,7 @@
     id, phoneNumber, headImage, name, password, academy, idType, emailNumber, registerDate
   </sql>
   <sql id="Part_Column_List">
-    id,  name, password, academy
+    id,  headImage,  name, password, academy
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

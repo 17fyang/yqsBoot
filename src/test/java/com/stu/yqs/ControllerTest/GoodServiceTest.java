@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
@@ -25,6 +26,7 @@ public class GoodServiceTest extends YqsBootApplicationTests{
 	private GoodService goodService;
 	
 	@Test
+	@Ignore
 	public void newTransactionTest() throws FileNotFoundException {
 		String path="classpath:file/test.png";
 		File testFile=ResourceUtils.getFile(path);
@@ -32,12 +34,11 @@ public class GoodServiceTest extends YqsBootApplicationTests{
 		MultipartFile[] file=new MultipartFile[] {multipartFile};
 		String name="testName4.26";
 		String describe="testDescribe4.26";
-		try {
-			goodService.newTransaction(file, name, describe, null, null, null, null, null);
-			System.out.println("dsad");
-		} catch (LogicException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			goodService.newTransaction(file, name, describe, null, null, null, null, null);
+//		} catch (LogicException e) {
+//			e.printStackTrace();
+//		}
 	}
 	private MultipartFile getMulFileByPath(File f,String picPath) {  
         FileItem fileItem = createFileItem(f,picPath);  

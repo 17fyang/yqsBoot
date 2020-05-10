@@ -13,12 +13,12 @@ public class OrderControlerImpl implements OrderController{
 	private OrderService orderService;
 	
 	@Override
-	public String submitAction(@NecessaryPara Integer goodId) throws LogicException {
-		return orderService.submitAction(goodId).toJSONString();
+	public String submitAction(@NecessaryPara Integer goodId,@NecessaryPara Integer addressId) throws LogicException {
+		return orderService.submitAction(goodId,addressId).toJSONString();
 	}
 	@Override
-	public String updateAction(@NecessaryPara Integer goodId,Integer status) throws LogicException {
-		return orderService.updateAction(goodId, status).toJSONString();
+	public String updateAction(@NecessaryPara Integer orderId,@NecessaryPara Short status) throws LogicException {
+		return orderService.updateAction(orderId, status).toJSONString();
 	}
 	@Override
 	public String getListAction(Integer startId, Integer range, Integer sellerId, Integer customerId, Integer status)

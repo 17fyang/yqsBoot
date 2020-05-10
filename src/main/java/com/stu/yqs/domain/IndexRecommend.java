@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class IndexRecommend {
+public class IndexRecommend implements ObjectDomain{
     private Integer id;
 
     private String image;

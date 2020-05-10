@@ -5,6 +5,12 @@ public class Address {
 
     private Integer userId;
 
+    private String name;
+
+    private Long phoneNumber;
+
+    private String academy;
+
     private String content;
 
     private Short isDefault;
@@ -23,6 +29,30 @@ public class Address {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAcademy() {
+        return academy;
+    }
+
+    public void setAcademy(String academy) {
+        this.academy = academy;
     }
 
     public String getContent() {

@@ -1,6 +1,6 @@
 package com.stu.yqs.domain.search;
 
-public class CollectSearch {
+public class CollectSearch implements Search{
 	final private Integer defaultRange=15;
 	private Integer userId;
 	private Integer startId;

@@ -28,17 +28,11 @@ public class IdentityUtil {
 			return true;
 		}
 		
-		//判断手机号格式是否正确
-		public long phoneNumberFormatCheck(String phoneNumber) throws LogicException {
-			String formatCheck = "1{1}\\d{10}";
-			if(!phoneNumber.matches(formatCheck)) throw new  LogicException(501,"手机号格式错误");
-			long  phoneNumber_long=Long.parseLong(phoneNumber);
-			return phoneNumber_long;
-		}
+		
 		
 		//判断用户是否登录
 		public int isLogin() throws LogicException {
-//			if(1==1)	return 44;
+			if(1==1)	return 44;
 			
 			String id=String.valueOf( request.getSession().getAttribute("id"));
 			if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");

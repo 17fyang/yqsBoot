@@ -29,14 +29,21 @@
 			
 			 
 		
-		<table tableName="address"  domainObjectName="Address"
+		<table tableName="charitySell"  domainObjectName="CharitySell"
 		enableCountByExample="false"
 		enableUpdateByExample="false"
 		enableDeleteByExample="false"
 		enableSelectByExample="false"
 		selectByExampleQueryId="false">
-		<columnOverride column="userid" property="userId" />
-		<columnOverride column="isdefault" property="isDefault" />
+		<columnOverride column="gooddescribe" property="goodDescribe" />
+		<columnOverride column="originalprice" property="originalPrice" />
+		<columnOverride column="isnew" property="isNew" />
+		<columnOverride column="freeshipping" property="freeShipping" />
+		<columnOverride column="ownerid" property="ownerId"/>
+		<columnOverride column="publishtime" property="publishTime" />
+		<columnOverride column="thumbnumber" property="thumbNumber" />
+		<columnOverride column="browsenumber" property="browseNumber" />
+		<columnOverride column="reviewnumber" property="reviewNumber"/>
 		</table>
 		
 		

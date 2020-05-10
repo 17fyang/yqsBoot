@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stu.yqs.dao.GoodMapper">
-  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Good">
+<mapper namespace="com.stu.yqs.dao.CharitySellMapper">
+  <resultMap id="BaseResultMap" type="com.stu.yqs.domain.CharitySell">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="goodDescribe" jdbcType="VARCHAR" property="goodDescribe" />
-    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="tag" jdbcType="CHAR" property="tag" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="originalPrice" jdbcType="DOUBLE" property="originalPrice" />
     <result column="postage" jdbcType="DOUBLE" property="postage" />
-    <result column="isNew" jdbcType="CHAR" property="isNew" />
+    <result column="isNew" jdbcType="VARCHAR" property="isNew" />
     <result column="freeShipping" jdbcType="CHAR" property="freeShipping" />
     <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
     <result column="academy" jdbcType="CHAR" property="academy" />
@@ -17,7 +17,7 @@
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="thumbNumber" jdbcType="INTEGER" property="thumbNumber" />
     <result column="browseNumber" jdbcType="INTEGER" property="browseNumber" />
-    <result column="reviewNumber" jdbcType="INTEGER" property="reviewNumber"/>
+    <result column="reviewNumber" jdbcType="INTEGER" property="reviewNumber" />
     <result column="state" jdbcType="CHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -27,60 +27,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from yqs_good
+    from charitysell
     where id = #{id,jdbcType=INTEGER}
   </select>
-  
-  <!-- 自定义sql start -->
-  <select id="searchLikeGoods" parameterType="java.lang.String" resultType="java.lang.String">
-    select name
-    from yqs_good
-    where name like concat('%',#{input,jdbcType=CHAR},'%')
-    order by publishTime desc
-    limit 6
-  </select>
-  
-  <select id="searchGoods" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from yqs_good
-    <where>
-    <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
-    <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
-    <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
-    <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
-    	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
-    </if>
-    and state = '1'
-    </where>
-    order by id desc
-   	<choose>
-   		<when test="range!=null">limit #{range,jdbcType=INTEGER}</when>
-   		<otherwise>limit 15</otherwise>
-   	</choose>
-  </select>
-  <!-- 自定义sql end -->
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from yqs_good
+    delete from charitysell
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.stu.yqs.domain.Good" useGeneratedKeys="true" keyProperty="id">
-    insert into yqs_good (id, name, goodDescribe, 
+  <insert id="insert" parameterType="com.stu.yqs.domain.CharitySell">
+    insert into charitysell (id, name, goodDescribe, 
       tag, price, originalPrice, 
       postage, isNew, freeShipping, 
       ownerId, academy, publishTime, 
       image, thumbNumber, browseNumber, 
       reviewNumber, state)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodDescribe,jdbcType=VARCHAR}, 
-      #{tag,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{originalPrice,jdbcType=DOUBLE}, 
-      #{postage,jdbcType=DOUBLE}, #{isNew,jdbcType=CHAR}, #{freeShipping,jdbcType=CHAR}, 
+      #{tag,jdbcType=CHAR}, #{price,jdbcType=DOUBLE}, #{originalPrice,jdbcType=DOUBLE}, 
+      #{postage,jdbcType=DOUBLE}, #{isNew,jdbcType=VARCHAR}, #{freeShipping,jdbcType=CHAR}, 
       #{ownerId,jdbcType=INTEGER}, #{academy,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
       #{image,jdbcType=VARCHAR}, #{thumbNumber,jdbcType=INTEGER}, #{browseNumber,jdbcType=INTEGER}, 
       #{reviewNumber,jdbcType=INTEGER}, #{state,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Good"  useGeneratedKeys="true" keyProperty="id">
-    insert into yqs_good
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.CharitySell">
+    insert into charitysell
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -145,7 +114,7 @@
         #{goodDescribe,jdbcType=VARCHAR},
       </if>
       <if test="tag != null">
-        #{tag,jdbcType=VARCHAR},
+        #{tag,jdbcType=CHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=DOUBLE},
@@ -157,7 +126,7 @@
         #{postage,jdbcType=DOUBLE},
       </if>
       <if test="isNew != null">
-        #{isNew,jdbcType=CHAR},
+        #{isNew,jdbcType=VARCHAR},
       </if>
       <if test="freeShipping != null">
         #{freeShipping,jdbcType=CHAR},
@@ -180,7 +149,7 @@
       <if test="browseNumber != null">
         #{browseNumber,jdbcType=INTEGER},
       </if>
-      <if test="reviewNumber  != null">
+      <if test="reviewNumber != null">
         #{reviewNumber,jdbcType=INTEGER},
       </if>
       <if test="state != null">
@@ -188,8 +157,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.Good">
-    update yqs_good
+  <update id="updateByPrimaryKeySelective" parameterType="com.stu.yqs.domain.CharitySell">
+    update charitysell
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -198,7 +167,7 @@
         goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
       </if>
       <if test="tag != null">
-        tag = #{tag,jdbcType=VARCHAR},
+        tag = #{tag,jdbcType=CHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DOUBLE},
@@ -210,7 +179,7 @@
         postage = #{postage,jdbcType=DOUBLE},
       </if>
       <if test="isNew != null">
-        isNew = #{isNew,jdbcType=CHAR},
+        isNew = #{isNew,jdbcType=VARCHAR},
       </if>
       <if test="freeShipping != null">
         freeShipping = #{freeShipping,jdbcType=CHAR},
@@ -233,7 +202,7 @@
       <if test="browseNumber != null">
         browseNumber = #{browseNumber,jdbcType=INTEGER},
       </if>
-      <if test="reviewNumber  != null">
+      <if test="reviewNumber != null">
         reviewNumber = #{reviewNumber,jdbcType=INTEGER},
       </if>
       <if test="state != null">
@@ -242,15 +211,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Good">
-    update yqs_good
+  <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.CharitySell">
+    update charitysell
     set name = #{name,jdbcType=VARCHAR},
       goodDescribe = #{goodDescribe,jdbcType=VARCHAR},
-      tag = #{tag,jdbcType=VARCHAR},
+      tag = #{tag,jdbcType=CHAR},
       price = #{price,jdbcType=DOUBLE},
       originalPrice = #{originalPrice,jdbcType=DOUBLE},
       postage = #{postage,jdbcType=DOUBLE},
-      isNew = #{isNew,jdbcType=CHAR},
+      isNew = #{isNew,jdbcType=VARCHAR},
       freeShipping = #{freeShipping,jdbcType=CHAR},
       ownerId = #{ownerId,jdbcType=INTEGER},
       academy = #{academy,jdbcType=CHAR},

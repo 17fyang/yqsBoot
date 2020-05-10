@@ -1,6 +1,6 @@
 package com.stu.yqs.domain.search;
 
-public class ThumbSearch {
+public class ThumbSearch{
 	private Integer thumberId;
 	private Integer goodId;
 	public ThumbSearch() {

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Feedback {
+public class Feedback implements ObjectDomain{
     private Integer id;
 
     private Integer userId;

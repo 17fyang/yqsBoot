@@ -5,7 +5,7 @@ import java.util.Date;
 import com.alibaba.fastjson.annotation.JSONField;
 
 
-public class User {
+public class User implements ObjectDomain{
     private Integer id;
 
     private String headImage;

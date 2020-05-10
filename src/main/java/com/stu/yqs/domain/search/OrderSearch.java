@@ -1,6 +1,6 @@
 package com.stu.yqs.domain.search;
 
-public class OrderSearch {
+public class OrderSearch implements Search{
 	private Integer startId;
 	private Integer range;
 	private Integer sellerId;

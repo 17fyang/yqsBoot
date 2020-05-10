@@ -12,9 +12,9 @@ import com.stu.yqs.aspect.LogicException;
 @RequestMapping("/yqs/order")
 public interface OrderController {
 	@RequestMapping("/submitAction")
-	 public @ResponseBody String submitAction(Integer goodId)throws LogicException;
+	 public @ResponseBody String submitAction(Integer goodId,Integer addressId)throws LogicException;
 	@RequestMapping("/updateAction")
-	 public @ResponseBody String updateAction(Integer goodId,Integer status)throws LogicException;
+	 public @ResponseBody String updateAction(Integer orderId,Short status)throws LogicException;
 	@RequestMapping("/getListAction")
 	 public @ResponseBody String getListAction(Integer startId,Integer range,Integer sellerId,
 			 Integer customerId,Integer status)throws LogicException;

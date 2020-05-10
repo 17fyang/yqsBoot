@@ -4,21 +4,32 @@
   <resultMap id="BaseResultMap" type="com.stu.yqs.domain.Address">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phoneNumber" jdbcType="BIGINT" property="phoneNumber" />
+    <result column="academy" jdbcType="CHAR" property="academy" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="isDefault" jdbcType="SMALLINT" property="isDefault" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, userId, content, isDefault
+    id, userId, name, phoneNumber, academy, content, isDefault
   </sql>
-  <!-- 自定义sql start -->
+  
+    <!-- 自定义sql start -->
+    <select id="selectDefaultByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where userId = #{userId,jdbcType=INTEGER}
+    and isDefault=1
+    limit 1
+  </select>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from address
-    where userid = #{userId,jdbcType=INTEGER}
+    where userId = #{userId,jdbcType=INTEGER}
   </select>
   <!-- 自定义sql end -->
-  
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -31,12 +42,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stu.yqs.domain.Address">
-    insert into address (id, userId, content, 
+    insert into address (id, userId, name, 
+      phoneNumber, academy, content, 
       isDefault)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{phoneNumber,jdbcType=BIGINT}, #{academy,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
       #{isDefault,jdbcType=SMALLINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address">
     insert into address
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -44,6 +57,15 @@
       </if>
       <if test="userId != null">
         userId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phoneNumber != null">
+        phoneNumber,
+      </if>
+      <if test="academy != null">
+        academy,
       </if>
       <if test="content != null">
         content,
@@ -59,6 +81,15 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=BIGINT},
+      </if>
+      <if test="academy != null">
+        #{academy,jdbcType=CHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -73,6 +104,15 @@
       <if test="userId != null">
         userId = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phoneNumber = #{phoneNumber,jdbcType=BIGINT},
+      </if>
+      <if test="academy != null">
+        academy = #{academy,jdbcType=CHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -85,6 +125,9 @@
   <update id="updateByPrimaryKey" parameterType="com.stu.yqs.domain.Address">
     update address
     set userId = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      phoneNumber = #{phoneNumber,jdbcType=BIGINT},
+      academy = #{academy,jdbcType=CHAR},
       content = #{content,jdbcType=VARCHAR},
       isDefault = #{isDefault,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}

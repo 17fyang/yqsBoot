@@ -1,6 +1,6 @@
 package com.stu.yqs.daoTest;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stu.yqs.YqsBootApplicationTests;
@@ -12,13 +12,12 @@ public class UserMapperTest extends YqsBootApplicationTests{
 	@Autowired
 	private UserMapper userMapper;
 	
-	@Test
+	@Ignore
 	public void userTest() throws Exception {
 		User user=new User();
 		user.setAcademy(Academy.format("其他"));
 		user.setPassword("123456");
 		user.setPhoneNumber(11712345679L);
-		
 		int id=userMapper.insertSelective(user);
 		System.out.println("注册账号："+id);
 	}

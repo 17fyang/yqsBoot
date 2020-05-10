@@ -2,7 +2,9 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
-public class Order {
+import com.alibaba.fastjson.annotation.JSONField;
+
+public class Order implements ObjectDomain{
     private Integer id;
 
     private Integer customerId;
@@ -12,7 +14,8 @@ public class Order {
     private Integer goodId;
 
     private Short status;
-
+    
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date establishTime;
 
     public Integer getId() {

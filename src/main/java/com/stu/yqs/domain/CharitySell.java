@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Good implements ObjectDomain{
+public class CharitySell {
     private Integer id;
 
     private String name;
@@ -31,18 +31,16 @@ public class Good implements ObjectDomain{
     private Date publishTime;
 
     private String image;
-    
+
     private Integer thumbNumber;
 
     private Integer browseNumber;
 
-    private Integer reviewNumber ;
+    private Integer reviewNumber;
 
     private String state;
 
-    public Good() {}
-    
-    public Good(Integer id,String name,String goodDescribe,String tag,Double price,
+    public CharitySell(Integer id,String name,String goodDescribe,String tag,Double price,
     		Double originalPrice,Double postage,String isNew,String freeShipping,
     		Integer ownerId,String academy,Date publishTime,String image,String state) {
     	this.id=id;
@@ -59,6 +57,24 @@ public class Good implements ObjectDomain{
     	this.publishTime=publishTime;
     	this.image=image;
     	this.state=state;
+    }
+    
+    public String[] getImages() {
+    	if(this.image==null || this.image.equals(""))	return null;
+        return image.split("_split_");
+    }
+
+    public void setImages(String[] images) {
+    	if(images==null || images.length==0) {
+    		this.image=null;
+    		return;
+    	}
+    	StringBuilder sb=new StringBuilder();
+        for(int i=0;i<images.length;i++) {
+        	if(i==0)	sb.append(images[i]);
+        	else	sb.append("_split_"+images[i]);
+        }
+        this.image=sb.toString();
     }
     
     public Integer getId() {
@@ -164,24 +180,6 @@ public class Good implements ObjectDomain{
     public void setImage(String image) {
         this.image = image;
     }
-    
-    public String[] getImages() {
-    	if(this.image==null || this.image.equals(""))	return null;
-        return image.split("_split_");
-    }
-
-    public void setImages(String[] images) {
-    	if(images==null || images.length==0) {
-    		this.image=null;
-    		return;
-    	}
-    	StringBuilder sb=new StringBuilder();
-        for(int i=0;i<images.length;i++) {
-        	if(i==0)	sb.append(images[i]);
-        	else	sb.append("_split_"+images[i]);
-        }
-        this.image=sb.toString();
-    }
 
     public Integer getThumbNumber() {
         return thumbNumber;
@@ -199,14 +197,14 @@ public class Good implements ObjectDomain{
         this.browseNumber = browseNumber;
     }
 
-    public Integer getReviewNumber () {
-        return reviewNumber ;
+    public Integer getReviewNumber() {
+        return reviewNumber;
     }
 
-    public void setReviewNumber (Integer reviewNumber ) {
-        this.reviewNumber  = reviewNumber ;
+    public void setReviewNumber(Integer reviewNumber) {
+        this.reviewNumber = reviewNumber;
     }
-    
+
     public String getState() {
         return state;
     }

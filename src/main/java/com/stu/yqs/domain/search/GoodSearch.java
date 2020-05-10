@@ -1,6 +1,6 @@
 package com.stu.yqs.domain.search;
 
-public class GoodSearch {
+public class GoodSearch implements Search{
 	private Integer startId;
 	private Integer range;
 	private String academy;

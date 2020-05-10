@@ -18,6 +18,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.stu.yqs.utils.FormatUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
 import com.stu.yqs.aspect.LogicException;
@@ -40,6 +41,8 @@ public class UserService {
 	@Autowired
 	private ImageUtil imageUtil;
 	@Autowired
+	private FormatUtil formatUtil;
+	@Autowired
 	private UserMapper userMapper;
 	
 	//获取已登录用户个人信息
@@ -53,7 +56,8 @@ public class UserService {
 	}
 	//用户登录
 	public JSONObject login(String phoneNumber,String password)  throws LogicException{
-		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
+		formatUtil.phoneNumber(phoneNumber);
+		long phoneNumber_long=Long.parseLong(phoneNumber);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");
 		else if(!user.getPassword().equals(password))	throw new LogicException(503,"输入密码错误");
@@ -66,7 +70,8 @@ public class UserService {
 	}
 	//用户注册，需要先获取验证码
 	public JSONObject register(String phoneNumber,String password,String academy,String verification) throws LogicException{
-		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
+		formatUtil.phoneNumber(phoneNumber);
+		long phoneNumber_long=Long.parseLong(phoneNumber);
 		identityUtil.verificationIsEqual(phoneNumber,verification);
 		User user = new User();
 		user.setPhoneNumber(phoneNumber_long);
@@ -82,7 +87,7 @@ public class UserService {
 	}
 	//获取验证码
 	public JSONObject verificationCode(String phoneNumber) throws LogicException {
-		identityUtil.phoneNumberFormatCheck(phoneNumber);
+		formatUtil.phoneNumber(phoneNumber);
 		//生成验证码
 		int random=(int)(Math.random()*900000)+100000;
 		String verification=String.valueOf(random);
@@ -127,7 +132,8 @@ public class UserService {
 	}
 	//修改密码，需要先获取验证码
 	public JSONObject modifyPassword(String phoneNumber, String newPassword, String verification) throws LogicException {
-		long phoneNumber_long=identityUtil.phoneNumberFormatCheck(phoneNumber);
+		formatUtil.phoneNumber(phoneNumber);
+		long phoneNumber_long=Long.parseLong(phoneNumber);
 		identityUtil.verificationIsEqual(phoneNumber,verification);
 		User user=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(user==null)	throw new LogicException(502,"未找到该用户");

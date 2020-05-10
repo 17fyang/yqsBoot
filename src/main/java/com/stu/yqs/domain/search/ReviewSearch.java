@@ -1,6 +1,6 @@
 package com.stu.yqs.domain.search;
 
-public class ReviewSearch {
+public class ReviewSearch implements Search{
 	private Integer startId;
 	private Integer range;
 	private Integer goodId;

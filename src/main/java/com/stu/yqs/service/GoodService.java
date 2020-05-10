@@ -22,8 +22,10 @@ import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Tag;
 import com.stu.yqs.domain.search.GoodSearch;
 import com.stu.yqs.domain.search.ReviewSearch;
+import com.stu.yqs.utils.GoodUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
+import com.stu.yqs.utils.OutputUtil;
 
 @Service
 public class GoodService {
@@ -39,8 +41,13 @@ public class GoodService {
 	private IdentityUtil identityUtil;
 	@Autowired
 	private ImageUtil imageUtil;
+	@Autowired
+	private GoodUtil goodUtil;
+	@Autowired
+	private OutputUtil outputUtil;
 	//发布一个交易
 	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
+		System.out.println("sdasd");
 		int id=identityUtil.isLogin();
 		if(name==null) throw new LogicException(501,"请填写物品名");
 		if(describe==null) throw new LogicException(501,"请填写物品描述");
@@ -86,7 +93,7 @@ public class GoodService {
 		Good good=goodMapper.selectByPrimaryKey(transactionId);
 		if(good==null)		throw new LogicException(501,"未找到该id");
 		if(good.getOwnerId()!=id)	throw new LogicException(503,"只能操作自已发起的交易");
-		good.setState("4");
+		good.setState(String.valueOf(GoodUtil.DELETED));
 		goodMapper.updateByPrimaryKeySelective(good);
 		return  new JSONObject();
 	}
@@ -99,40 +106,30 @@ public class GoodService {
 		search.setRange(range);
 		search.setKeyword(keyword);
 		search.setTag(Tag.format(tag));
-		List<Good> good=goodMapper.searchGoods(search);
-		JSONObject json=new JSONObject();
-		JSONArray arr=(JSONArray)JSON.toJSON(good);
-		json.put("length", good.size());
-		boolean isEnd=false;
-		if((range==null && good.size()<15) || (range!=null && good.size()<range))	isEnd=true;
-		json.put("isEnd",isEnd);
-		if(!isEnd)		json.put("nextId",good.get(good.size()-1).getId());
-		json.put("arr", arr);
-		return json;
+		JSONArray arr=(JSONArray) JSONArray.toJSON(goodMapper.searchGoods(search));
+		JSONArray newArr=goodUtil.addMessage(arr);
+		return outputUtil.lazyLoading(newArr, range);
 	}
 	
 	//查看一个交易的全部详细信息
 	public JSON getTransactionDetail(Integer id, Integer startId, Integer range) throws LogicException {
-		int defaultReview=20;
 		Good good=goodMapper.selectByPrimaryKey(id);
 		if(good==null) throw new LogicException(503,"该帖子不存在");
 		//如果是第一次访问则给该帖子加上一次访问量
 		if(startId==null)	addBrowse(good);
+		JSONObject json=(JSONObject) JSONObject.toJSON(good);
+		User seller=userMapper.selectPartByPrimaryKey(good.getOwnerId());
+		json.put("sellerName", seller.getName());
+		json.put("sellerImage", seller.getHeadImage());
+		//添加评论数据
 		ReviewSearch reviewSearch=new ReviewSearch();
 		reviewSearch.setRange(range);
 		reviewSearch.setStartId(startId);
 		reviewSearch.setGoodId(good.getId());
 		List<Review> reviewList=reviewMapper.searchReview(reviewSearch);
-		JSONArray array=getFullReviewList(reviewList);
-		JSONObject reviewJson=new JSONObject();
-		reviewJson.put("arr", array);
-		reviewJson.put("length", reviewList.size());
-		boolean isEnd=false;
-		if((range==null && reviewList.size()<defaultReview) || (range!=null && reviewList.size()<range))	isEnd=true;
-		reviewJson.put("isEnd", isEnd);
-		if(!isEnd)		reviewJson.put("nextId",reviewList.get(reviewList.size()-1).getId());
-		JSONObject json=(JSONObject)JSONObject.toJSON(good);
-		json.put("review", reviewJson);
+		JSONArray array=goodUtil.getFullReviewList(reviewList);
+		json.put("review", outputUtil.lazyLoading(array, range));
+		
 		return json;
 	}
 	//给该交易加上一次访问量
@@ -151,20 +148,6 @@ public class GoodService {
 			browseMapper.insertSelective(browse);
 		} catch (LogicException e) {
 		}
-		
 	}
-	//把评论列表中的用户id名字补上后返回jsonarray
-	private JSONArray getFullReviewList(List<Review> reviewList) {
-		JSONArray array=new JSONArray();
-		for(int i=0;i<reviewList.size();i++) {
-			Review review=reviewList.get(i);
-			User user=userMapper.selectPartByPrimaryKey(review.getReviewerId());
-			JSONObject json=(JSONObject)JSONObject.toJSON(review);
-			json.remove("goodId");
-			json.put("name", user.getName());
-			json.put("academy", user.getAcademy());
-			array.add(json);
-		}
-		return array;
-	}
+	
 }

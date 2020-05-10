@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Browse {
+public class Browse implements ObjectDomain{
     private Integer id;
 
     private Integer goodId;
