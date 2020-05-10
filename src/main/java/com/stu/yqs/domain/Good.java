@@ -37,6 +37,8 @@ public class Good implements ObjectDomain{
     private Integer browseNumber;
 
     private Integer reviewNumber ;
+    
+    private Integer goodType;
 
     private String state;
 
@@ -214,4 +216,13 @@ public class Good implements ObjectDomain{
     public void setState(String state) {
         this.state = state;
     }
+
+	public Integer getGoodType() {
+		return goodType;
+	}
+
+	public void setGoodType(Integer goodType) {
+		this.goodType = goodType;
+	}
+    
 }

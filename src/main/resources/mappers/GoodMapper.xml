@@ -18,11 +18,12 @@
     <result column="thumbNumber" jdbcType="INTEGER" property="thumbNumber" />
     <result column="browseNumber" jdbcType="INTEGER" property="browseNumber" />
     <result column="reviewNumber" jdbcType="INTEGER" property="reviewNumber"/>
+    <result column="goodType" jdbcType="INTEGER" property="goodType"/>
     <result column="state" jdbcType="CHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, goodDescribe, tag, price, originalPrice, postage, isNew, freeShipping, 
-    ownerId, academy, publishTime, image, thumbNumber, browseNumber, reviewNumber, state
+    ownerId, academy, publishTime, image, thumbNumber, browseNumber, reviewNumber, goodType, state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,12 +33,15 @@
   </select>
   
   <!-- 自定义sql start -->
-  <select id="searchLikeGoods" parameterType="java.lang.String" resultType="java.lang.String">
+  <select id="searchLikeGoods" parameterType="com.stu.yqs.domain.search.SimilarGood" resultType="java.lang.String">
     select name
     from yqs_good
-    where name like concat('%',#{input,jdbcType=CHAR},'%')
+    <where>
+    	and name like concat('%',#{content,jdbcType=CHAR},'%')
+    <if test="goodType!=null">and goodType =#{goodType,jdbcType=INTEGERE}</if>
+    </where>
     order by publishTime desc
-    limit 6
+    limit #{DefaultNSearchNumber,jdbcType=INTEGERE}
   </select>
   
   <select id="searchGoods" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">
@@ -48,6 +52,7 @@
     <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
     <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
     <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
+    <if test="goodType!=null">and goodType =#{goodType,jdbcType=INTEGER}</if>
     <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
     	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
     </if>
@@ -71,13 +76,13 @@
       postage, isNew, freeShipping, 
       ownerId, academy, publishTime, 
       image, thumbNumber, browseNumber, 
-      reviewNumber, state)
+      reviewNumber, goodType, state)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{goodDescribe,jdbcType=VARCHAR}, 
       #{tag,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{originalPrice,jdbcType=DOUBLE}, 
       #{postage,jdbcType=DOUBLE}, #{isNew,jdbcType=CHAR}, #{freeShipping,jdbcType=CHAR}, 
       #{ownerId,jdbcType=INTEGER}, #{academy,jdbcType=CHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
       #{image,jdbcType=VARCHAR}, #{thumbNumber,jdbcType=INTEGER}, #{browseNumber,jdbcType=INTEGER}, 
-      #{reviewNumber,jdbcType=INTEGER}, #{state,jdbcType=CHAR})
+      #{reviewNumber,jdbcType=INTEGER}, #{goodType,jdbcType=INTEGER}, #{state,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.stu.yqs.domain.Good"  useGeneratedKeys="true" keyProperty="id">
     insert into yqs_good
@@ -129,6 +134,9 @@
       </if>
       <if test="reviewNumber != null">
         reviewNumber,
+      </if>
+      <if test="goodType != null">
+        goodType,
       </if>
       <if test="state != null">
         state,
@@ -183,6 +191,9 @@
       <if test="reviewNumber  != null">
         #{reviewNumber,jdbcType=INTEGER},
       </if>
+      <if test="goodType  != null">
+        #{goodType,jdbcType=INTEGER},
+      </if>
       <if test="state != null">
         #{state,jdbcType=CHAR},
       </if>
@@ -236,6 +247,9 @@
       <if test="reviewNumber  != null">
         reviewNumber = #{reviewNumber,jdbcType=INTEGER},
       </if>
+      <if test="goodType != null">
+        goodType = #{goodType,jdbcType=INTEGER},
+      </if>
       <if test="state != null">
         state = #{state,jdbcType=CHAR},
       </if>
@@ -259,6 +273,7 @@
       thumbNumber = #{thumbNumber,jdbcType=INTEGER},
       browseNumber = #{browseNumber,jdbcType=INTEGER},
       reviewNumber = #{reviewNumber,jdbcType=INTEGER},
+      goodType = #{goodType,jdbcType=INTEGER},
       state = #{state,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

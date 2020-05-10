@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.GoodMapper;
 import com.stu.yqs.dao.SearchMapper;
+import com.stu.yqs.domain.search.SimilarGood;
 import com.stu.yqs.utils.IdentityUtil;
 /*
  * author:yf
@@ -32,7 +33,7 @@ public class SearchService {
 		return arr;
 	}
 	public JSONArray helperAction(String input) throws LogicException {
-		List<String> list=goodMapper.searchLikeGoods(input);
+		List<String> list=goodMapper.searchLikeGoods(new SimilarGood(0,input));
 		JSONArray arr=(JSONArray) JSONArray.toJSON(list);
 		return arr;
 	}

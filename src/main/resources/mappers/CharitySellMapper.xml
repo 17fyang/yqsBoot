@@ -24,14 +24,45 @@
     id, name, goodDescribe, tag, price, originalPrice, postage, isNew, freeShipping, 
     ownerId, academy, publishTime, image, thumbNumber, browseNumber, reviewNumber, state
   </sql>
+  
+   <!-- 自定义sql start -->
+  <select id="searchLikeCharitySells" parameterType="java.lang.String" resultType="java.lang.String">
+    select name
+    from charitySell
+    where name like concat('%',#{input,jdbcType=CHAR},'%')
+    order by publishTime desc
+    limit 6
+  </select>
+  
+  <select id="searchCharitySells" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charitySell
+    <where>
+    <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
+    <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
+    <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
+    <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
+    	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
+    </if>
+    and state = '1'
+    </where>
+    order by id desc
+   	<choose>
+   		<when test="range!=null">limit #{range,jdbcType=INTEGER}</when>
+   		<otherwise>limit 15</otherwise>
+   	</choose>
+  </select>
+  <!-- 自定义sql end -->
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from charitysell
+    from charitySell
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from charitysell
+    delete from charitySell
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stu.yqs.domain.CharitySell">

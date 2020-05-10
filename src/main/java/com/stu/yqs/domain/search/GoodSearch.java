@@ -3,6 +3,7 @@ package com.stu.yqs.domain.search;
 public class GoodSearch implements Search{
 	private Integer startId;
 	private Integer range;
+	private Integer goodType;
 	private String academy;
 	private String keyword;
 	private String tag;
@@ -36,5 +37,10 @@ public class GoodSearch implements Search{
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	 
+	public Integer getGoodType() {
+		return goodType;
+	}
+	public void setGoodType(Integer goodType) {
+		this.goodType = goodType;
+	}
 }

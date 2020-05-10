@@ -2,8 +2,6 @@ package com.stu.yqs.domain;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class Review implements ObjectDomain{

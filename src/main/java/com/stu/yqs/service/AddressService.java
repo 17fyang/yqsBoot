@@ -48,7 +48,8 @@ public class AddressService {
 		formatUtil.addressDefault(isDefault);
 		formatUtil.academy(academy);
 		formatUtil.phoneNumber(phoneNumber);
-		long phoneNumber_long=Long.parseLong(phoneNumber);
+		Long phoneNumber_long=null;
+		if(phoneNumber!=null)	phoneNumber_long=Long.parseLong(phoneNumber);
 		Address address=addressMapper.selectByPrimaryKey(id);
 		if(address==null)	throw new LogicException(501,"该地址不存在");
 		if(userId!=address.getUserId())	throw  new LogicException(501,"只能操作自己的地址");

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.search.GoodSearch;
+import com.stu.yqs.domain.search.SimilarGood;
 @Repository
 @Mapper
 public interface GoodMapper {
@@ -20,7 +21,7 @@ public interface GoodMapper {
     
     List<Good> searchGoods(GoodSearch record);
     
-    List<String> searchLikeGoods(String input);
+    List<String> searchLikeGoods(SimilarGood similar);
 
     int updateByPrimaryKeySelective(Good record);
 

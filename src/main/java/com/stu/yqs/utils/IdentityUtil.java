@@ -32,7 +32,7 @@ public class IdentityUtil {
 		
 		//判断用户是否登录
 		public int isLogin() throws LogicException {
-			if(1==1)	return 44;
+//			if(1==1)	return 44;
 			
 			String id=String.valueOf( request.getSession().getAttribute("id"));
 			if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");

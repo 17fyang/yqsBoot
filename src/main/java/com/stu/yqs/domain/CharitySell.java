@@ -40,6 +40,8 @@ public class CharitySell {
 
     private String state;
 
+    public CharitySell() {}
+    
     public CharitySell(Integer id,String name,String goodDescribe,String tag,Double price,
     		Double originalPrice,Double postage,String isNew,String freeShipping,
     		Integer ownerId,String academy,Date publishTime,String image,String state) {

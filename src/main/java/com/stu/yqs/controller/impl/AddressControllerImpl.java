@@ -14,7 +14,7 @@ public class AddressControllerImpl implements AddressController{
 	
 	@Override
 	public String addAction(@NecessaryPara String name,@NecessaryPara String phoneNumber,
-			@NecessaryPara String academy,@NecessaryPara String content,@NecessaryPara Short isDefault) throws LogicException {
+			@NecessaryPara String academy,@NecessaryPara String content,Short isDefault) throws LogicException {
 		return addressService.addAction(name,phoneNumber,academy,content,isDefault).toJSONString();
 	}
 	@Override

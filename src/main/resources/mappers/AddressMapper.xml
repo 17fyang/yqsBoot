@@ -49,7 +49,7 @@
       #{phoneNumber,jdbcType=BIGINT}, #{academy,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
       #{isDefault,jdbcType=SMALLINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address">
+  <insert id="insertSelective" parameterType="com.stu.yqs.domain.Address"  useGeneratedKeys="true" keyProperty="id">
     insert into address
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
