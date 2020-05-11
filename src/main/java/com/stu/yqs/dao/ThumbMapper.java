@@ -9,6 +9,8 @@ import com.stu.yqs.domain.search.ThumbSearch;
 @Mapper
 public interface ThumbMapper {
     int deleteByPrimaryKey(Integer id);
+    
+    int deleteByGoodId(Integer goodId);
 
     int insert(Thumb record);
 

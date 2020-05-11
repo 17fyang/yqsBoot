@@ -78,6 +78,8 @@ public class UserService {
 		user.setPassword(password);
 		user.setIdType(IdType.format("注册用户"));
 		user.setAcademy(Academy.format(academy));
+		user.setName(academy+"_"+phoneNumber_long%10000);
+		user.setHeadImage("http://120.79.175.145:80/file/headImage/default.png");
 		User selectUser=userMapper.selectByPhoneNumber(phoneNumber_long);
 		if(selectUser!=null)	throw new LogicException(502,"该账号已存在");
 		userMapper.insertSelective(user);

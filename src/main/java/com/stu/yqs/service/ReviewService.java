@@ -14,6 +14,7 @@ import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.Review;
 import com.stu.yqs.domain.Thumb;
 import com.stu.yqs.domain.search.ThumbSearch;
+import com.stu.yqs.utils.GoodUtil;
 import com.stu.yqs.utils.IdentityUtil;
 @Service
 public class ReviewService {
@@ -25,6 +26,8 @@ public class ReviewService {
 	private GoodMapper goodMapper;
 	@Autowired
 	private IdentityUtil identityUtil;
+	@Autowired
+	private GoodUtil goodUtil;
 	
 	 @Transactional(rollbackFor = {Exception.class, Error.class})
 	public JSONObject review(Integer goodId, String content) throws LogicException{
@@ -76,11 +79,16 @@ public class ReviewService {
 		return json;
 	}
 
+	@Transactional(rollbackFor = {Exception.class, Error.class})
 	public JSONObject deleteThumb(Integer goodId) throws LogicException {
 		int thumberId=identityUtil.isLogin();
 		Thumb thumb=thumbMapper.selectAppoint(new ThumbSearch(thumberId,goodId));
 		if(thumb==null)	throw new LogicException(503,"还未点赞");
-		thumbMapper.deleteByPrimaryKey(goodId);
+		thumbMapper.deleteByGoodId(goodId);
+		
+		Good good=goodUtil.stateNormal(goodId);
+		good.setThumbNumber(good.getThumbNumber()-1);
+		goodMapper.updateByPrimaryKeySelective(good);
 		return new JSONObject();
 	}
 	

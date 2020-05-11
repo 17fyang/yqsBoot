@@ -42,6 +42,7 @@ public class GoodUtil {
 
 	//检测状态是否正常
 	public Good stateNormal(Integer goodId) throws LogicException {
+		if(goodId==null)	throw new LogicException(509,"空参数");
 		Good good=goodMapper.selectByPrimaryKey(goodId);
 		if(good==null)	throw new LogicException(501,"不存在该商品");
 		if(good.getState().equals("2"))	throw new LogicException(501,"该商品已被购买");
@@ -51,6 +52,7 @@ public class GoodUtil {
 
 	//检测该商品是否存在
 	public int hasGood(Integer goodId) throws LogicException {
+		if(goodId==null)	throw new LogicException(509,"空参数");
 		Good good=goodMapper.selectByPrimaryKey(goodId);
 		if(good==null)	throw new LogicException(501,"不存在该商品");
 		return good.getOwnerId();

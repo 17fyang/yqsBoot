@@ -23,6 +23,14 @@
     where goodId = #{goodId,jdbcType=INTEGER} 
     and thumberId=#{thumberId,jdbcType=INTEGER}
   </select>
+  
+  <!-- 自定义sql start -->
+  <delete id="deleteByGoodId" parameterType="java.lang.Integer">
+    delete from thumb
+    where goodId = #{goodId,jdbcType=INTEGER}
+  </delete>
+  <!-- 自定义sql end -->
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from thumb
     where id = #{id,jdbcType=INTEGER}
