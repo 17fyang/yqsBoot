@@ -1,17 +1,19 @@
 package com.stu.yqs.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.aspect.LogicException;
+import com.stu.yqs.dao.AddressMapper;
+import com.stu.yqs.dao.GoodMapper;
 import com.stu.yqs.dao.OrderMapper;
-import com.stu.yqs.dao.UserMapper;
+import com.stu.yqs.domain.Address;
+import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.Order;
-import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.search.OrderSearch;
 import com.stu.yqs.utils.GoodUtil;
 import com.stu.yqs.utils.IdentityUtil;
@@ -22,9 +24,11 @@ public class OrderService {
 	final static int FINISH_ORDER=1;
 	
 	@Autowired
+	private GoodMapper goodMapper;
+	@Autowired
 	private OrderMapper orderMapper;
 	@Autowired
-	private UserMapper userMapper;
+	private AddressMapper addressMapper;
 	@Autowired
 	private IdentityUtil identityUtil;
 	@Autowired
@@ -35,14 +39,14 @@ public class OrderService {
 	/*
 	 * 新增订单，未完成部分：通知卖家
 	 */
+	@Transactional(rollbackFor = {Exception.class, Error.class})
 	public JSONObject submitAction(Integer goodId,Integer addressId) throws LogicException {
 		int  id=identityUtil.isLogin();
-		int sellerId=goodUtil.stateNormal(goodId).getOwnerId();
+		Good good=goodUtil.stateNormal(goodId);
+		int sellerId=good.getOwnerId();
 		if(id==sellerId)	throw new LogicException(501,"不能购买自己的商品");
-		List<Order> orderList=orderMapper.selectByUserId(id);
-		for(Order o:orderList) {
-			if(o.getGoodId()==goodId)	throw new LogicException(501,"该订单已存在");
-		}
+		Address customerAddress=addressMapper.selectByPrimaryKey(addressId);
+		if(customerAddress==null)	throw new LogicException(504,"地址id参数异常");
 		
 		Order order=new Order();
 		order.setCustomerId(id);
@@ -50,9 +54,18 @@ public class OrderService {
 		order.setGoodId(goodId);
 		orderMapper.insertSelective(order);
 		
-		User user=userMapper.selectByPrimaryKey(sellerId);
-		JSONObject json=new JSONObject();
-		json.put("phoneNumber", user.getPhoneNumber());
+		//返回联系方式
+		Address address=addressMapper.selectDefaultByUserId(sellerId);
+		if(address==null)		throw new LogicException(503,"订单创建失败，卖家暂无默认地址");
+		JSONObject json=(JSONObject)JSONObject.toJSON(address);
+		
+		outputUtil.addressImfomation(customerAddress.getPhoneNumber(), address.getName(), 
+				customerAddress.getName(), customerAddress.getPhoneNumber(), customerAddress.getAcademy());
+		
+		//修改订单状态
+		good.setState(GoodUtil.FINISH);
+		goodMapper.updateByPrimaryKeySelective(good);
+		
 		return json;
 	}
 	
@@ -81,7 +94,6 @@ public class OrderService {
 		JSONArray arr=(JSONArray) JSONArray.toJSON(orderMapper.searchOrder(search));
 		return outputUtil.lazyLoading(arr, range);
 	}
-	
 	
 	//检测是否存在该订单
 	private Order hasOrder(Integer orderId) throws LogicException {

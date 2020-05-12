@@ -52,16 +52,17 @@
     <if test="startId!=null">and id&lt;#{startId,jdbcType=INTEGER}</if>
     <if test="academy!=null">and academy =#{academy,jdbcType=CHAR}</if>
     <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
+    <if test="ownerId!=null">and ownerId =#{ownerId,jdbcType=INTEGER}</if>
+     <if test="state!=null">and state =#{state,jdbcType=INTEGER}</if>
     <if test="goodType!=null">and goodType =#{goodType,jdbcType=INTEGER}</if>
     <if test="keyword!=null">and ( goodDescribe like concat('%',#{keyword,jdbcType=CHAR},'%') 
     	or name like concat('%',#{keyword,jdbcType=CHAR},'%') )
     </if>
-    and state = '1'
     </where>
     order by id desc
    	<choose>
    		<when test="range!=null">limit #{range,jdbcType=INTEGER}</when>
-   		<otherwise>limit 15</otherwise>
+   		<otherwise>limit #{DEFAULT_NUMBER,jdbcType=INTEGER}</otherwise>
    	</choose>
   </select>
   <!-- 自定义sql end -->

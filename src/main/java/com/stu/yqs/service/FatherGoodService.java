@@ -17,7 +17,6 @@ import com.stu.yqs.dao.ReviewMapper;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.Browse;
 import com.stu.yqs.domain.Good;
-import com.stu.yqs.domain.Review;
 import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Tag;
 import com.stu.yqs.domain.search.GoodSearch;
@@ -97,19 +96,28 @@ public class FatherGoodService {
 		goodMapper.updateByPrimaryKeySelective(good);
 		return  new JSONObject();
 	}
-	//获取一些交易，可选择按书院或关键字筛选
+	
+	//获取待售出的商品交易，可选择按书院或关键字筛选
 	public JSONObject getTransaction(Integer startId, Integer range, String academy,String keyword, String tag,int goodType) throws LogicException {
-		if(range<=0)	throw new  LogicException(501,"参数格式异常");
 		GoodSearch search=new GoodSearch();
 		search.setStartId(startId);
-		search.setAcademy(academy);
 		search.setRange(range);
+		search.setAcademy(academy);
 		search.setKeyword(keyword);
-		search.setTag(Tag.format(tag));
+		search.setTag(tag);
 		search.setGoodType(goodType);
-		JSONArray arr=(JSONArray) JSONArray.toJSON(goodMapper.searchGoods(search));
-		JSONArray newArr=goodUtil.addMessage(arr);
+		search.setState(GoodUtil.ON_SALE);
+		
+		List<Good> goodList=this.searchGood(search);
+		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
+		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
 		return outputUtil.lazyLoading(newArr, range);
+	}
+	
+	//详细搜索商品
+	public List<Good> searchGood(GoodSearch goodSearch) throws LogicException{
+		if(goodSearch.getRange()!=null && goodSearch.getRange()<=0)	throw new  LogicException(501,"range参数格式异常");
+		return goodMapper.searchGoods(goodSearch);
 	}
 	
 	//查看一个交易的全部详细信息
@@ -127,10 +135,9 @@ public class FatherGoodService {
 		reviewSearch.setRange(range);
 		reviewSearch.setStartId(startId);
 		reviewSearch.setGoodId(good.getId());
-		List<Review> reviewList=reviewMapper.searchReview(reviewSearch);
-		JSONArray array=goodUtil.getFullReviewList(reviewList);
+		JSONArray reviewArr=(JSONArray)JSONArray.toJSON(reviewMapper.searchReview(reviewSearch));
+		JSONArray array=goodUtil.addReviewerMessageAll(reviewArr);
 		json.put("review", outputUtil.lazyLoading(array, range));
-		
 		return json;
 	}
 	//给该交易加上一次访问量

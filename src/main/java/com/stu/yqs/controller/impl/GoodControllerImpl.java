@@ -31,4 +31,21 @@ public class GoodControllerImpl implements GoodController {
 	public String getTransactionDetail(@NecessaryPara Integer id,Integer startId,Integer range) throws LogicException {
 		return goodService.getTransactionDetail(id,startId,range).toJSONString();
 	}
+	@Override
+	public String mySalingAction(Integer startId, Integer range) throws LogicException {
+		return goodService.mySalingAction(startId,range).toJSONString();
+	}
+	@Override
+	public String mySaledAction(Integer startId, Integer range) throws LogicException {
+		return goodService.mySaledAction(startId,range).toJSONString();
+	}
+	@Override
+	public String myTotalAction(Integer startId, Integer range) throws LogicException {
+		return goodService.myTotalAction(startId,range).toJSONString();
+	}
+	@Override
+	public String myBoughtAction(Integer startId, Integer range) throws LogicException {
+		return goodService.myBoughtAction(startId,range).toJSONString();
+	}
+	
 }

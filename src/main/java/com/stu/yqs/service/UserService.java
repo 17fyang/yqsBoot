@@ -10,17 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.aliyuncs.CommonRequest;
-import com.aliyuncs.CommonResponse;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.IAcsClient;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
-import com.aliyuncs.http.MethodType;
-import com.aliyuncs.profile.DefaultProfile;
 import com.stu.yqs.utils.FormatUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
+import com.stu.yqs.utils.OutputUtil;
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
@@ -38,6 +31,8 @@ public class UserService {
 	private HttpServletRequest request;
 	@Autowired
 	private IdentityUtil identityUtil;
+	@Autowired
+	private OutputUtil outputUtil;
 	@Autowired
 	private ImageUtil imageUtil;
 	@Autowired
@@ -97,40 +92,21 @@ public class UserService {
 		json.put("code", verification);
 
 		//测试代码
-		int test=1;
-		if(test==1) {
-			HttpSession session=request.getSession();
-			session.setAttribute("verificationCode", phoneNumber+"_123456");
-			session.setAttribute("verificationTime", new Date());
-			return new JSONObject();
-		}
+//		int test=1;
+//		if(test==1) {
+//			HttpSession session=request.getSession();
+//			session.setAttribute("verificationCode", phoneNumber+"_123456");
+//			session.setAttribute("verificationTime", new Date());
+//			return new JSONObject();
+//		}
 
-		DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI91MlauzR6ZnZ", "GSdt21HHx7bqOyUB6QXWn596OBjnY1");
-		IAcsClient client = new DefaultAcsClient(profile);
-		CommonRequest send = new CommonRequest();
-		send.setMethod(MethodType.POST);
-		send.setDomain("dysmsapi.aliyuncs.com");
-		send.setVersion("2017-05-25");
-		send.setAction("SendSms");
-		send.putQueryParameter("RegionId", "cn-hangzhou");
-		send.putQueryParameter("PhoneNumbers", phoneNumber);
-		send.putQueryParameter("SignName", "益启善");
-		send.putQueryParameter("TemplateCode", "SMS_182672041");
-		send.putQueryParameter("TemplateParam", json.toString());
-		try {
-			CommonResponse response = client.getCommonResponse(send);
-			json=(JSONObject) JSONObject.parse(response.getData());
-			if(!json.getString("Message").equals("OK"))	throw new LogicException(502,json.getString("Message"));
-		} catch (ServerException e) {
-			e.printStackTrace();
-		} catch (ClientException e) {
-			e.printStackTrace();
-		}
+		outputUtil.verifyCode(phoneNumber, Integer.parseInt(verification));
+		
 		//记录验证码
 		HttpSession session=request.getSession();
-		session.setAttribute("verificationCode", verification);
+		session.setAttribute("verificationCode", phoneNumber+"_"+verification);
 		session.setAttribute("verificationTime", new Date());
-		return json;
+		return new JSONObject();
 	}
 	//修改密码，需要先获取验证码
 	public JSONObject modifyPassword(String phoneNumber, String newPassword, String verification) throws LogicException {

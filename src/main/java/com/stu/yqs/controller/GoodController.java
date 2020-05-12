@@ -23,4 +23,13 @@ public interface GoodController {
 	 public @ResponseBody String getTransaction(Integer startId,Integer range,String academy,String keyword,String tag)throws LogicException;
 	@RequestMapping("/getTransactionDetail")
 	public @ResponseBody String getTransactionDetail(Integer id,Integer startId,Integer range) throws LogicException;
+	
+	@RequestMapping("/good/mySalingAction")
+	 public @ResponseBody String mySalingAction(Integer startId, Integer range)throws LogicException;
+	@RequestMapping("/good/mySaledAction")
+	 public @ResponseBody String mySaledAction(Integer startId, Integer range)throws LogicException;
+	@RequestMapping("/good/myTotalAction")
+	 public @ResponseBody String myTotalAction(Integer startId, Integer range)throws LogicException;
+	@RequestMapping("/good/myBoughtAction")
+	 public @ResponseBody String myBoughtAction(Integer startId, Integer range)throws LogicException;
 }

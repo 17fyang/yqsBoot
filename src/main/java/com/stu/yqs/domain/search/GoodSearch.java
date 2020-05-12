@@ -3,10 +3,13 @@ package com.stu.yqs.domain.search;
 public class GoodSearch implements Search{
 	private Integer startId;
 	private Integer range;
+	private Integer ownerId;
 	private Integer goodType;
 	private String academy;
 	private String keyword;
 	private String tag;
+	private String state;
+	private final static int DEFAULT_NUMBER=15;
 	public Integer getStartId() {
 		return startId;
 	}
@@ -17,7 +20,19 @@ public class GoodSearch implements Search{
 		return range;
 	}
 	public void setRange(Integer range) {
-		this.range =range;
+		this.range = range;
+	}
+	public Integer getOwnerId() {
+		return ownerId;
+	}
+	public void setOwnerId(Integer ownerId) {
+		this.ownerId = ownerId;
+	}
+	public Integer getGoodType() {
+		return goodType;
+	}
+	public void setGoodType(Integer goodType) {
+		this.goodType = goodType;
 	}
 	public String getAcademy() {
 		return academy;
@@ -37,10 +52,15 @@ public class GoodSearch implements Search{
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	public Integer getGoodType() {
-		return goodType;
+	public String getState() {
+		return state;
 	}
-	public void setGoodType(Integer goodType) {
-		this.goodType = goodType;
+	public void setState(String state) {
+		this.state = state;
 	}
+	public static int getDefaultNumber() {
+		return DEFAULT_NUMBER;
+	}
+	
+	
 }

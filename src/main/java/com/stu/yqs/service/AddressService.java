@@ -24,7 +24,7 @@ public class AddressService {
 	private FormatUtil formatUtil;
 	
 	//新建一个地址
-	@Transactional
+	@Transactional(rollbackFor = {Exception.class, Error.class})
 	public JSONObject addAction(String name,String phoneNumber,String academy,String content,Short isDefault) throws LogicException {
 		int id=identityUtil.isLogin();
 		formatUtil.addressDefault(isDefault);
