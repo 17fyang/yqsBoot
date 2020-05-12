@@ -1,5 +1,7 @@
 package com.stu.yqs.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,8 @@ public interface ThumbMapper {
     Thumb selectByPrimaryKey(Integer id);
     
     Thumb selectAppoint(ThumbSearch thumbSearch);
+    
+    List<Thumb> searchByGoodRange(ThumbSearch thumbSearch);
 
     int updateByPrimaryKeySelective(Thumb record);
 

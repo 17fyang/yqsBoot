@@ -95,6 +95,21 @@ public class OrderService {
 		return outputUtil.lazyLoading(arr, range);
 	}
 	
+	//取消订单功能
+	@Transactional(rollbackFor = {Exception.class, Error.class})
+	public JSONObject deleteAction(Integer orderId) throws LogicException {
+		int id=identityUtil.isLogin();
+		Order order=this.hasOrder(orderId);
+		if(id!=order.getCustomerId())	throw new LogicException(501,"只能取消自己的订单");
+		orderMapper.deleteByPrimaryKey(orderId);
+		
+		Good good =new Good();
+		good.setState(GoodUtil.ON_SALE);
+		good.setId(order.getGoodId());
+		goodMapper.updateByPrimaryKeySelective(good);
+		return new JSONObject();
+	}
+	
 	//检测是否存在该订单
 	private Order hasOrder(Integer orderId) throws LogicException {
 		Order order=orderMapper.selectByPrimaryKey(orderId);

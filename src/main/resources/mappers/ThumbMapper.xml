@@ -16,6 +16,9 @@
     from thumb
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  
+  <!-- 自定义sql start -->
   <select id="selectAppoint" parameterType="com.stu.yqs.domain.search.ThumbSearch" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -23,12 +26,21 @@
     where goodId = #{goodId,jdbcType=INTEGER} 
     and thumberId=#{thumberId,jdbcType=INTEGER}
   </select>
-  
-  <!-- 自定义sql start -->
   <delete id="deleteByGoodId" parameterType="java.lang.Integer">
     delete from thumb
     where goodId = #{goodId,jdbcType=INTEGER}
   </delete>
+  <select id="searchByGoodRange" parameterType="com.stu.yqs.domain.search.ThumbSearch" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from thumb
+    <where>
+    <if test="thumberId!=null">thumberId=#{thumberId,jdbcType=INTEGER}</if>
+     and goodId &gt; #{startGoodId,jdbcType=INTEGER} 
+    and goodId &lt; #{endGoodId,jdbcType=INTEGER} 
+    </where>
+    
+  </select>
   <!-- 自定义sql end -->
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -48,6 +48,7 @@ public class FatherGoodService {
 	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping,int goodType) throws LogicException {
 		int id=identityUtil.isLogin();
 		if(name==null) throw new LogicException(501,"请填写物品名");
+		if(file.length==0)	throw new LogicException(501,"图片参数不得为空");
 		if(describe==null) throw new LogicException(501,"请填写物品描述");
 		String[] url=null;
 		if(file!=null) {
@@ -110,8 +111,9 @@ public class FatherGoodService {
 		
 		List<Good> goodList=this.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
-		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
-		return outputUtil.lazyLoading(newArr, range);
+		arr=goodUtil.addOwnerMessageAll(arr);
+		arr=goodUtil.addThumbConditionAll(arr);
+		return outputUtil.lazyLoading(arr, range);
 	}
 	
 	//详细搜索商品
@@ -130,6 +132,12 @@ public class FatherGoodService {
 		User seller=userMapper.selectPartByPrimaryKey(good.getOwnerId());
 		json.put("sellerName", seller.getName());
 		json.put("sellerImage", seller.getHeadImage());
+		//添加是否点赞数据
+		JSONArray arr=new JSONArray();
+		arr.add(json);
+		arr=goodUtil.addThumbConditionAll(arr);
+		json=(JSONObject) arr.get(0);
+		
 		//添加评论数据
 		ReviewSearch reviewSearch=new ReviewSearch();
 		reviewSearch.setRange(range);

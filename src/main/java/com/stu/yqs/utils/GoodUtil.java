@@ -1,6 +1,8 @@
 package com.stu.yqs.utils;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +10,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.GoodMapper;
+import com.stu.yqs.dao.ThumbMapper;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.Good;
+import com.stu.yqs.domain.Thumb;
 import com.stu.yqs.domain.User;
+import com.stu.yqs.domain.search.ThumbSearch;
 
 @Service
 public class GoodUtil {
@@ -23,6 +28,10 @@ public class GoodUtil {
 	private GoodMapper goodMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private ThumbMapper thumbMapper;
+	@Autowired
+	private IdentityUtil identityUtil;
 
 	//批量添加评论者信息
 	public JSONArray addReviewerMessageAll(JSONArray arr) {
@@ -81,5 +90,49 @@ public class GoodUtil {
 		Good good=goodMapper.selectByPrimaryKey(goodId);
 		if(good==null)	throw new LogicException(501,"不存在该商品");
 		return good.getOwnerId();
+	}
+
+	//添加是否点赞
+	public JSONArray addThumbConditionAll(JSONArray arr) {
+		if(arr==null || arr.isEmpty())	return arr;
+		//获取最大最小id
+		int startGoodId=Integer.MAX_VALUE;
+		int endGoodId=Integer.MIN_VALUE;
+		for(Object o:arr) {
+			JSONObject j=(JSONObject)o;
+			int goodId=j.getIntValue("id");
+			if(goodId<startGoodId)		startGoodId=goodId;
+			if(goodId>endGoodId)		endGoodId=goodId;
+		}
+		startGoodId--;
+		endGoodId++;
+		
+		//获取点赞列表
+		Integer userId=null;
+		try {
+			userId=identityUtil.isLogin();
+		}catch(LogicException e) {
+			//给userId赋值为-1，使得搜索到的结果为空但是还能添加isThumb属性
+			userId=-1;
+		}
+		ThumbSearch search=new ThumbSearch();
+		search.setStartGoodId(startGoodId);
+		search.setEndGoodId(endGoodId);
+		search.setThumberId(userId);
+		List<Thumb> thumbList=thumbMapper.searchByGoodRange(search);
+		
+		for(int i=0;i<arr.size();i++) {
+			boolean flag=false;
+			JSONObject json=(JSONObject) arr.get(i);
+			for(int j=0;j<thumbList.size();i++) {
+				if(thumbList.get(j).getGoodId()==json.getInteger("id")) {
+					flag=true;
+					thumbList.remove(j);
+					break;
+				}
+			}
+			json.put("isThumb", flag);
+		}
+		return arr;
 	}
 }

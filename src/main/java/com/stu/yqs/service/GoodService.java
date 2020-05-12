@@ -53,6 +53,7 @@ public class GoodService extends FatherGoodService{
 		List<Good> goodList=super.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
+		newArr=goodUtil.addThumbConditionAll(newArr);
 		return outputUtil.lazyLoading(newArr, range);
 	}
 	//获取已售出的商品
@@ -67,6 +68,7 @@ public class GoodService extends FatherGoodService{
 		List<Good> goodList=super.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
+		newArr=goodUtil.addThumbConditionAll(newArr);
 		return outputUtil.lazyLoading(newArr, range);
 	}
 	//获取发布过的商品
@@ -85,6 +87,7 @@ public class GoodService extends FatherGoodService{
 		
 		JSONArray arr=(JSONArray) JSONArray.toJSON(totalList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
+		newArr=goodUtil.addThumbConditionAll(newArr);
 		return outputUtil.lazyLoading(newArr, range);
 	}
 	//获取买过的商品
@@ -103,6 +106,7 @@ public class GoodService extends FatherGoodService{
 			arr.add(json);
 		}
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr, "customerId");
+		newArr=goodUtil.addThumbConditionAll(newArr);
 		return outputUtil.lazyLoading(newArr, range);
 	}
 }

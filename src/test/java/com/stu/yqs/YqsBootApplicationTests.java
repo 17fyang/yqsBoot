@@ -11,7 +11,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringBootTest
 @WebAppConfiguration
 public class YqsBootApplicationTests {
-	
 	public static void main(String[] args) {
 		SpringApplication.run(YqsBootApplicationTests.class, args);
 	}
