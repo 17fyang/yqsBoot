@@ -3,7 +3,6 @@ package com.stu.yqs.dao;
 import java.util.List;
 
 import com.stu.yqs.domain.Collect;
-import com.stu.yqs.domain.Good;
 import com.stu.yqs.domain.search.CollectSearch;
 
 public interface CollectMapper {
@@ -15,9 +14,9 @@ public interface CollectMapper {
 
     Collect selectByPrimaryKey(Integer id);
     
-    Collect selectByGoodId(Integer goodId);
+    Collect selectByGoodId(CollectSearch search);
     
-    List<Good> selectCollect(CollectSearch search);
+    List<Collect> searchCollect(CollectSearch search);
 
     int updateByPrimaryKeySelective(Collect record);
 

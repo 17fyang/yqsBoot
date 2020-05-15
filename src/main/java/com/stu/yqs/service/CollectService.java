@@ -31,7 +31,7 @@ public class CollectService {
 	public JSONObject addCollect(Integer goodId) throws LogicException {
 		int id=identityUtil.isLogin();
 		goodUtil.stateNormal(goodId);
-		Collect collect=collectMapper.selectByGoodId(goodId);
+		Collect collect=collectMapper.selectByGoodId(new CollectSearch(id,goodId));
 		if(collect!=null)	throw new LogicException(501,"不可重复收藏");
 		
 		collect=new Collect();
@@ -48,16 +48,20 @@ public class CollectService {
 		search.setUserId(id);
 		search.setStartId(startId);
 		search.setRange(range);
-		JSONArray arr=(JSONArray) JSONArray.toJSON(collectMapper.selectCollect(search));
+		JSONArray arr=(JSONArray) JSONArray.toJSON(collectMapper.searchCollect(search));
+		arr=goodUtil.addGoodMessageAll(arr);
+		arr=goodUtil.addThumbConditionAll(arr,"goodId");
+		arr=goodUtil.addOwnerMessageAll(arr);
 		return outputUtil.lazyLoading(arr, range);
 	}
 	
 	
 	public JSONObject deleteCollect(Integer goodId) throws LogicException {
-		int ownerId=goodUtil.hasGood(goodId);
+		goodUtil.hasGood(goodId);
 		int id=identityUtil.isLogin();
-		if(ownerId!=id)throw new LogicException(501,"只能操作自己的收藏");
-		collectMapper.deleteByPrimaryKey(goodId);
+		Collect collect=collectMapper.selectByGoodId(new CollectSearch(id,goodId));
+		if(collect==null)	throw new LogicException(501,"暂无收藏数据");
+		collectMapper.deleteByPrimaryKey(collect.getId());
 		return new JSONObject();
 	}
 }

@@ -17,8 +17,8 @@ public class SearchControllerImpl implements SearchController{
 		return searchService.indexAction().toJSONString();
 	}
 	@Override
-	public String helperAction(@NecessaryPara String input) throws LogicException {
-		return searchService.helperAction(input).toJSONString();
+	public String helperAction(@NecessaryPara String input,String tag) throws LogicException {
+		return searchService.helperAction(input,tag).toJSONString();
 	}
 	@Override
 	public String clearHistoryAction() throws LogicException {

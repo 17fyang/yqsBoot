@@ -14,7 +14,7 @@ public interface SearchController {
 	@RequestMapping("/indexAction")
 	 public @ResponseBody String indexAction()throws LogicException;
 	@RequestMapping("/helperAction")
-	 public @ResponseBody String helperAction(String input)throws LogicException;
+	 public @ResponseBody String helperAction(String input,String tag)throws LogicException;
 	@RequestMapping("/clearHistoryAction")
 	 public @ResponseBody String clearHistoryAction()throws LogicException;
 }

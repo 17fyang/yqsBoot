@@ -100,7 +100,7 @@ public class OrderService {
 	public JSONObject deleteAction(Integer orderId) throws LogicException {
 		int id=identityUtil.isLogin();
 		Order order=this.hasOrder(orderId);
-		if(id!=order.getCustomerId())	throw new LogicException(501,"只能取消自己的订单");
+		if(id!=order.getCustomerId() && id!=order.getSellerId())	throw new LogicException(501,"只能取消自己的订单");
 		orderMapper.deleteByPrimaryKey(orderId);
 		
 		Good good =new Good();

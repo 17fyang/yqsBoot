@@ -73,6 +73,28 @@ public class GoodUtil {
 		json.put("sellerImage", user.getHeadImage());
 		return json;
 	}
+	//批量添加上商品信息
+	public JSONArray addGoodMessageAll(JSONArray arr) {
+		return this.addGoodMessageAll(arr, "goodId");
+	}
+	//批量添加上商品信息
+	public JSONArray addGoodMessageAll(JSONArray arr, String key) {
+		for(int i=0;i<arr.size();i++) {
+			JSONObject json=(JSONObject)arr.get(i);
+			this.addGoodMessage(json,key);
+		}
+		return arr;
+	}
+	//单个添加商品信息
+	public Object addGoodMessage(JSONObject json,String key) {
+		Good good=goodMapper.selectByPrimaryKey(json.getIntValue(key));
+		JSONObject goodJson=(JSONObject)JSONObject.toJSON(good);
+		goodJson.put(key, goodJson.getInteger("id"));
+		goodJson.remove("id");
+		json.putAll(goodJson);
+		return json;
+	}
+
 
 	//检测状态是否正常
 	public Good stateNormal(Integer goodId) throws LogicException {
@@ -85,28 +107,28 @@ public class GoodUtil {
 	}
 
 	//检测该商品是否存在
-	public int hasGood(Integer goodId) throws LogicException {
+	public Good hasGood(Integer goodId) throws LogicException {
 		if(goodId==null)	throw new LogicException(509,"空参数");
 		Good good=goodMapper.selectByPrimaryKey(goodId);
 		if(good==null)	throw new LogicException(501,"不存在该商品");
-		return good.getOwnerId();
+		return good;
 	}
 
 	//添加是否点赞
-	public JSONArray addThumbConditionAll(JSONArray arr) {
+	public JSONArray addThumbConditionAll(JSONArray arr,String key) {
 		if(arr==null || arr.isEmpty())	return arr;
 		//获取最大最小id
 		int startGoodId=Integer.MAX_VALUE;
 		int endGoodId=Integer.MIN_VALUE;
 		for(Object o:arr) {
 			JSONObject j=(JSONObject)o;
-			int goodId=j.getIntValue("id");
+			int goodId=j.getIntValue(key);
 			if(goodId<startGoodId)		startGoodId=goodId;
 			if(goodId>endGoodId)		endGoodId=goodId;
 		}
 		startGoodId--;
 		endGoodId++;
-		
+
 		//获取点赞列表
 		Integer userId=null;
 		try {
@@ -120,12 +142,12 @@ public class GoodUtil {
 		search.setEndGoodId(endGoodId);
 		search.setThumberId(userId);
 		List<Thumb> thumbList=thumbMapper.searchByGoodRange(search);
-		
+
 		for(int i=0;i<arr.size();i++) {
 			boolean flag=false;
 			JSONObject json=(JSONObject) arr.get(i);
 			for(int j=0;j<thumbList.size();i++) {
-				if(thumbList.get(j).getGoodId()==json.getInteger("id")) {
+				if(thumbList.get(j).getGoodId()==json.getInteger(key)) {
 					flag=true;
 					thumbList.remove(j);
 					break;
@@ -134,5 +156,10 @@ public class GoodUtil {
 			json.put("isThumb", flag);
 		}
 		return arr;
+	}
+
+	//添加是否点赞
+	public JSONArray addThumbConditionAll(JSONArray arr) {
+		return this.addThumbConditionAll(arr, "id");
 	}
 }

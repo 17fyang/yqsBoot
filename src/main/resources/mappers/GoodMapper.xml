@@ -38,10 +38,11 @@
     from yqs_good
     <where>
     	and name like concat('%',#{content,jdbcType=CHAR},'%')
-    <if test="goodType!=null">and goodType =#{goodType,jdbcType=INTEGERE}</if>
-    </where>
+    <if test="goodType!=null">and goodType =#{goodType,jdbcType=INTEGER}</if>
+    <if test="tag!=null">and tag =#{tag,jdbcType=CHAR}</if>
+    </where> 
     order by publishTime desc
-    limit #{DefaultNSearchNumber,jdbcType=INTEGERE}
+    limit #{DefaultNSearchNumber,jdbcType=INTEGER}
   </select>
   
   <select id="searchGoods" parameterType="com.stu.yqs.domain.search.GoodSearch" resultMap="BaseResultMap">

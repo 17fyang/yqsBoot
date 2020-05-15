@@ -25,14 +25,19 @@ public class AddSearchHistory {
 	private SearchMapper searchMapper;
 	
 	@After("execution(* com.stu.yqs.service.GoodService.getTransaction(..))")
-	public void exceptionDeal(JoinPoint join) throws LogicException {
+	public void exceptionDeal(JoinPoint join){
 		Object arr[]=join.getArgs();
 		if(arr[3]==null) return;
 		String input=(String)arr[3];
-		int userId=identityUtil.isLogin();
+		int userId;
+		try {
+			userId = identityUtil.isLogin();
+		} catch (LogicException e) {
+			return;
+		}
 		Search search=new Search();
 		search.setUserId(userId);
 		search.setSearchContent(input);
-		searchMapper.insert(search);
+		searchMapper.insertSelective(search);
 	}
 }

@@ -11,6 +11,7 @@ import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.GoodMapper;
 import com.stu.yqs.dao.SearchMapper;
 import com.stu.yqs.domain.search.SimilarGood;
+import com.stu.yqs.utils.FormatUtil;
 import com.stu.yqs.utils.IdentityUtil;
 /*
  * author:yf
@@ -25,6 +26,8 @@ public class SearchService {
 	private IdentityUtil identityUtil;
 	@Autowired
 	private GoodMapper goodMapper;
+	@Autowired
+	private FormatUtil formatUtil;
 	
 	public JSONArray indexAction() throws LogicException {
 		int id=identityUtil.isLogin();
@@ -32,8 +35,9 @@ public class SearchService {
 		JSONArray arr=(JSONArray) JSONArray.toJSON(list);
 		return arr;
 	}
-	public JSONArray helperAction(String input) throws LogicException {
-		List<String> list=goodMapper.searchLikeGoods(new SimilarGood(0,input));
+	public JSONArray helperAction(String input, String tag) throws LogicException {
+		formatUtil.tag(tag);
+		List<String> list=goodMapper.searchLikeGoods(new SimilarGood(0,tag,input));
 		JSONArray arr=(JSONArray) JSONArray.toJSON(list);
 		return arr;
 	}

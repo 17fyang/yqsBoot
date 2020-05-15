@@ -21,6 +21,7 @@ import com.stu.yqs.domain.User;
 import com.stu.yqs.domain.EnumPackage.Tag;
 import com.stu.yqs.domain.search.GoodSearch;
 import com.stu.yqs.domain.search.ReviewSearch;
+import com.stu.yqs.utils.FormatUtil;
 import com.stu.yqs.utils.GoodUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
@@ -44,6 +45,8 @@ public class FatherGoodService {
 	private GoodUtil goodUtil;
 	@Autowired
 	private OutputUtil outputUtil;
+	@Autowired
+	private FormatUtil formatUtil;
 	//发布一个交易
 	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping,int goodType) throws LogicException {
 		int id=identityUtil.isLogin();
@@ -103,6 +106,7 @@ public class FatherGoodService {
 		GoodSearch search=new GoodSearch();
 		search.setStartId(startId);
 		search.setRange(range);
+		formatUtil.academy(academy);
 		search.setAcademy(academy);
 		search.setKeyword(keyword);
 		search.setTag(tag);
