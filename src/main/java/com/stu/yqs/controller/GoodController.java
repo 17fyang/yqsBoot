@@ -17,6 +17,8 @@ public interface GoodController {
 			 String name,String describe,String tag,Double price,Double originalPrice,
 			 Double postage,String isNew,String freeShipping)throws LogicException;
 	
+	@RequestMapping("/good/fileUpload")
+	 public @ResponseBody String fileUpload(MultipartFile file)throws LogicException;
 	@RequestMapping("/deleteTransaction")
 	 public @ResponseBody String deleteTransaction(Integer transactionId)throws LogicException;
 	@RequestMapping("/getTransaction")

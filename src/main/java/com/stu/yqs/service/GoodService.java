@@ -3,6 +3,7 @@ package com.stu.yqs.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,7 @@ public class GoodService extends FatherGoodService{
 	private OrderMapper orderMapper;
 	@Autowired
 	private GoodMapper goodMapper;
-	
+
 	//发布一个交易
 	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
 		return super.newTransaction(file, name, describe, tag, price, originalPrice, postage, freeShipping, GoodUtil.SECOND_HAND);
@@ -49,7 +50,7 @@ public class GoodService extends FatherGoodService{
 		search.setRange(range);
 		search.setStartId(startId);
 		search.setState(GoodUtil.ON_SALE);
-		
+
 		List<Good> goodList=super.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
@@ -79,12 +80,12 @@ public class GoodService extends FatherGoodService{
 		search.setRange(range);
 		search.setStartId(startId);
 		search.setState(GoodUtil.FINISH);
-		
+
 		List<Good> totalList=super.searchGood(search);
 		search.setState(GoodUtil.ON_SALE);
 		List<Good> salingList=super.searchGood(search);
 		totalList.addAll(salingList);
-		
+
 		JSONArray arr=(JSONArray) JSONArray.toJSON(totalList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
 		newArr=goodUtil.addThumbConditionAll(newArr);
@@ -113,4 +114,5 @@ public class GoodService extends FatherGoodService{
 		newArr=goodUtil.addThumbConditionAll(newArr,"goodId");
 		return outputUtil.lazyLoading(newArr, range);
 	}
+
 }

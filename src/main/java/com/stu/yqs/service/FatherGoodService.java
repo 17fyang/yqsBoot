@@ -1,7 +1,10 @@
 package com.stu.yqs.service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import com.stu.yqs.utils.GoodUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
 import com.stu.yqs.utils.OutputUtil;
+import com.stu.yqs.utils.SessionUtil;
 
 @Service
 public class FatherGoodService {
@@ -41,6 +45,8 @@ public class FatherGoodService {
 	private IdentityUtil identityUtil;
 	@Autowired
 	private ImageUtil imageUtil;
+	@Autowired
+	private SessionUtil sessionUtil;
 	@Autowired
 	private GoodUtil goodUtil;
 	@Autowired
@@ -90,6 +96,23 @@ public class FatherGoodService {
 		json.remove("image");
 		return json;
 	}
+	//单个图片上传接口
+		@SuppressWarnings("unchecked")
+		public JSON fileUpload(MultipartFile file) throws LogicException {
+			identityUtil.isLogin();
+			if(file.isEmpty())	throw new LogicException(501,"未找到图片数据");
+			//存储图片数据
+			String newUrl[]=imageUtil.newFileUrl( "temp", file);
+			String localUrl=newUrl[0];
+			imageUtil.compressFile(file, localUrl);
+			//设置session
+			HttpSession session=sessionUtil.getSession();
+			List<String>urlList=(List<String>) session.getAttribute("imageUrl");
+			if(urlList==null)	urlList=new LinkedList<String>();
+			urlList.add(localUrl);
+			session.setAttribute("imageUrl", urlList);
+			return new JSONObject();
+		}
 	//删除一个交易
 	public JSONObject deleteTransaction(Integer transactionId) throws LogicException {
 		int id=identityUtil.isLogin();

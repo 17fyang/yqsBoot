@@ -93,6 +93,7 @@ public class AddressService {
 	 */
 	private void changeDefault(int userId,int addressId, Short isDefault) throws LogicException {
 		List<Address> list=addressMapper.selectByUserId(userId);
+		if(!list.isEmpty() && (isDefault==null || isDefault==0))	return;
 		if(list.size()>10)		throw new LogicException(501,"超过最大地址数限制（最大10条）");
 		boolean  flag=false;
 		Address precentAddress=null;

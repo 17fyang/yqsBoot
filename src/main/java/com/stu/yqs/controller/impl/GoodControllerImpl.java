@@ -47,5 +47,9 @@ public class GoodControllerImpl implements GoodController {
 	public String myBoughtAction(Integer startId, Integer range) throws LogicException {
 		return goodService.myBoughtAction(startId,range).toJSONString();
 	}
+	@Override
+	public String fileUpload(@NecessaryPara MultipartFile file) throws LogicException {
+		return goodService.fileUpload(file).toJSONString();
+	}
 	
 }
