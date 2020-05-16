@@ -12,6 +12,10 @@ public class Order implements ObjectDomain{
     private Integer sellerId;
 
     private Integer goodId;
+    
+    private Integer customerAddress;
+    
+    private Integer sellerAddress;
 
     private Short status;
     
@@ -49,8 +53,24 @@ public class Order implements ObjectDomain{
     public void setGoodId(Integer goodId) {
         this.goodId = goodId;
     }
+    
+    public Integer getCustomerAddress() {
+		return customerAddress;
+	}
 
-    public Short getStatus() {
+	public void setCustomerAddress(Integer customerAddress) {
+		this.customerAddress = customerAddress;
+	}
+
+	public Integer getSellerAddress() {
+		return sellerAddress;
+	}
+
+	public void setSellerAddress(Integer sellerAddress) {
+		this.sellerAddress = sellerAddress;
+	}
+
+	public Short getStatus() {
         return status;
     }
 

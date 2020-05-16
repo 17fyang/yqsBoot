@@ -29,4 +29,8 @@ public class OrderControlerImpl implements OrderController{
 	public String deleteAction(@NecessaryPara Integer orderId) throws LogicException {
 		return orderService.deleteAction(orderId).toJSONString();
 	}
+	@Override
+	public String detailAction(@NecessaryPara Integer orderId) throws LogicException {
+		return orderService.detailAction(orderId).toJSONString();
+	}
 }

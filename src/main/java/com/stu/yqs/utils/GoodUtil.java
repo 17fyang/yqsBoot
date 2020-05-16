@@ -86,7 +86,7 @@ public class GoodUtil {
 		return arr;
 	}
 	//单个添加商品信息
-	public Object addGoodMessage(JSONObject json,String key) {
+	public JSONObject addGoodMessage(JSONObject json,String key) {
 		Good good=goodMapper.selectByPrimaryKey(json.getIntValue(key));
 		JSONObject goodJson=(JSONObject)JSONObject.toJSON(good);
 		goodJson.put(key, goodJson.getInteger("id"));
@@ -142,11 +142,10 @@ public class GoodUtil {
 		search.setEndGoodId(endGoodId);
 		search.setThumberId(userId);
 		List<Thumb> thumbList=thumbMapper.searchByGoodRange(search);
-
 		for(int i=0;i<arr.size();i++) {
 			boolean flag=false;
 			JSONObject json=(JSONObject) arr.get(i);
-			for(int j=0;j<thumbList.size();i++) {
+			for(int j=0;j<thumbList.size();j++) {
 				if(thumbList.get(j).getGoodId()==json.getInteger(key)) {
 					flag=true;
 					thumbList.remove(j);

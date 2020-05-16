@@ -35,7 +35,15 @@ public class OutputUtil {
 		boolean isEnd=false;
 		if((range==null && list.size()<DEFAULT_RANGE) || (range!=null && list.size()<range))	isEnd=true;
 		json.put("isEnd",isEnd);
-		if(!isEnd)		json.put("nextId",list.getJSONObject(list.size()-1).get("id"));
+		//获取最小id
+		if(!isEnd) {
+			int min=Integer.MAX_VALUE;
+			for(int i=list.size()-1;i>=0;i--) {
+				JSONObject temp=(JSONObject) list.get(i);
+				if(temp.getIntValue("id")<min)		min=temp.getIntValue("id");
+			}
+			json.put("nextId",min);
+		}
 		json.put("arr", arr);
 		return json;
 	}

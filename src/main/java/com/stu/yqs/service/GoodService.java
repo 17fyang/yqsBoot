@@ -64,7 +64,7 @@ public class GoodService extends FatherGoodService{
 		search.setRange(range);
 		search.setStartId(startId);
 		search.setState(GoodUtil.FINISH);
-		
+		System.out.println("sdasd");
 		List<Good> goodList=super.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
@@ -88,6 +88,7 @@ public class GoodService extends FatherGoodService{
 		JSONArray arr=(JSONArray) JSONArray.toJSON(totalList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
 		newArr=goodUtil.addThumbConditionAll(newArr);
+		System.out.println(newArr.size()+"sdasdadssdad");
 		return outputUtil.lazyLoading(newArr, range);
 	}
 	//获取买过的商品
@@ -100,13 +101,16 @@ public class GoodService extends FatherGoodService{
 		List<Order> orderList=orderMapper.searchOrder(search);
 		JSONArray arr=new JSONArray();
 		for(Order order:orderList) {
+			int orderId=order.getId();
 			JSONObject json=(JSONObject)JSONObject.toJSON(goodMapper.selectByPrimaryKey(order.getGoodId()));
+			json.put("goodId", json.getIntValue("id"));
+			json.put("id", orderId);
 			json.put("customerId", order.getCustomerId());
 			json.put("establishTime", order.getEstablishTime());
 			arr.add(json);
 		}
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr, "customerId");
-		newArr=goodUtil.addThumbConditionAll(newArr);
+		newArr=goodUtil.addThumbConditionAll(newArr,"goodId");
 		return outputUtil.lazyLoading(newArr, range);
 	}
 }

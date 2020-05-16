@@ -18,6 +18,8 @@ public interface OrderController {
 	@RequestMapping("/getListAction")
 	 public @ResponseBody String getListAction(Integer startId,Integer range,Integer sellerId,
 			 Integer customerId,Integer status)throws LogicException;
+	@RequestMapping("/detailAction")
+	 public @ResponseBody String detailAction(Integer orderId)throws LogicException;
 	@RequestMapping("/deleteAction")
 	 public @ResponseBody String deleteAction(Integer orderId)throws LogicException;
 }
