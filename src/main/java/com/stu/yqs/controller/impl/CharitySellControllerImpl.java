@@ -2,7 +2,6 @@ package com.stu.yqs.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.aspect.NecessaryPara;
@@ -13,11 +12,11 @@ public class CharitySellControllerImpl implements CharitySellController{
 	@Autowired
 	private CharitySellService charitySellService;
 	@Override
-	public String newTransaction(@NecessaryPara MultipartFile[] file, @NecessaryPara String name, 
+	public String newTransaction( @NecessaryPara String name, 
 			@NecessaryPara String describe, String tag, Double price,Double originalPrice, 
 			Double postage,String isNew, String freeShipping) throws LogicException {
 		
-		return charitySellService.newTransaction(file,name,describe,tag,price,originalPrice,postage,freeShipping).toJSONString();
+		return charitySellService.newTransaction(name,describe,tag,price,originalPrice,postage,freeShipping).toJSONString();
 	}
 	@Override
 	public String deleteTransaction(@NecessaryPara Integer transactionId) throws LogicException {

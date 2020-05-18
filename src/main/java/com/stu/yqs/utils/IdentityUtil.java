@@ -14,6 +14,8 @@ import com.stu.yqs.aspect.LogicException;
 public class IdentityUtil {
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private SessionUtil sessionUtil;
 	
 	//判断验证码是否相符
 		public boolean verificationIsEqual(String phoneNumber,String verification) throws LogicException {
@@ -32,9 +34,9 @@ public class IdentityUtil {
 		
 		//判断用户是否登录
 		public int isLogin() throws LogicException {
-			if(1==1)	return 44;
+//			if(1==1)	return 44;
 			
-			String id=String.valueOf( request.getSession().getAttribute("id"));
+			String id=sessionUtil.getLoginSession();
 			if(id==null || id.equals("null"))	throw new LogicException(502,"用户未登录");
 			return Integer.parseInt(id);
 		}

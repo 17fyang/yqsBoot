@@ -1,12 +1,9 @@
 package com.stu.yqs.service;
 
-
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,8 +32,8 @@ public class GoodService extends FatherGoodService{
 	private GoodMapper goodMapper;
 
 	//发布一个交易
-	public JSONObject newTransaction(MultipartFile[] file, String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
-		return super.newTransaction(file, name, describe, tag, price, originalPrice, postage, freeShipping, GoodUtil.SECOND_HAND);
+	public JSONObject newTransaction(String name, String describe, String tag, Double price, Double originalPrice, Double postage, String freeShipping) throws LogicException {
+		return super.newTransaction(name, describe, tag, price, originalPrice, postage, freeShipping, GoodUtil.SECOND_HAND);
 	}
 	//获取一些交易，可选择按书院或关键字筛选
 	public JSONObject getTransaction(Integer startId, Integer range, String academy,String keyword, String tag) throws LogicException {
@@ -65,7 +62,6 @@ public class GoodService extends FatherGoodService{
 		search.setRange(range);
 		search.setStartId(startId);
 		search.setState(GoodUtil.FINISH);
-		System.out.println("sdasd");
 		List<Good> goodList=super.searchGood(search);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(goodList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
@@ -89,7 +85,6 @@ public class GoodService extends FatherGoodService{
 		JSONArray arr=(JSONArray) JSONArray.toJSON(totalList);
 		JSONArray newArr=goodUtil.addOwnerMessageAll(arr);
 		newArr=goodUtil.addThumbConditionAll(newArr);
-		System.out.println(newArr.size()+"sdasdadssdad");
 		return outputUtil.lazyLoading(newArr, range);
 	}
 	//获取买过的商品

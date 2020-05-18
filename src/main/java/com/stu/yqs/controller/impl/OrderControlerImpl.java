@@ -21,16 +21,23 @@ public class OrderControlerImpl implements OrderController{
 		return orderService.updateAction(orderId, status).toJSONString();
 	}
 	@Override
-	public String getListAction(Integer startId, Integer range, Integer sellerId, Integer customerId, Integer status)
-			throws LogicException {
-		return orderService.getListAction(startId, range, sellerId, customerId, status).toJSONString();
-	}
-	@Override
 	public String deleteAction(@NecessaryPara Integer orderId) throws LogicException {
 		return orderService.deleteAction(orderId).toJSONString();
 	}
 	@Override
 	public String detailAction(@NecessaryPara Integer orderId) throws LogicException {
 		return orderService.detailAction(orderId).toJSONString();
+	}
+	@Override
+	public String customerAction(Integer startId, Integer range) throws LogicException {
+		return orderService.customerAction(startId,range).toJSONString();
+	}
+	@Override
+	public String sellerAction(Integer startId, Integer range) throws LogicException {
+		return orderService.sellerAction(startId,range).toJSONString();
+	}
+	@Override
+	public String totalAction(Integer startId, Integer range) throws LogicException {
+		return orderService.totalAction(startId,range).toJSONString();
 	}
 }

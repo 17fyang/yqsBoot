@@ -14,6 +14,7 @@ import com.stu.yqs.utils.FormatUtil;
 import com.stu.yqs.utils.IdentityUtil;
 import com.stu.yqs.utils.ImageUtil;
 import com.stu.yqs.utils.OutputUtil;
+import com.stu.yqs.utils.SessionUtil;
 import com.stu.yqs.aspect.LogicException;
 import com.stu.yqs.dao.UserMapper;
 import com.stu.yqs.domain.User;
@@ -35,6 +36,8 @@ public class UserService {
 	private OutputUtil outputUtil;
 	@Autowired
 	private ImageUtil imageUtil;
+	@Autowired
+	private SessionUtil sessionUtil;
 	@Autowired
 	private FormatUtil formatUtil;
 	@Autowired
@@ -58,9 +61,7 @@ public class UserService {
 		else if(!user.getPassword().equals(password))	throw new LogicException(503,"输入密码错误");
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
 		json.remove("password");
-		HttpSession session=request.getSession();
-		session.setAttribute("id", user.getId());
-		session.setMaxInactiveInterval(60*60*24*365*4);
+		sessionUtil.saveLoginSession(user.getId());
 		return json;
 	}
 	//用户注册，需要先获取验证码
@@ -80,6 +81,7 @@ public class UserService {
 		userMapper.insertSelective(user);
 		JSONObject json=(JSONObject)JSONObject.toJSON(user);
 		json.remove("password");
+		sessionUtil.saveLoginSession(user.getId());
 		return json;
 	}
 	//获取验证码
@@ -90,16 +92,7 @@ public class UserService {
 		String verification=String.valueOf(random);
 		JSONObject json =new JSONObject();
 		json.put("code", verification);
-
-		//测试代码
-//		int test=1;
-//		if(test==1) {
-//			HttpSession session=request.getSession();
-//			session.setAttribute("verificationCode", phoneNumber+"_123456");
-//			session.setAttribute("verificationTime", new Date());
-//			return new JSONObject();
-//		}
-
+		
 		outputUtil.verifyCode(phoneNumber, Integer.parseInt(verification));
 		
 		//记录验证码
@@ -129,7 +122,7 @@ public class UserService {
 		int id=identityUtil.isLogin();
 		if(file==null || file.isEmpty())	throw new LogicException(503,"上传文件为空");
 		
-		String newUrl[]=imageUtil.newFileUrl("headImage", file);
+		String newUrl[]=imageUtil.newFileUrl("headImage", file.getOriginalFilename());
 		String localUrl=newUrl[0];
 		String httpUrl=newUrl[1];
 		boolean compressSuccess=imageUtil.compressFile(file, localUrl);

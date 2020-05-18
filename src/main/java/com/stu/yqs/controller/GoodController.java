@@ -13,8 +13,7 @@ import com.stu.yqs.aspect.LogicException;
 @RequestMapping("/yqs")
 public interface GoodController {
 	@RequestMapping("/newTransaction")
-	 public @ResponseBody String newTransaction(MultipartFile file[],
-			 String name,String describe,String tag,Double price,Double originalPrice,
+	 public @ResponseBody String newTransaction(String name,String describe,String tag,Double price,Double originalPrice,
 			 Double postage,String isNew,String freeShipping)throws LogicException;
 	
 	@RequestMapping("/good/fileUpload")
