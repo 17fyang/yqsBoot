@@ -51,7 +51,7 @@ public class OrderService {
 		//获取卖家联系方式
 		Address address=addressMapper.selectDefaultByUserId(sellerId);
 		if(address==null)		throw new LogicException(503,"订单创建失败，卖家暂无默认地址");
-
+		
 		Order order=new Order();
 		order.setCustomerId(id);
 		order.setSellerId(sellerId);
@@ -59,12 +59,12 @@ public class OrderService {
 		order.setCustomerAddress(addressId);
 		order.setSellerAddress(address.getId());
 		orderMapper.insertSelective(order);
-
+		
 		//返回卖家联系方式
 		JSONObject json=(JSONObject)JSONObject.toJSON(address);
 		json.put("addressId", json.getIntValue("id"));
 		json.put("id", order.getId());
-
+		
 		//		outputUtil.addressImfomation(customerAddress.getPhoneNumber(), address.getName(), 
 		//				customerAddress.getName(), customerAddress.getPhoneNumber(), customerAddress.getAcademy());
 		//		
@@ -87,51 +87,24 @@ public class OrderService {
 		return new JSONObject();
 	}
 	//获取订单列表
-	public JSONObject customerAction(Integer startId, Integer range) throws LogicException {
+	public JSONObject getListAction(Integer startId, Integer range, Integer sellerId, Integer customerId, Integer status)
+			throws LogicException {
 		if(range!=null && range<0)	throw new  LogicException(501,"参数格式异常");
 		int id=identityUtil.isLogin();
+		if(!((sellerId!=null && id==sellerId) || (customerId!=null && id==customerId)))	throw new  LogicException(501,"权限异常");
 
 		OrderSearch search=new OrderSearch();
 		search.setStartId(startId);
-		search.setCustomerId(id);
+		search.setCustomerId(customerId);
 		search.setRange(range);
+		search.setSellerId(sellerId);
+		search.setStatus(status);
 		JSONArray arr=(JSONArray) JSONArray.toJSON(orderMapper.searchOrder(search));
 		arr=goodUtil.addGoodMessageAll(arr,"goodId");
 		arr=goodUtil.addOwnerMessageAll(arr);
 		return outputUtil.lazyLoading(arr, range);
 	}
-	//获取订单列表
-	public JSONObject sellerAction(Integer startId, Integer range) throws LogicException {
-		if(range!=null && range<0)	throw new  LogicException(501,"参数格式异常");
-		int id=identityUtil.isLogin();
 
-		OrderSearch search=new OrderSearch();
-		search.setStartId(startId);
-		search.setSellerId(id);
-		search.setRange(range);
-		JSONArray arr=(JSONArray) JSONArray.toJSON(orderMapper.searchOrder(search));
-		arr=goodUtil.addGoodMessageAll(arr,"goodId");
-		arr=goodUtil.addOwnerMessageAll(arr);
-		return outputUtil.lazyLoading(arr, range);
-	}
-	//获取订单列表
-	public JSONObject totalAction(Integer startId, Integer range)  throws LogicException{
-		if(range!=null && range<0)	throw new  LogicException(501,"参数格式异常");
-		int id=identityUtil.isLogin();
-
-		OrderSearch search=new OrderSearch();
-		search.setStartId(startId);
-		search.setCustomerId(id);
-		search.setRange(range);
-		JSONArray arr=(JSONArray) JSONArray.toJSON(orderMapper.searchOrder(search));
-		search.setCustomerId(null);
-		search.setSellerId(id);
-		JSONArray arr2=(JSONArray) JSONArray.toJSON(orderMapper.searchOrder(search));
-		arr.addAll(arr2);
-		arr=goodUtil.addGoodMessageAll(arr,"goodId");
-		arr=goodUtil.addOwnerMessageAll(arr);
-		return outputUtil.lazyLoading(arr, range);
-	}
 	//取消订单功能
 	@Transactional(rollbackFor = {Exception.class, Error.class})
 	public JSONObject deleteAction(Integer orderId) throws LogicException {

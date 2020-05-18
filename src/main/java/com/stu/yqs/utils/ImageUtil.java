@@ -1,11 +1,6 @@
 package com.stu.yqs.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -71,10 +66,11 @@ public class ImageUtil {
 		return true;
 	}
 	//生成文件名的方法
-	public String[] newFileUrl(String sonFolder,String fileName) {
+	public String[] newFileUrl(String sonFolder,MultipartFile file) {
+		String fileName=file.getOriginalFilename();
 		String suffixName=fileName.substring(fileName.lastIndexOf("."));
 		Calendar cal=Calendar.getInstance();
-		String date=cal.get(Calendar.YEAR)+"_"+(cal.get(Calendar.MONTH)+1)+"_"+cal.get(Calendar.DAY_OF_MONTH);
+		String date=cal.get(Calendar.YEAR)+"_"+cal.get(Calendar.MONTH)+1+"_"+cal.get(Calendar.DAY_OF_MONTH);
 		fileName=UUID.randomUUID()+suffixName;
 		String dynamicUrl=sonFolder+"/"+date+"/"+fileName;
 		String localFile=staticFileUrl+"/"+sonFolder+"/"+date+"/"+fileName;
@@ -83,38 +79,6 @@ public class ImageUtil {
 	}
 	//文件转移
 	public boolean fileTransfer(String startUrl,String aimUrl) {
-		InputStream in=null;
-		OutputStream out=null;
-		try {
-			in=new FileInputStream(startUrl);
-			File outFile=new File(aimUrl);
-			if(!outFile.exists())	outFile.getParentFile().mkdirs();
-			out=new FileOutputStream(outFile);
-			byte buf[]=new byte[2048];
-			while((in.read(buf))!=-1) {
-				out.write(buf);
-			}
-		} catch (Exception e) {
-			return false;
-		}finally {
-			try {
-				in.close();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return true;
-	}
-	//删除一份文件
-	public void deleteFile(String  url) {
-		File f=new File(url);
-		f.delete();
-	}
-	public String getStaticFileUrl() {
-		return staticFileUrl;
-	}
-	public String getServerUrl() {
-		return serverUrl;
+		return false;
 	}
 }

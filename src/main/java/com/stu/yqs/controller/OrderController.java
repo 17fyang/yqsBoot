@@ -15,12 +15,9 @@ public interface OrderController {
 	 public @ResponseBody String submitAction(Integer goodId,Integer addressId)throws LogicException;
 	@RequestMapping("/updateAction")
 	 public @ResponseBody String updateAction(Integer orderId,Short status)throws LogicException;
-	@RequestMapping("/customerAction")
-	 public @ResponseBody String customerAction(Integer startId,Integer range)throws LogicException;
-	@RequestMapping("/sellerAction")
-	 public @ResponseBody String sellerAction(Integer startId,Integer range)throws LogicException;
-	@RequestMapping("/totalAction")
-	 public @ResponseBody String totalAction(Integer startId,Integer range)throws LogicException;
+	@RequestMapping("/getListAction")
+	 public @ResponseBody String getListAction(Integer startId,Integer range,Integer sellerId,
+			 Integer customerId,Integer status)throws LogicException;
 	@RequestMapping("/detailAction")
 	 public @ResponseBody String detailAction(Integer orderId)throws LogicException;
 	@RequestMapping("/deleteAction")

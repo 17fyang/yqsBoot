@@ -13,11 +13,11 @@ public class GoodControllerImpl implements GoodController {
 	@Autowired
 	private GoodService goodService;
 	@Override
-	public String newTransaction(@NecessaryPara String name, 
+	public String newTransaction(@NecessaryPara MultipartFile[] file, @NecessaryPara String name, 
 			@NecessaryPara String describe, String tag, Double price,Double originalPrice, 
 			Double postage,String isNew, String freeShipping) throws LogicException {
 		
-		return goodService.newTransaction(name,describe,tag,price,originalPrice,postage,freeShipping).toJSONString();
+		return goodService.newTransaction(file,name,describe,tag,price,originalPrice,postage,freeShipping).toJSONString();
 	}
 	@Override
 	public String deleteTransaction(@NecessaryPara Integer transactionId) throws LogicException {

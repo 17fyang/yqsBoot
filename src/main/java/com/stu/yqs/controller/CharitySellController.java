@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stu.yqs.aspect.LogicException;
 
@@ -12,7 +13,8 @@ import com.stu.yqs.aspect.LogicException;
 @RequestMapping("/yqs/CharitySell")
 public interface CharitySellController {
 	@RequestMapping("/newAction")
-	 public @ResponseBody String newTransaction(String name,String describe,String tag,Double price,Double originalPrice,
+	 public @ResponseBody String newTransaction(MultipartFile file[],
+			 String name,String describe,String tag,Double price,Double originalPrice,
 			 Double postage,String isNew,String freeShipping)throws LogicException;
 	
 	@RequestMapping("/deleteAction")
