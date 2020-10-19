@@ -17,8 +17,10 @@ import java.util.List;
 public class AddressService {
     @Autowired
     private AddressMapper addressMapper;
+    
     @Autowired
     private IdentityUtil identityUtil;
+
     @Autowired
     private FormatUtil formatUtil;
 
@@ -70,7 +72,7 @@ public class AddressService {
         List<Address> list = addressMapper.selectByUserId(id);
         return (JSONArray) JSONArray.toJSON(list);
     }
-	
+
     //获取当前登录账号的默认地址
     public JSONObject getDefaultAction() throws LogicException {
         int id = identityUtil.isLogin();

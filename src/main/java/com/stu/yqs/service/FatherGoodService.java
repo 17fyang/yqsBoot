@@ -28,22 +28,31 @@ import java.util.List;
 public class FatherGoodService {
     @Autowired
     private GoodMapper goodMapper;
+    
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private BrowseMapper browseMapper;
+
     @Autowired
     private ReviewMapper reviewMapper;
+
     @Autowired
     private IdentityUtil identityUtil;
+
     @Autowired
     private ImageUtil imageUtil;
+
     @Autowired
     private SessionUtil sessionUtil;
+
     @Autowired
     private GoodUtil goodUtil;
+
     @Autowired
     private OutputUtil outputUtil;
+
     @Autowired
     private FormatUtil formatUtil;
 
