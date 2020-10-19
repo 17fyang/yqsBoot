@@ -8,8 +8,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <!-- 定义日志的根目录 -->
     <property name="LOG_HOME" value="Log"/>
     <!-- 定义日志文件名称 -->
-    <property name="appName" value="test"></property>
-    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}- [%thread]-%-5level %logger{50} - %msg%n"></property>
+    <property name="appName" value="test"/>
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}- [%thread]-%-5level %logger{50} - %msg%n"/>
     <!-- ch.qos.logback.core.ConsoleAppender 表示控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <!--
@@ -22,7 +22,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             %n是换行符
         -->
         <layout class="ch.qos.logback.classic.PatternLayout">
-                <pattern>${log.pattern}</pattern>
+            <pattern>${log.pattern}</pattern>
         </layout>
     </appender>
 
@@ -67,13 +67,13 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     -->
     <!-- Spring framework logger -->
     <logger name="com.stu.yqs" level="info" additivity="false">
-    	<appender-ref ref="appLogAppender"> </appender-ref>
+        <appender-ref ref="appLogAppender"></appender-ref>
     </logger>
     <!--
     root与logger是父子关系，没有特别定义则默认为root，任何一个类只会和一个logger对应，
     要么是定义的logger，要么是root，判断的关键在于找到这个logger，然后判断这个logger的appender和level。 
     -->
     <root level="info">
-          <appender-ref ref="stdout"/>
+        <appender-ref ref="stdout"/>
     </root>
 </configuration> 
