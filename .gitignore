@@ -6,4 +6,5 @@
 .mvn
 Log
 src/main/resources/file
+target
 
